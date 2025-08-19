@@ -59,6 +59,7 @@ namespace FromGoldenCombs.BlockEntities
         private Vec3f maxVelo = new Vec3f();
         public float actvitiyLevel;
         public float roomness;
+        private string material;
         public Vec3d Position => Pos.ToVec3d().Add(0.5, 0.5, 0.5);
         public string Type => "food";
 
@@ -80,50 +81,35 @@ namespace FromGoldenCombs.BlockEntities
 
 
         public override void Initialize(ICoreAPI api)
+        {
+            base.Initialize(api);
+            this.RegisterGameTickListener(new Action<float>(this.TestHarvestable), 3000, 0);
+            this.RegisterGameTickListener(new Action<float>(this.OnScanForEmptySkep), api.World.Rand.Next(5000) + 30000, 0);
+            this.roomreg = this.Api.ModLoader.GetModSystem<RoomRegistry>(true);
+            if (api.Side == EnumAppSide.Client)
             {
-                base.Initialize(api);
-
-                RegisterGameTickListener(TestHarvestable, 5000);
-                RegisterGameTickListener(OnScanForEmptySkep, api.World.Rand.Next(5000) + 30000);
-                cropChargeGrowthHours = api.World.Calendar.HoursPerDay;
-                roomreg = Api.ModLoader.GetModSystem<RoomRegistry>();
-
-                harvestBase = (FGCServerConfig.Current.SkepDaysToHarvestIn30DayMonths * (Api.World.Calendar.DaysPerMonth / 30f)) * Api.World.Calendar.HoursPerDay;
-
-                if (api.Side == EnumAppSide.Client)
-                {
-                    RegisterGameTickListener(SpawnBeeParticles, 300);
-                }
-
-                if (wasPlaced)
-                {
-                harvestableAtTotalHours = Api.World.Calendar.TotalHours + GetHarvestTime();
-                }
-
-                orientation = Block.LastCodePart();
-                isWildHive = Block.FirstCodePart() != "skep";
-
-                if (!isWildHive && api.Side == EnumAppSide.Client)
-                {
-                    ICoreClientAPI capi = api as ICoreClientAPI;
-                    Block fullSkep = api.World.GetBlock(new AssetLocation("skep-populated-east"));
-
-                    MeshData mesh;
-                    capi.Tesselator.TesselateShape(
-                        fullSkep,
-                        api.Assets.TryGet("shapes/block/beehive/skep-harvestable.json").ToObject<Shape>(),
-                        out mesh,
-                        new Vec3f(0, BlockFacing.FromCode(orientation).HorizontalAngleIndex * 90 - 90, 0)
-                    );
-
-                    api.ObjectCache["beehive-harvestablemesh-" + orientation] = mesh;
-                }
-
-                if (!isWildHive && api.Side == EnumAppSide.Server)
-                {
-                    api.ModLoader.GetModSystem<POIRegistry>().AddPOI(this);
-                    api.ModLoader.GetModSystem<FromGoldenCombs>().OnPollination += OnPollinationNearby;
-                }
+                this.RegisterGameTickListener(new Action<float>(this.SpawnBeeParticles), 300, 0);
+            }
+            if (this.wasPlaced)
+            {
+                this.harvestableAtTotalHours = api.World.Calendar.TotalHours + 12.0 * (3.0 + api.World.Rand.NextDouble() * 8.0);
+            }
+            this.orientation = base.Block.Variant["side"];
+            this.material = base.Block.Variant["material"];
+            this.isWildHive = (base.Block is BlockBeehive);
+            if (!this.isWildHive && api.Side == EnumAppSide.Client && !api.ObjectCache.ContainsKey("beehive-" + this.material + "-harvestablemesh-" + this.orientation))
+            {
+                ICoreClientAPI coreClientAPI = api as ICoreClientAPI;
+                Block fullSkep = api.World.GetBlock(base.Block.CodeWithVariant("type", "populated"));
+                MeshData mesh;
+                coreClientAPI.Tesselator.TesselateShape(fullSkep, Shape.TryGet(api, "shapes/block/beehive/skep-harvestable.json"), out mesh, new Vec3f(0f, (float)(BlockFacing.FromCode(this.orientation).HorizontalAngleIndex * 90 - 90), 0f), null, null);
+                api.ObjectCache["beehive-" + this.material + "-harvestablemesh-" + this.orientation] = mesh;
+            }
+            if (!this.isWildHive && api.Side == EnumAppSide.Server)
+            {
+                Api.ModLoader.GetModSystem<FromGoldenCombs>().OnPollination += OnPollinationNearby;
+                api.ModLoader.GetModSystem<POIRegistry>(true).AddPOI(this);
+            }
         }
 
         public void OnPollinationNearby(string eventName, BlockPos cropPos, ref EnumHandling handling, IAttribute data)
@@ -164,8 +150,6 @@ namespace FromGoldenCombs.BlockEntities
                         {
                             Api.World.BlockAccessor.GetBlock(cropPos).GetBehavior<PushEventOnCropBreakBehavior>().setHandling(EnumHandling.PreventSubsequent);
                             cropcharges--;
-                            if (Api.Side.IsServer()) System.Diagnostics.Debug.WriteLine(cropcharges);
-
                         }
 
                         handling = EnumHandling.PreventSubsequent;
@@ -294,7 +278,7 @@ namespace FromGoldenCombs.BlockEntities
             if (threeDayTemp < minTemp || threeDayTemp > maxTemp && quantityNearbyFlowers != 0)
             {
                 harvestableAtTotalHours = worldTime + GetHarvestTime();
-                cooldownUntilTotalHours = worldTime + 4 / 2 * 24;
+                cooldownUntilTotalHours = worldTime + 8;
                 tempOutOfRange = true;
             }
 
@@ -303,11 +287,11 @@ namespace FromGoldenCombs.BlockEntities
             // Reset timers during winter
             if (threeDayTemp <= minTemp || threeDayTemp >= maxTemp)
             {
-                harvestableAtTotalHours = Api.World.Calendar.TotalHours + harvestBase;
-                cooldownUntilTotalHours = Api.World.Calendar.TotalHours + 8.0;
+                harvestableAtTotalHours = worldTime + harvestBase;
+                cooldownUntilTotalHours = worldTime + 8;
             }
 
-            if (!Harvestable && !isWildHive && Api.World.Calendar.TotalHours > harvestableAtTotalHours && hivePopSize > EnumHivePopSize.Poor)
+            if (!Harvestable && !isWildHive && worldTime > harvestableAtTotalHours && hivePopSize > EnumHivePopSize.Poor)
             {
                 Harvestable = true;
             }
@@ -406,8 +390,6 @@ namespace FromGoldenCombs.BlockEntities
 
                 hivePopSize = (EnumHivePopSize)GameMath.Clamp(quantityNearbyFlowers - 3 * quantityNearbyHives, 0, 2);
 
-                System.Diagnostics.Debug.WriteLine("hivePopSize at line 288 is " + hivePopSize.ToString() + " on " + Api.Side.ToString());
-
             if (3 * quantityNearbyHives + 3 > quantityNearbyFlowers)
             {
                 skepToPop = null;
@@ -500,12 +482,11 @@ namespace FromGoldenCombs.BlockEntities
 
         public override bool OnTesselation(ITerrainMeshPool mesher, ITesselatorAPI tesselator)
         {
-            if (Harvestable)
+            if (this.Harvestable)
             {
-                mesher.AddMeshData(Api.ObjectCache["beehive-harvestablemesh-" + orientation] as MeshData);
+                mesher.AddMeshData(this.Api.ObjectCache["beehive-" + this.material + "-harvestablemesh-" + this.orientation] as MeshData, 1);
                 return true;
             }
-
             return false;
         }
 
@@ -593,7 +574,7 @@ namespace FromGoldenCombs.BlockEntities
                 dsc.AppendLine("\n" + Lang.Get("greenhousetempbonus", Array.Empty<object>()));
                 
             }
-            if (FGCServerConfig.Current.showExtraBeehiveInfo && (forPlayer.Entity.Controls.ShiftKey || FGCClientConfig.Current.alwaysShowHiveInfo == true))
+            if (FGCServerConfig.Current.showExtraBeehiveInfo && (forPlayer.Entity.Controls.ShiftKey || FGCClientConfig.Current.alwaysShowExtraBeehiveInfo == true))
             {
                 dsc.AppendLine(tempReport);
                 dsc.AppendLine(Lang.Get("fromgoldencombs:croprange") + " " + cropChargeRange);

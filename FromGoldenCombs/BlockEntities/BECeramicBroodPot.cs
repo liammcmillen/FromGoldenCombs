@@ -81,12 +81,18 @@ namespace FromGoldenCombs.BlockEntities
         public override void Initialize(ICoreAPI api)
         {
             base.Initialize(api);
-            if (isActiveHive)
+            if (Api.Side.IsServer() && isActiveHive)
             {
-                testHarvestableListener = RegisterGameTickListener(TestHarvestable, 5000);
-                scanForFlowersListener = RegisterGameTickListener(OnScanForFlowers, Api.World.Rand.Next(5000) + 30000);
+                Api.ModLoader.GetModSystem<FromGoldenCombs>().OnPollination += OnPollinationNearby;
+                if (testHarvestableListener == 0)
+                {
+                    testHarvestableListener = RegisterGameTickListener(TestHarvestable, 5000);
+                    scanForFlowersListener = RegisterGameTickListener(OnScanForFlowers, Api.World.Rand.Next(5000) + 30000);
+                    cooldownUntilTotalHours = Api.World.Calendar.TotalHours + 8;
+                }
+                MarkDirty();
             }
-            
+
             //TODO: Implement Config Option To Set This Value.
             this.AllowUndergroundApiculture = this.AllowUndergroundApiculture;
             //PushEventOnBlockBroken
@@ -102,14 +108,15 @@ namespace FromGoldenCombs.BlockEntities
                     beeParticleListener = RegisterGameTickListener(SpawnBeeParticles, 300);
                 }
             }
-            if (Api.Side == EnumAppSide.Server)
-            {
-                Api.ModLoader.GetModSystem<FromGoldenCombs>().OnPollination += OnPollinationNearby;
-            }
             
             harvestBase = (FGCServerConfig.Current.ClayPotDaysToHarvestIn30DayMonths * (Api.World.Calendar.DaysPerMonth/ 30f)) * api.World.Calendar.HoursPerDay;
         }
 
+        public override void OnBlockPlaced(ItemStack byItemStack = null)
+        {
+            base.OnBlockPlaced(byItemStack);
+            
+        }
 
         public override void OnBlockRemoved()
         {
@@ -137,21 +144,23 @@ namespace FromGoldenCombs.BlockEntities
                     return true;
                 }
             }
-            else if (slot.Itemstack.Collectible.WildCardMatch(new AssetLocation("game", "skep-populated-*")) && !isActiveHive)
+            else if (slot.Itemstack.Collectible.WildCardMatch(new AssetLocation("game", "skep-*-populated-*")) && !isActiveHive)
             {
                 byPlayer.InventoryManager.ActiveHotbarSlot.TakeOutWhole();
                 testHarvestableListener = RegisterGameTickListener(TestHarvestable, 5000);
                 scanForFlowersListener = RegisterGameTickListener(OnScanForFlowers, Api.World.Rand.Next(5000) + 30000);
                 isActiveHive = true;
+                Api.ModLoader.GetModSystem<FromGoldenCombs>().OnPollination += OnPollinationNearby;
                 updateMeshes();
                 return true;
             }
-            else if (slot.Itemstack.Collectible.WildCardMatch(new AssetLocation("game", "skep-empty-*")) && isActiveHive)
+            else if (slot.Itemstack.Collectible.WildCardMatch(new AssetLocation("game", "skep-*-empty-*")) && isActiveHive)
             {
-                ItemStack newStack = new ItemStack(Api.World.BlockAccessor.GetBlock(new AssetLocation("game:skep-populated-east")));
-
+                ItemStack newStack = new ItemStack(Api.World.BlockAccessor.GetBlock(slot.Itemstack.Collectible.CodeWithVariant("type","populated")));
+                
                 if (byPlayer.InventoryManager.TryGiveItemstack(newStack))
                 {
+                    Api.ModLoader.GetModSystem<FromGoldenCombs>().OnPollination -= OnPollinationNearby;
                     byPlayer.InventoryManager.ActiveHotbarSlot.TakeOut(1);
                     resetHive();
                 };
@@ -189,7 +198,7 @@ namespace FromGoldenCombs.BlockEntities
             float harvestBase;
             EnumHivePopSize _hivePopSize = 0;
             UnregisterAllTickListeners();
-
+            Api.ModLoader.GetModSystem<FromGoldenCombs>().OnPollination -= OnPollinationNearby;
             this.MarkDirty(true);
         }
 
@@ -210,7 +219,7 @@ namespace FromGoldenCombs.BlockEntities
                 Api.World.BlockAccessor.ExchangeBlock(Api.World.BlockAccessor.GetBlock(this.Block.CodeWithVariant("top", "notop")).BlockId, Pos);
                 return true;
             }
-            else if (activeHotbarSlot.Empty && activeHotbarSlot.StorageType == EnumItemStorageFlags.Backpack)
+            else if (activeHotbarSlot.Empty)
             {
                 ItemStack stack = blockContainer.OnPickBlock(this.Api.World, Pos);
                 SetAttributesOnPickup(stack);
@@ -312,10 +321,10 @@ namespace FromGoldenCombs.BlockEntities
 
             bool tempOutOfRange = false;
 
-            if ((threeDayTemp < minTemp && threeDayTemp > maxTemp) && quantityNearbyFlowers != 0)
+            if ((threeDayTemp < minTemp && threeDayTemp > maxTemp))
             {
                 harvestableAtTotalHours = worldTime + HarvestableTime(harvestBase);
-                cooldownUntilTotalHours = worldTime + randy.NextDouble()*24;
+                cooldownUntilTotalHours = worldTime + 8;
                 tempOutOfRange = true;
             }
 
@@ -344,14 +353,14 @@ namespace FromGoldenCombs.BlockEntities
                 {
                     inv[0].Itemstack = new ItemStack(Api.World.GetBlock(inv[0]?.Itemstack?.Collectible.CodeWithVariant("type", "harvestable")), 1);
                     harvestableAtTotalHours = 0;
-                    cooldownUntilTotalHours = worldTime + (randy.NextDouble() * 24);
+                    cooldownUntilTotalHours = worldTime + 8;
                     updateMeshes();
                 }
             }
 
             if (cooldownUntilTotalHours <= 0 )
             {
-                cooldownUntilTotalHours = worldTime + (randy.NextDouble() * 24);
+                cooldownUntilTotalHours = worldTime + 8;
             }
 
             MarkDirty(true);
@@ -626,17 +635,7 @@ namespace FromGoldenCombs.BlockEntities
             tree.SetInt("scanQuantityNearbyFlowers", scanQuantityNearbyFlowers);
             tree.SetInt("scanQuantityNearbyHives", scanQuantityNearbyHives);
             tree.SetBool("isactivehive", isActiveHive);
-
-            if (Api.Side.IsServer())
-            {
-                if (isActiveHive && testHarvestableListener == 0)
-                {
-                    testHarvestableListener = RegisterGameTickListener(TestHarvestable, 5000);
-                    scanForFlowersListener = RegisterGameTickListener(OnScanForFlowers, Api.World.Rand.Next(5000) + 30000);
-                    cooldownUntilTotalHours = Api.World.Calendar.TotalHours + 8;
-                }
-                MarkDirty();
-            }
+            
             tree.SetDouble("cooldownUntilTotalHours", cooldownUntilTotalHours);
             tree.SetDouble("harvestableAtTotalHours", harvestableAtTotalHours);
             tree.SetInt("hiveHealth", (int)_hivePopSize);
@@ -650,7 +649,7 @@ namespace FromGoldenCombs.BlockEntities
         public override void FromTreeAttributes(ITreeAttribute tree, IWorldAccessor worldForResolving)
         {
             base.FromTreeAttributes(tree, worldForResolving);
-
+            Api = worldForResolving.Api;
             scanIteration = tree.GetInt("scanIteration");
 
             quantityNearbyFlowers = tree.GetInt("quantityNearbyFlowers");
@@ -660,6 +659,7 @@ namespace FromGoldenCombs.BlockEntities
             scanQuantityNearbyHives = tree.GetInt("scanQuantityNearbyHives");
 
             isActiveHive = tree.GetBool("isactivehive");
+             
             
             cooldownUntilTotalHours = tree.GetDouble("cooldownUntilTotalHours");
             harvestableAtTotalHours = tree.GetDouble("harvestableAtTotalHours");
@@ -732,7 +732,7 @@ namespace FromGoldenCombs.BlockEntities
                     dsc.AppendLine(Lang.Get("greenhousetempbonus", Array.Empty<object>()));
 
                 }
-                if (FGCServerConfig.Current.showExtraBeehiveInfo && (forPlayer.Entity.Controls.ShiftKey || FGCClientConfig.Current.alwaysShowHiveInfo == true))
+                if (FGCServerConfig.Current.showExtraBeehiveInfo && (forPlayer.Entity.Controls.ShiftKey || FGCClientConfig.Current.alwaysShowExtraBeehiveInfo == true))
                 {
                     dsc.AppendLine(tempReport);
                     dsc.AppendLine(Lang.Get("fromgoldencombs:croprange") + " " + cropChargeRange);

@@ -25,6 +25,12 @@
     "*-harvestable": 32,
     "*-lined": 32
   },
+  guiTransform: {
+		translation: { x: 5, y: 8, z: 0 },
+		rotation: { x: -33, y: -46, z: -180 },
+		origin: { x: 0.5, y: 0.05, z: 0.5 },
+		scale: 3.54
+	},
   "guiTransform": {
     "translation": { "x": 5, "y": 3, "z": 0},
     "rotation": { "x": -33, "y": -46, "z": 180},

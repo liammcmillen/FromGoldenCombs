@@ -22,7 +22,7 @@ namespace FromGoldenCombs.Util.Config
         public string Wild_Hive_Sound_Instructions = "Changes the base volume of all wild beehives. Valid settings for wild hive sounds are normal, high (2x), and loud (4x)";
         public string wildHiveSoundVolume = "normal";
         public string Always_Show_Hive_Info_Instructions = "Hive info includes the three day temp and remaining pollination charges, only works if the server has .";
-        public bool alwaysShowHiveInfo = true;
+        public bool alwaysShowExtraBeehiveInfo = false;
 
         public static FGCClientConfig Current { get; set; }
 
@@ -32,15 +32,14 @@ namespace FromGoldenCombs.Util.Config
         public static FGCClientConfig GetClientDefault()
         {
             FGCClientConfig defaultClientConfig = new();
-            defaultClientConfig.configVersion = 1.6;
+            defaultClientConfig.configVersion = 1.7;
             defaultClientConfig.retainConfigOnVersionChange = false;
             defaultClientConfig.Hive_Sound_Instructions = "Changes the base volume of all domestic beehives. Valid settings for hive sound are off, soft, normal, high (2x), and loud (4x)";
             defaultClientConfig.hiveSoundVolume = "normal";
             defaultClientConfig.Wild_Hive_Sound_Instructions = "Changes the base volume of all wild beehives. Valid settings for wild hive sound are normal, high (2x), and loud (4x)";
             defaultClientConfig.wildHiveSoundVolume = "normal";
             defaultClientConfig.Always_Show_Hive_Info_Instructions = "Hive info includes the three day temp and remaining pollination charges.";
-            defaultClientConfig.alwaysShowHiveInfo = true;
-
+            defaultClientConfig.alwaysShowExtraBeehiveInfo=false;
 
             return defaultClientConfig;
         }
@@ -49,7 +48,7 @@ namespace FromGoldenCombs.Util.Config
         {
             String[] validHiveVolumes = {"off","soft","normal","high","loud" };
             String[] validWildHiveVolumes = {"normal", "high", "loud"};
-            double MasterClientConfigVersion = 1.6;
+            double MasterClientConfigVersion = 1.7;
 
             try
             {

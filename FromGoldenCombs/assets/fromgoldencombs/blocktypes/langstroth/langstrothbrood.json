@@ -1,7 +1,7 @@
 {
   "code": "langstrothbrood",
   "class": "langstrothbrood",
-  "storageFlags": 2,
+  "storageFlags": 1,
   "maxstacksize": 1,
   "attributes": {
         "handbook": {
@@ -61,6 +61,10 @@
      "*-populated-*": "game:creature/beehive"
         }
 		},
+  guiTransform: {
+		translation: { x: 0, y: -10, z: 0 },
+		scale: 1.55
+	},
   "groundTransform": {
       "scale": 4
     },

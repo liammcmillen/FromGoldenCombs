@@ -1,4 +1,6 @@
 ﻿using FromGoldenCombs.BlockEntities;
+using FromGoldenCombs.Util.config;
+using FromGoldenCombs.Util.Config;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,6 +20,20 @@ namespace FromGoldenCombs.Blocks.Langstroth
         public override bool DoParticalSelection(IWorldAccessor world, BlockPos pos)
         {
             return true;
+        }
+
+        public override EnumItemStorageFlags GetStorageFlags(ItemStack itemstack)
+        {
+
+            if (FGCServerConfig.Current.backpackSlotOnly == true)
+            {
+                return (EnumItemStorageFlags)1;
+            }
+            if (itemstack.Collectible.Variant["populated"] == "populated")
+            {
+                return (EnumItemStorageFlags)2;
+            }
+            return base.GetStorageFlags(itemstack);
         }
 
         public override bool OnBlockInteractStart(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel)

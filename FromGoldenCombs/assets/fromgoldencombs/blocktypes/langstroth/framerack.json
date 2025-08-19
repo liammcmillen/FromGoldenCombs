@@ -2,7 +2,7 @@
   "code": "framerack",
   "class": "framerack",
   "entityClass": "beframerack",
-  "storageFlags": 2,
+  "storageFlags": 1,
   "maxstacksize": 1,
   "heldTpIdleAnimation": "holdbothhandslarge",
   "heldTpUseAnimation": "twohandplaceblock",
@@ -55,6 +55,10 @@
   "sounds": {
       "place": "game:block/planks"
     },
+  guiTransform: {
+		translation: { x: 0, y: -12, z: 0 },
+		scale: 1.6
+	},
   "groundTransform": {
       "scale": 2.01
     },

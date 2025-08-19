@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FromGoldenCombs.Util.Config;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Vintagestory.API.Client;
@@ -32,7 +33,6 @@ namespace FromGoldenCombs.Blocks.Langstroth
             }
             return base.OnBlockInteractStart(world, byPlayer, blockSel);
         }
-
 
         public override WorldInteraction[] GetPlacedBlockInteractionHelp(IWorldAccessor world, BlockSelection selection, IPlayer forPlayer)
         {

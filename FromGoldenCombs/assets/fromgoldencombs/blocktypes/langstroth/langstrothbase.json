@@ -1,7 +1,7 @@
 {
   "code": "langstrothbase",
   "class": "langstrothbase",
-  "storageFlags": 2,
+  "storageFlags": 1,
   "maxstacksize": 1,
   "attributes": {
     handbook: {
@@ -58,6 +58,10 @@
   "sounds": {
       "place": "game:block/planks"
     },
+  guiTransform: {
+		translation: { x: 0, y: -12, z: 0 },
+		scale: 1.6
+	},
   "groundTransform": {
       "scale": 4
     },
@@ -67,7 +71,6 @@
 		"origin": { "x": 1.7,"y": 0.1,"z": 0.3 },
 		"scale": 3.04
 	},
-
   "collisionboxesByType": {
       "*": [
         { "x1": 0.062, "y1": 0.0126, "z1": 0.156, "x2": 0.9254, "y2": 0.3624, "z2": 0.845, "rotateYByType": { "*-north": 0, "*-east": 270, "*-south": 180, "*-west*": 90}}

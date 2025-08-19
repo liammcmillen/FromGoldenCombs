@@ -3,7 +3,7 @@
   "class": "langstrothsuper",
   "entityClass": "belangstrothsuper",
   "entityBehaviors": [{ name: "Animatable" }],
-  "storageFlags": 2,
+  "storageFlags": 1,
   "maxstacksize": 1,
   "heldTpIdleAnimation": "holdbothhandslarge",
   "heldTpUseAnimation": "twohandplaceblock",
@@ -59,6 +59,10 @@
   "groundTransform": {
       "scale": 2.01
     },
+  guiTransform: {
+	translation: { x: 0, y: -10, z: 0 },
+	scale: 1.67
+	},
   "fpHandTransform": {
       "translation": {
         "x": 0,

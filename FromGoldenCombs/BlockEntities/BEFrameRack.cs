@@ -97,7 +97,6 @@ namespace FromGoldenCombs.BlockEntities
 
             }
             else if (slot.Empty
-                     && (int)slot.StorageType == 2
                      && byPlayer.InventoryManager.TryGiveItemstack(block.OnPickBlock(Api.World, blockSel.Position)))
             {
                 Api.World.BlockAccessor.SetBlock(0, blockSel.Position);

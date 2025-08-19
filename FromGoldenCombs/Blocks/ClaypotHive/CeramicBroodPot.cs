@@ -1,20 +1,40 @@
-﻿using Vintagestory.API.Client;
-using Vintagestory.API.Common;
-using Vintagestory.API.MathTools;
-using FromGoldenCombs.BlockEntities;
-using Vintagestory.GameContent;
-using Vintagestory.API.Util;
-using System.Collections.Generic;
-using Vintagestory.API.Config;
-using System;
+﻿using FromGoldenCombs.BlockEntities;
+using FromGoldenCombs.Util.config;
 using FromGoldenCombs.Util.Config;
-using System.Net.Http.Headers;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using Vintagestory.API.Client;
+using Vintagestory.API.Common;
+using Vintagestory.API.Config;
+using Vintagestory.API.MathTools;
+using Vintagestory.API.Util;
+using Vintagestory.GameContent;
 
 namespace FromGoldenCombs.Blocks
 {
 
     class CeramicBroodPot : BlockContainer
     {
+
+        public override void OnLoaded(ICoreAPI api)
+        {
+            base.OnLoaded(api);
+        }
+
+        public override EnumItemStorageFlags GetStorageFlags(ItemStack itemstack)
+        {
+
+            if (FGCServerConfig.Current.backpackSlotOnly == true)
+            {
+                return (EnumItemStorageFlags)2;
+            }
+            if (itemstack.Attributes.GetBool("isactivehive", true))
+            {
+                return (EnumItemStorageFlags)2;
+            }
+            return base.GetStorageFlags(itemstack);
+        }
 
         /// <summary>
         /// When a player does a right click while targeting this placed block. Should return true if the event is handled, so that other events can occur, e.g. eating a held item if the block is not interactable with.
@@ -126,7 +146,9 @@ namespace FromGoldenCombs.Blocks
                         wi = ObjectCacheUtil.GetOrCreate(api, "broodPotInteractions", () =>
                         {
                             List<ItemStack> skepList = new();
-                            skepList.Add(new ItemStack(api.World.BlockAccessor.GetBlock(new AssetLocation("game", "skep-populated-east")), 1));
+                            skepList.Add(new ItemStack(api.World.BlockAccessor.GetBlock(new AssetLocation("game", "skep-papyrus-populated-east")), 1));
+                            skepList.Add(new ItemStack(api.World.BlockAccessor.GetBlock(new AssetLocation("game", "skep-reed-populated-east")), 1));
+
 
                             return new WorldInteraction[]
                             {

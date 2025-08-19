@@ -2,7 +2,7 @@
 	"code": "ceramicbroodpot",
 	"class": "ceramicbroodpot",
 	"entityClass": "beceramichive",
-	"storageFlags": 2,
+	"storageFlags": 1,
 	"maxstacksize": 1,
 	"attributes": {
     "handbook": {

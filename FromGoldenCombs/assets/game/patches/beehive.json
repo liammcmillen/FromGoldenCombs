@@ -3,7 +3,7 @@
     "op": "replace",
     "path": "/entityClassByType/*-populated-*",
     "value": "fgcbeehive",
-    "file": "blocktypes/wax/skep.json",
+    "file": "blocktypes/reed/skep.json",
     "side": "server"
   }
 ]
