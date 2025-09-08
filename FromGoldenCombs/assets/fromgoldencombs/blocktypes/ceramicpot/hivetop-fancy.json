@@ -23,28 +23,21 @@
       ]
     }
   },
+  "textures": {		
+    "clay": { base: "game:block/clay/vessel/sides/{color}" }
+    },
   "variantgroups": [
-    { "code": "type", "states": [ "empty", "harvestable", "raw" ] }
-  ],
+		{ "code": "color", "states": [ "ashforest", "chthonic", "copper", 
+																	 "earthen", "rain", "cowrie", "rime", "oxblood", "loam", "undergrowth", 
+																	 "beehive", "harvest", "honeydew", "rutile", "seasalt", "springflowers", "volcanic", "cloisonne", "cornflower", "talik",
+																	 "caveaurora", "collonade", "rattlesnake", "waves", "wintersea" ]},
+		{ "code": "type", "states": [ "fired", "harvestable"] }
+	],
   "shapebytype": {
-    "*-empty": { "base": "block/hive/ceramic/hivetop-empty" },
-    "*-harvestable": { "base": "block/hive/ceramic/hivetop-harvestable" },
-    "*-raw": { "base": "block/hive/ceramic/hivetop-empty" }
+    "*-fired": { "base": "block/hive/ceramic/hivetop-empty"},
+    "*-harvestable": { "base": "block/hive/ceramic/hivetop-harvestable" }
   },
   lightAbsorption: 0,
-  "combustiblePropsByType": {
-    "*-raw": {
-      "meltingPoint": 600,
-      "meltingDuration": 45,
-      "smeltedRatio": 1,
-      "smeltingType": "fire",
-      "smeltedStack": {
-        "type": "block",
-        "code": "fromgoldencombs:hivetop-empty"
-      },
-      "requiresContainer": false
-    }
-  },
   "blockmaterial": "Ceramic",
   "sounds": {
     "place": "game:block/planks"

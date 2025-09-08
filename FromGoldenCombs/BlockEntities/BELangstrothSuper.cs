@@ -60,12 +60,6 @@ namespace FromGoldenCombs.BlockEntities
             // Don't drop inventory contents
         }
 
-        //TODO: Add animations to Langstroth Super
-        //BlockEntityAnimationUtil AnimUtil
-        //{
-        //    get { return GetBehavior<BEBehaviorAnimatable>()?.animUtil; }
-        //}
-
         internal bool OnInteract(IPlayer byPlayer, BlockSelection blockSel)
         {
             ItemSlot activeHotbarSlot = byPlayer.InventoryManager.ActiveHotbarSlot;
@@ -101,7 +95,8 @@ namespace FromGoldenCombs.BlockEntities
             {
                 if (this.TryTake(byPlayer, blockSel))
                 {
-                    base.MarkDirty(true, null);
+                    updateMeshes();
+                    base.MarkDirty(true);
                     return true;
                 }
             }
@@ -110,6 +105,8 @@ namespace FromGoldenCombs.BlockEntities
                 base.MarkDirty(true, null);
                 if (this.TryPut(activeHotbarSlot, blockSel))
                 {
+                    updateMeshes();
+                    base.MarkDirty(true);
                     return true;
                 }
             }
@@ -118,6 +115,7 @@ namespace FromGoldenCombs.BlockEntities
                 if (byPlayer.Entity.Controls.Sneak && activeHotbarSlot.Itemstack == null && this.Api.World.BlockAccessor.GetBlock(blockSel.Position).Variant["open"] == "closed" && byPlayer.InventoryManager.TryGiveItemstack(blockContainer.OnPickBlock(this.Api.World, blockSel.Position), false))
                 {
                     this.Api.World.BlockAccessor.SetBlock(0, blockSel.Position);
+                    updateMeshes();
                     base.MarkDirty(true, null);
                     return true;
                 }
@@ -134,6 +132,7 @@ namespace FromGoldenCombs.BlockEntities
                 {
                     this.animUtil.StopAnimation("lidclosed");
                     this.animUtil.StartAnimation(openAnimData);
+                    
                     this.Api.World.BlockAccessor.ExchangeBlock(this.Api.World.GetBlock(blockContainer.CodeWithVariant("open", "open")).BlockId, blockSel.Position);
                     updateMeshes();
                     base.MarkDirty(true, null);

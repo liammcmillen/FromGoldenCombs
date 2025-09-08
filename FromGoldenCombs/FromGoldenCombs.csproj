@@ -3,7 +3,7 @@
     <TargetFrameworks>net8.0</TargetFrameworks>
     <LangVersion>10</LangVersion>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0|AnyCPU'">
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <Optimize>false</Optimize>
   </PropertyGroup>
@@ -318,6 +318,18 @@
     <Content Update="assets\flora\patches\block-item\wildcraftfruit-groundberryplant.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="assets\fromgoldencombs\blocktypes\ceramicpot\ceramicbroodpot-fancy.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="assets\fromgoldencombs\blocktypes\ceramicpot\ceramicbroodpot-new.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="assets\fromgoldencombs\blocktypes\ceramicpot\hivetop-fancy.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="assets\fromgoldencombs\blocktypes\ceramicpot\hivetop-new.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="assets\fromgoldencombs\compatibility\flora\patches\block-item\smallberrybush.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -355,6 +367,18 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="assets\fromgoldencombs\lang\zh-cn.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="assets\fromgoldencombs\shapes\block\hive\ceramic\hivetop-empty.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="assets\fromgoldencombs\shapes\block\hive\ceramic\hivetop-harvestable.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="assets\fromgoldencombs\shapes\block\hive\ceramic\hivetop-raw.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="assets\game\patches\artisantraderpatch.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="assets\game\patches\berrybushpatch.json">

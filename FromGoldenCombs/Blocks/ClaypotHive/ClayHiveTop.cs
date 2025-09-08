@@ -1,8 +1,10 @@
 ﻿using FromGoldenCombs.Util.config;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
+using Vintagestory.API.Config;
 using Vintagestory.API.Util;
 
 namespace FromGoldenCombs.Blocks
@@ -46,7 +48,9 @@ namespace FromGoldenCombs.Blocks
         }
         public override bool OnBlockInteractStep(float secondsUsed, IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel)
         {
-            Block emptyTop = world.GetBlock(new AssetLocation("fromgoldencombs", "hivetop-empty"));
+            Block emptyTop = this.Code == "fromgoldencombs:hivetop-harvestable"? 
+                api.World.BlockAccessor.GetBlock("fromgoldencombs:hivetop-blue-fired"):
+                api.World.BlockAccessor.GetBlock(this.CodeWithVariant("type", "fired"));
 
             //provided TryGiveItemStack is true just drops it into a convenient empty slot.
             if (byPlayer.InventoryManager.ActiveHotbarSlot.Itemstack == null && byPlayer.InventoryManager.TryGiveItemstack(new ItemStack(this)))
@@ -139,6 +143,12 @@ namespace FromGoldenCombs.Blocks
                         Itemstacks = null
                     }
             };
+        }
+
+        public override string GetHeldItemName(ItemStack itemStack)
+        {
+
+            return base.GetHeldItemName(itemStack) + " (" + CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Lang.Get(this.Variant["color"] + ")"));
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Vintagestory.API.Common;
+﻿using FromGoldenCombs.Util.config;
+using Vintagestory.API.Common;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
 using Vintagestory.GameContent;
@@ -22,7 +23,7 @@ namespace FromGoldenCombs.BlockBehaviors
             base.Initialize(properties);
             this._eventName = ((properties["eventName"] != null) ? properties["eventName"].AsString(null) : null);
             this._validCropStages = properties["validCropStages"].AsArray<int>();
-            this._beeChanceMultiplier = 1 + properties["beeChanceMultiplier"].AsFloat();
+            this._beeChanceMultiplier = 1 + FGCServerConfig.Current.cropBoostPercentage;
         }
 
         public override void OnBlockBroken(IWorldAccessor world, BlockPos pos, IPlayer byPlayer, ref EnumHandling handling)

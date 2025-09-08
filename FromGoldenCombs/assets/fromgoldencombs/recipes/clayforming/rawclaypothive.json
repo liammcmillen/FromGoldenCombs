@@ -166,6 +166,6 @@
 	"name": "recipe-clayforming-rawceramichive",
 	"output": {
 		"type": "block",
-		"code": "fromgoldencombs:rawceramichive"
+		"code": "fromgoldencombs:ceramicbroodpot-{type}-raw"
 	}
 }

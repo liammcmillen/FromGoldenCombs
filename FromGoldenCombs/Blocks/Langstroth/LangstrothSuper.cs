@@ -1,5 +1,6 @@
 ﻿using FromGoldenCombs.BlockEntities;
 using FromGoldenCombs.Blocks.Langstroth;
+using FromGoldenCombs.Util.config;
 using System.Collections.Generic;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
@@ -9,13 +10,17 @@ namespace FromGoldenCombs.Blocks
 {
     class LangstrothSuper : LangstrothCore
     {
-
         public override bool OnBlockInteractStart(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel)
         {
             if (!(byPlayer.InventoryManager.ActiveHotbarSlot.Itemstack?.Block is LangstrothCore))
             {
                 BELangstrothSuper belangstrothsuper = world.BlockAccessor.GetBlockEntity(blockSel.Position) as BELangstrothSuper;
-                if (belangstrothsuper is BELangstrothSuper) return belangstrothsuper.OnInteract(byPlayer, blockSel);
+                if (belangstrothsuper is BELangstrothSuper)
+                {
+                    belangstrothsuper.updateMeshes();
+                    belangstrothsuper.MarkDirty(true);
+                    return belangstrothsuper.OnInteract(byPlayer, blockSel);
+                }
             }
             return base.OnBlockInteractStart(world, byPlayer, blockSel);
         }

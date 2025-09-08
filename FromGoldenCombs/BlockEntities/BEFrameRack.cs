@@ -59,12 +59,12 @@ namespace FromGoldenCombs.BlockEntities
             {
                 if (TryHarvest(Api.World, byPlayer, inv[index]))
                 {
-
-                    slot.Itemstack.Item.DamageItem(Api.World, byPlayer.Entity, slot, 1);
                     updateMeshes();
                     MarkDirty(true);
+                    slot.Itemstack.Item.DamageItem(Api.World, byPlayer.Entity, slot, 1);
                     return true;
                 }
+                updateMeshes();
                 MarkDirty(true);
             }
             else if (slot.Itemstack?.Item?.FirstCodePart() == "waxedflaxtwine" && index < 10 && !inv[index].Empty && inv[index].Itemstack.Collectible.Variant["harvestable"] == "lined")
@@ -89,12 +89,13 @@ namespace FromGoldenCombs.BlockEntities
             }
             else if (isBeeframe && index < 10)
             {
-                MarkDirty(true);
+             
                 if (TryPut(slot, blockSel))
                 {
+                    updateMeshes();
+                    MarkDirty(true);
                     return true;
                 }
-
             }
             else if (slot.Empty
                      && byPlayer.InventoryManager.TryGiveItemstack(block.OnPickBlock(Api.World, blockSel.Position)))
@@ -104,6 +105,8 @@ namespace FromGoldenCombs.BlockEntities
                 MarkDirty(true);
                 return true;
             }
+            updateMeshes();
+            MarkDirty(true);
             return false;
         }
 
@@ -118,9 +121,13 @@ namespace FromGoldenCombs.BlockEntities
                     {
                         int moved = slot.TryPutInto(Api.World, inv[slotnum]);
                         updateMeshes();
+                        MarkDirty(true);
                         return moved > 0;
+
                     }
             }
+            updateMeshes();
+            MarkDirty(true);
             return false;
         }
 
@@ -143,9 +150,11 @@ namespace FromGoldenCombs.BlockEntities
                 }
 
                 updateMeshes();
+                MarkDirty(true);
                 return true;
             }
-
+            updateMeshes();
+            MarkDirty(true);
             return false;
         }
 

@@ -2,6 +2,7 @@
   "code": "langstrothstack",
   "class": "langstrothstack",
   "entityClass": "belangstrothstack",
+  "entityBehaviors": [{ name: "Animatable" }],
   "maxstacksize": 1,
   "variantgroups": [
     {

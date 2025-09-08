@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using FromGoldenCombs.Util.config;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,7 @@ namespace FromGoldenCombs.BlockBehaviors
             base.Initialize(properties);
             
             this._eventName = properties["eventname"].ToString();
-            this._beeChanceMultiplier = properties["beeChanceMultiplier"].AsFloat();
+            this._beeChanceMultiplier = 1f + FGCServerConfig.Current.cropBoostPercentage;
         }
 
         public override void OnLoaded(ICoreAPI api)

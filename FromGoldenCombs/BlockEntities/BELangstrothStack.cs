@@ -4,9 +4,6 @@ using FromGoldenCombs.Blocks.Langstroth;
 using FromGoldenCombs.Util.config;
 using FromGoldenCombs.Util.Config;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Security.Cryptography;
 using System.Text;
 using VFromGoldenCombs.Blocks.Langstroth;
 using Vintagestory.API.Client;
@@ -108,6 +105,34 @@ namespace FromGoldenCombs.BlockEntities
             }
             
             harvestBase = (float)((FGCServerConfig.Current.LangstrothDaysToHarvestIn30DayMonths * ((float)Api.World.Calendar.DaysPerMonth / 30f)) * Api.World.Calendar.HoursPerDay);
+
+            InitializeShapesForAnimation(api);
+        }
+
+        private void InitializeShapesForAnimation(ICoreAPI api)
+        {
+            if (this.Api.Side == EnumAppSide.Client)
+            {
+                capi = (ICoreClientAPI)api;
+                if (this.Block != null)
+                {
+                    if (this.Block.Variant["part"] == "head")
+                    {
+                        Shape storagetop = Shape.TryGet(api, "fromgoldencombs:shapes/block/hive/langstroth/storagetop.json");
+                        Shape super = Shape.TryGet(api, "fromgoldencombs:shapes/block/hive/langstroth/langstrothsuper-open.json");
+                        if (api.Side == EnumAppSide.Client)
+                        {
+                            this.capi.Tesselator.TesselateShape(this.Block, storagetop, out this.meshMovable, new Vec3f(0f, this.Block.Shape.rotateY, 0f), null, null);
+                            this.animUtil.InitializeAnimator("fromgoldencombs:storagetop", storagetop, null, new Vec3f(0f, this.Block.Shape.rotateY, 0f));
+                        }
+                        else
+                        {
+                            storagetop.InitForAnimations(api.Logger, "fromgoldencombs:shapes/block/hive/langstroth/storagetop.json", Array.Empty<string>());
+                            this.animUtil.InitializeAnimatorServer("fromgoldencombs:substratemixer", storagetop);
+                        }
+                    }
+                }
+            }
         }
 
         public void OnPollinationNearby(string eventName, BlockPos cropPos, ref EnumHandling handling, IAttribute data)
@@ -799,6 +824,8 @@ namespace FromGoldenCombs.BlockEntities
         readonly Vec3d startPos = new();
         readonly Vec3d endPos = new();
         Vec3f minVelo = new();
+        private BlockEntityAnimationUtil animUtil;
+        private MeshData meshMovable;
 
         private void SpawnBeeParticles(float dt)
         {
@@ -957,18 +984,17 @@ namespace FromGoldenCombs.BlockEntities
 
         private void OnScanForFlowers(float dt)
         {
-            BlockPos bottomStackPos = GetBottomStack().Pos;
-            if (_isActiveHive && (Pos == bottomStackPos))
+            double worldTime = Api.World.Calendar.TotalHours;
+
+            if (_isActiveHive)
             {
-                //Scan to get number of nearby flowers and active hives
+
                 Room room = roomreg?.GetRoomForPosition(Pos);
                 roomness = (room != null && room.SkylightCount > room.NonSkylightCount && room.ExitCount == 0) ? 1 : 0;
-                List<String> flowerList = new();
 
                 if (_activityLevel <= 0) return;
                 if (Api.Side == EnumAppSide.Client) return;
                 if (Api.World.Calendar.TotalHours < cooldownUntilTotalHours) return;
-
                 if (scanIteration == 0)
                 {
                     scanQuantityNearbyFlowers = 0;
@@ -979,63 +1005,42 @@ namespace FromGoldenCombs.BlockEntities
                 int minZ = -8 + 8 * (scanIteration % 2);
                 int size = 8;
 
-                Block fullSkepN = Api.World.GetBlock(new AssetLocation("skep-populated-north"));
-                Block fullSkepE = Api.World.GetBlock(new AssetLocation("skep-populated-east"));
-                Block fullSkepS = Api.World.GetBlock(new AssetLocation("skep-populated-south"));
-                Block fullSkepW = Api.World.GetBlock(new AssetLocation("skep-populated-west"));
-
-                Block wildhive1 = Api.World.GetBlock(new AssetLocation("wildbeehive-medium"));
-                Block wildhive2 = Api.World.GetBlock(new AssetLocation("wildbeehive-large"));
-
-                Block claypothive = Api.World.GetBlock(new AssetLocation("claypothive-populated-empty-withtop"));
-                Block claypothive2 = Api.World.GetBlock(new AssetLocation("claypothive-populated-empty-notop"));
-                Block claypothive3 = Api.World.GetBlock(new AssetLocation("claypothive-populated-harvestable-notop"));
-                Block claypothive4 = Api.World.GetBlock(new AssetLocation("claypothive-populated-harvestable-withtop"));
-
-                Block langstrothstacke = Api.World.GetBlock(new AssetLocation("langstrothstack-one-east"));
-                Block langstrothstackn = Api.World.GetBlock(new AssetLocation("langstrothstack-one-north"));
-                Block langstrothstacks = Api.World.GetBlock(new AssetLocation("langstrothstack-one-south"));
-                Block langstrothstackw = Api.World.GetBlock(new AssetLocation("langstrothstack-one-west"));
-
-                Block langstrothstack2e = Api.World.GetBlock(new AssetLocation("langstrothstack-two-east"));
-                Block langstrothstack2n = Api.World.GetBlock(new AssetLocation("langstrothstack-two-north"));
-                Block langstrothstack2s = Api.World.GetBlock(new AssetLocation("langstrothstack-two-south"));
-                Block langstrothstack2w = Api.World.GetBlock(new AssetLocation("langstrothstack-two-west"));
-
-                Block langstrothstack3e = Api.World.GetBlock(new AssetLocation("langstrothstack-three-east"));
-                Block langstrothstack3n = Api.World.GetBlock(new AssetLocation("langstrothstack-three-north"));
-                Block langstrothstack3s = Api.World.GetBlock(new AssetLocation("langstrothstack-three-south"));
-                Block langstrothstack3w = Api.World.GetBlock(new AssetLocation("langstrothstack-three-west"));
-
-
                 Api.World.BlockAccessor.WalkBlocks(Pos.AddCopy(minX, -5, minZ), Pos.AddCopy(minX + size - 1, 5, minZ + size - 1), (block, posx, posy, posz) =>
                 {
-                    if (block.Id == 0) return;
+                    BlockPos curPos = new BlockPos(posx, posy, posz);
+                    BlockEntity curBE = Api.World.BlockAccessor.GetBlockEntity(curPos);
+                    if (block.Id == 0 || (roomness > 0 && !room.Contains(new BlockPos(posx, posy, posz)))) return;
 
                     if (block.Attributes != null && block.Attributes.IsTrue("beeFeed"))
                     {
-                        flowerList.Add(block.Variant["flower"]);
                         scanQuantityNearbyFlowers++;
-                    };
-
-                    if (block == fullSkepN || block == fullSkepE || block == fullSkepS || block == fullSkepW
-                    || block == wildhive1 || block == wildhive2
-                    || block == claypothive || block == claypothive2 || block == claypothive3 || block == claypothive4
-                    || block == langstrothstacke || block == langstrothstackn || block == langstrothstacks || block == langstrothstackw
-                    || block == langstrothstack2e || block == langstrothstack2n || block == langstrothstack2s || block == langstrothstack2w
-                    || block == langstrothstack3e || block == langstrothstack3n || block == langstrothstack3s || block == langstrothstack3w)
+                    }
+                    else if (block.Code.FirstCodePart() == "langstrothstack" && curBE is BELangstrothStack langstroth)
+                    {
+                        if (langstroth.GetBottomStack().Pos == curPos
+                        && langstroth.isHiveActive())
+                            scanQuantityNearbyHives++;
+                    }
+                    else if (block.Code.FirstCodePart() == "ceramicbroodpot" && curBE is BECeramicBroodPot ceramic)
+                    {
+                        if (block.Code.FirstCodePart() == "skep" && block.Code.SecondCodePart() == "populated")
+                        {
+                            scanQuantityNearbyHives++;
+                        }
+                    }
+                    else if (block.Code.FirstCodePart() == "wildhive")
                     {
                         scanQuantityNearbyHives++;
                     }
                 });
-
                 scanIteration++;
-
+                System.Diagnostics.Debug.WriteLine("Scan Iteration is " + scanIteration);
                 if (scanIteration == 4)
                 {
                     scanIteration = 0;
                     OnScanComplete();
                 }
+                MarkDirty(true);
             }
         }
 
@@ -1043,7 +1048,7 @@ namespace FromGoldenCombs.BlockEntities
         {
             quantityNearbyFlowers = scanQuantityNearbyFlowers;
             quantityNearbyHives = scanQuantityNearbyHives;
-            _hivePopSize = (EnumHivePopSize)GameMath.Clamp(quantityNearbyFlowers - 6 * quantityNearbyHives, 0, 2);
+            _hivePopSize = (EnumHivePopSize)GameMath.Clamp(quantityNearbyFlowers - FGCServerConfig.Current.minFlowersPerHive * quantityNearbyHives, 0, 2);
             MarkDirty();
         }
 

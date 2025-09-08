@@ -65,6 +65,9 @@ namespace FromGoldenCombs.Util.config
             FGCServerConfig.Current.langstrothMaxCropCharges = fgcConfig.langstrothMaxCropCharges;
             FGCServerConfig.Current.langstrothCropRange = fgcConfig.langstrothCropRange;
             FGCServerConfig.Current.showExtraBeehiveInfo = fgcConfig.showCurrentCropCharges;
+            FGCServerConfig.Current.backpackSlotOnly = fgcConfig.backpackSlotOnly;
+            FGCServerConfig.Current.cropBoostPercentage = fgcConfig.cropBoostPercentage;
+            FGCServerConfig.Current.minFlowersPerHive = fgcConfig.minFlowersPerHive;
         }
 
         #endregion
@@ -166,6 +169,12 @@ namespace FromGoldenCombs.Util.config
             public int langstrothCropRange = FGCServerConfig.Current.langstrothCropRange;
             [ProtoMember(32)]
             public bool showCurrentCropCharges = FGCServerConfig.Current.showExtraBeehiveInfo;
+            [ProtoMember(33)]
+            public bool backpackSlotOnly = FGCServerConfig.Current.backpackSlotOnly;
+            [ProtoMember(34)]
+            public float cropBoostPercentage = FGCServerConfig.Current.cropBoostPercentage;
+            [ProtoMember(35)]
+            public int minFlowersPerHive = FGCServerConfig.Current.minFlowersPerHive;
 
 
         }

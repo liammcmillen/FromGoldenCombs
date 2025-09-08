@@ -1,9 +1,7 @@
 ﻿using FromGoldenCombs.BlockBehaviors;
 using FromGoldenCombs.Util.config;
 using FromGoldenCombs.Util.Config;
-using FromGoldenCombs.Util.HarmonyPatches;
 using System;
-using System.Runtime.InteropServices;
 using System.Text;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
@@ -12,7 +10,6 @@ using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
 using Vintagestory.API.Util;
 using Vintagestory.GameContent;
-using static OpenTK.Graphics.OpenGL.GL;
 
 namespace FromGoldenCombs.BlockEntities
 {
@@ -252,8 +249,22 @@ namespace FromGoldenCombs.BlockEntities
             if (inv[index].Empty
                 && slot.Itemstack.Collectible.FirstCodePart() == "hivetop" && slot.Itemstack.Collectible.Variant["type"] != "raw")
             {
-                slot.TryPutInto(Api.World, inv[index]);
-                if(inv[index].Itemstack.Block.Variant["type"] != "raw" && isActiveHive)
+                if (slot.Itemstack.Collectible.Code == "fromgoldencombs:hivetop-empty")
+                {
+                    slot.Itemstack = new(Api.World.GetBlock(new AssetLocation("fromgoldencombs:hivetop-blue-fired")), slot.Itemstack.StackSize);
+                    slot.TryPutInto(Api.World, inv[index]);
+                    slot.MarkDirty();
+                } else if(slot.Itemstack.Collectible.Code == "fromgoldencombs:hivetop-harvestable")
+                {
+                        slot.Itemstack = new(Api.World.GetBlock(new AssetLocation("fromgoldencombs:hivetop-blue-harvestable")), slot.Itemstack.StackSize);
+                        slot.TryPutInto(Api.World, inv[index]);
+                        slot.MarkDirty();
+                } else
+                {
+                    slot.TryPutInto(Api.World, inv[index]);
+                }
+
+                if (inv[index].Itemstack.Block.Variant["type"] != "raw" && isActiveHive)
                 {
                     cooldownUntilTotalHours = Api.World.Calendar.TotalHours + 8;
                 }
@@ -296,8 +307,18 @@ namespace FromGoldenCombs.BlockEntities
 
         public void TestHarvestable(float dt)
         {
+                       if (this.Block.Code == "fromgoldencombs:ceramicbroodpot-withtop" || this.Block.Code == "fromgoldencombs:ceramicbroodpot-notop")
+            {
+                if (Api.Side.IsServer())
+                {
+
+                    Api.World.BlockAccessor.ExchangeBlock(Api.World.BlockAccessor.GetBlock(new AssetLocation("fromgoldencombs:ceramicbroodpot-blue-" + this.Block.LastCodePart().ToString())).Id, this.Pos);
+                    this.MarkDirty(true);
+                }
+            }
             Random randy = new Random();
-            bool hasEmptyHivetop = !inv[0].Empty && inv[0]?.Itemstack?.Block.Variant["type"] == "empty";
+
+            bool hasEmptyHivetop = !inv[0].Empty && (inv[0]?.Itemstack?.Block.Variant["type"] == "empty" || inv[0]?.Itemstack?.Block.Variant["type"] == "fired");
             float minTemp = FGCServerConfig.Current.CeramicHiveMinTemp;
             float maxTemp = FGCServerConfig.Current.CeramicHiveMaxTemp == 0 ? 37f : FGCServerConfig.Current.CeramicHiveMaxTemp;
             double worldTime = Api.World.Calendar.TotalHours;
@@ -321,7 +342,7 @@ namespace FromGoldenCombs.BlockEntities
 
             bool tempOutOfRange = false;
 
-            if ((threeDayTemp < minTemp && threeDayTemp > maxTemp))
+            if ((threeDayTemp < minTemp || threeDayTemp > maxTemp))
             {
                 harvestableAtTotalHours = worldTime + HarvestableTime(harvestBase);
                 cooldownUntilTotalHours = worldTime + 8;
@@ -454,51 +475,30 @@ namespace FromGoldenCombs.BlockEntities
                 int minZ = -8 + 8 * (scanIteration % 2);
                 int size = 8;
                 
-                Block fullSkepN = Api.World.GetBlock(new AssetLocation("skep-populated-north"));
-                Block fullSkepE = Api.World.GetBlock(new AssetLocation("skep-populated-east"));
-                Block fullSkepS = Api.World.GetBlock(new AssetLocation("skep-populated-south"));
-                Block fullSkepW = Api.World.GetBlock(new AssetLocation("skep-populated-west"));
-
-                Block wildhive1 = Api.World.GetBlock(new AssetLocation("wildbeehive-medium"));
-                Block wildhive2 = Api.World.GetBlock(new AssetLocation("wildbeehive-large"));
-
-                Block claypothive = Api.World.GetBlock(new AssetLocation("claypothive-populated-empty-withtop"));
-                Block claypothive2 = Api.World.GetBlock(new AssetLocation("claypothive-populated-empty-notop"));
-                Block claypothive3 = Api.World.GetBlock(new AssetLocation("claypothive-populated-harvestable-notop"));
-                Block claypothive4 = Api.World.GetBlock(new AssetLocation("claypothive-populated-harvestable-withtop"));
-
-                Block langstrothstacke = Api.World.GetBlock(new AssetLocation("langstrothstack-one-east"));
-                Block langstrothstackn = Api.World.GetBlock(new AssetLocation("langstrothstack-one-north"));
-                Block langstrothstacks = Api.World.GetBlock(new AssetLocation("langstrothstack-one-south"));
-                Block langstrothstackw = Api.World.GetBlock(new AssetLocation("langstrothstack-one-west"));
-
-                Block langstrothstack2e = Api.World.GetBlock(new AssetLocation("langstrothstack-two-east"));
-                Block langstrothstack2n = Api.World.GetBlock(new AssetLocation("langstrothstack-two-north"));
-                Block langstrothstack2s = Api.World.GetBlock(new AssetLocation("langstrothstack-two-south"));
-                Block langstrothstack2w = Api.World.GetBlock(new AssetLocation("langstrothstack-two-west"));
-
-                Block langstrothstack3e = Api.World.GetBlock(new AssetLocation("langstrothstack-three-east"));
-                Block langstrothstack3n = Api.World.GetBlock(new AssetLocation("langstrothstack-three-north"));
-                Block langstrothstack3s = Api.World.GetBlock(new AssetLocation("langstrothstack-three-south"));
-                Block langstrothstack3w = Api.World.GetBlock(new AssetLocation("langstrothstack-three-west"));
-
                 Api.World.BlockAccessor.WalkBlocks(Pos.AddCopy(minX, -5, minZ), Pos.AddCopy(minX + size - 1, 5, minZ + size - 1), (block, posx, posy, posz) =>
                 {
-                    
+                    BlockPos curPos = new BlockPos(posx, posy, posz);
+                    BlockEntity curBE = Api.World.BlockAccessor.GetBlockEntity(curPos);
                     if (block.Id == 0 || (roomness > 0 && !room.Contains(new BlockPos(posx, posy, posz)))) return;
-                    
 
                     if (block.Attributes != null && block.Attributes.IsTrue("beeFeed"))
                     {
                         scanQuantityNearbyFlowers++;
-                    };
-
-                    if (block == fullSkepN || block == fullSkepE || block == fullSkepS || block == fullSkepW
-                    || block == wildhive1 || block == wildhive2
-                    || block == claypothive || block == claypothive2 || block == claypothive3 || block == claypothive4
-                    || block == langstrothstacke || block == langstrothstackn || block == langstrothstacks || block == langstrothstackw
-                    || block == langstrothstack2e || block == langstrothstack2n || block == langstrothstack2s || block == langstrothstack2w
-                    || block == langstrothstack3e || block == langstrothstack3n || block == langstrothstack3s || block == langstrothstack3w)
+                    }
+                    else if (block.Code.FirstCodePart() == "langstrothstack" && curBE is BELangstrothStack langstroth)
+                    {
+                        if (langstroth.GetBottomStack().Pos == curPos
+                        && langstroth.isHiveActive())
+                            scanQuantityNearbyHives++;
+                    } 
+                    else if(block.Code.FirstCodePart() == "ceramicbroodpot" && curBE is BECeramicBroodPot ceramic)
+                    {
+                        if (block.Code.FirstCodePart() == "skep" && block.Code.SecondCodePart() == "populated")
+                        {
+                            scanQuantityNearbyHives++;
+                        }
+                    }
+                    else if (block.Code.FirstCodePart() == "wildhive")
                     {
                         scanQuantityNearbyHives++;
                     }
@@ -511,7 +511,6 @@ namespace FromGoldenCombs.BlockEntities
                     OnScanComplete();
                 }
                 MarkDirty(true);
-
             }
         }
 
@@ -519,18 +518,7 @@ namespace FromGoldenCombs.BlockEntities
         {
             quantityNearbyFlowers = scanQuantityNearbyFlowers;
             quantityNearbyHives = scanQuantityNearbyHives;
-            _hivePopSize = (EnumHivePopSize)GameMath.Clamp(quantityNearbyFlowers - 3 * quantityNearbyHives, 0, 2);
-        }
-
-        protected ModelTransform genTransform(ItemStack stack, int index)
-        {
-
-            ModelTransform transform = new();
-            //Vec3f offset = new Vec3f(0, .1f, 0);
-            //transform.Origin = new Vec3f(0.5f, 0.0f, 0.5f);
-            //transform.WithRotation(new Vec3f(0f, this.Block.Shape.rotateY * GameMath.DEG2RAD, 0f));
-            //transform.Translation = offset;
-            return transform;
+            _hivePopSize = (EnumHivePopSize)GameMath.Clamp(quantityNearbyFlowers - FGCServerConfig.Current.minFlowersPerHive * quantityNearbyHives, 0, 2); ;
         }
 
 
@@ -606,7 +594,7 @@ namespace FromGoldenCombs.BlockEntities
                 AssetLocation loc = AssetLocation.Create(beFTP.Block.Attributes["branchBlock"].AsString(null), beFTP.Block.Code.Domain);
                 foreach (BlockDropItemStack drop in (beFTP.Api.World.GetBlock(loc) as BlockFruitTreeBranch).TypeProps[beFTP.TreeType].FruitStacks)
                 {
-                    ItemStack stack = drop.GetNextItemStack(0.25f);
+                    ItemStack stack = drop.GetNextItemStack(1f+FGCServerConfig.Current.cropBoostPercentage);
                     if (stack != null)
                     {
 
@@ -750,7 +738,7 @@ namespace FromGoldenCombs.BlockEntities
                 ItemStack itemstack = this.Inventory[index].Itemstack;
                 if (itemstack != null)
                 {
-                    tfMatrices[index] = new Matrixf().Translate(0, 1.018f, 1).RotateXDeg(180f).Values;
+                    tfMatrices[index] = new Matrixf().Translate(0, 1.1f, 1).RotateXDeg(180f).Values;
                 }
             }
             return tfMatrices;

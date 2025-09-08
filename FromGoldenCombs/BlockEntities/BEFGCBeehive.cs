@@ -388,9 +388,9 @@ namespace FromGoldenCombs.BlockEntities
                 skepToPop = null;
             }
 
-                hivePopSize = (EnumHivePopSize)GameMath.Clamp(quantityNearbyFlowers - 3 * quantityNearbyHives, 0, 2);
+                hivePopSize = (EnumHivePopSize)GameMath.Clamp(quantityNearbyFlowers - FGCServerConfig.Current.minFlowersPerHive * quantityNearbyHives, 0, 2);
 
-            if (3 * quantityNearbyHives + 3 > quantityNearbyFlowers)
+            if (FGCServerConfig.Current.minFlowersPerHive * quantityNearbyHives + FGCServerConfig.Current.minFlowersPerHive > quantityNearbyFlowers)
             {
                 skepToPop = null;
                 MarkDirty();
@@ -412,7 +412,7 @@ namespace FromGoldenCombs.BlockEntities
             // factor = Clamped(livinghives / Math.Sqrt(flowers - 3 * livinghives - 3), 1, 1000)
             // After spreading: 4 extra days cooldown
 
-            float swarmability = GameMath.Clamp(quantityNearbyFlowers - 3 - 3 * quantityNearbyHives, 0, 20) / 5f;
+            float swarmability = GameMath.Clamp(quantityNearbyFlowers - FGCServerConfig.Current.minFlowersPerHive - FGCServerConfig.Current.minFlowersPerHive * quantityNearbyHives, 0, 20) / 5f;
             // We want to translate the swarmability value 0..4
             // into swarm days 12..0
             float swarmInDays = (4f - swarmability) * 2.5f;

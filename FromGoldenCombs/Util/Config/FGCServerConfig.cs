@@ -9,7 +9,7 @@ namespace FromGoldenCombs.Util.config
     class FGCServerConfig
     {
         [ProtoMember(1)]
-        public double ConfigVersion = 1.3;
+        public double ConfigVersion = 1.5;
         [ProtoMember(2)]
         public bool retainConfigOnVersionChange = false;
         [ProtoMember(3)]
@@ -74,6 +74,11 @@ namespace FromGoldenCombs.Util.config
         public bool showExtraBeehiveInfo = true;
         [ProtoMember(33)]
         public bool backpackSlotOnly = true;
+        [ProtoMember(34)]
+        public float cropBoostPercentage = 0.20f;
+        [ProtoMember(35)]
+        public int minFlowersPerHive = 3;
+
         public FGCServerConfig()
         { }
 
@@ -84,7 +89,7 @@ namespace FromGoldenCombs.Util.config
         {
             FGCServerConfig defaultServerConfig = new();
 
-            defaultServerConfig.ConfigVersion = 1.3;
+            defaultServerConfig.ConfigVersion = 1.5;
             defaultServerConfig.retainConfigOnVersionChange = false;
             defaultServerConfig.SkepDaysToHarvestIn30DayMonths = 7;
             defaultServerConfig.ClayPotDaysToHarvestIn30DayMonths = 7;
@@ -119,13 +124,15 @@ namespace FromGoldenCombs.Util.config
             defaultServerConfig.langstrothCropRange = 8;
             defaultServerConfig.showExtraBeehiveInfo = true;
             defaultServerConfig.backpackSlotOnly = false;
+            defaultServerConfig.cropBoostPercentage = 0.20f;
+            defaultServerConfig.minFlowersPerHive = 3;
 
             return defaultServerConfig;
         }
 
         internal static void createServerConfig(ICoreAPI api)
         {
-            double MasterServerConfigVersion = 1.3;
+            double MasterServerConfigVersion = 1.5;
             try
             {
                 var ServerConfig = api.LoadModConfig<FGCServerConfig>("fromgoldencombs/fromgoldencombsserver.json");

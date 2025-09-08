@@ -28,7 +28,6 @@
   "sideopaque": { "all": false },
   "sidesolid": { "all": false },
   "blockmaterial": "Ceramic",
-  "creativeinventory": { "general": [ "*" ] },
   "maxstacksize": 1,
   "sounds": {
     "place": "game:block/planks"

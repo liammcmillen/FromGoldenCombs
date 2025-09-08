@@ -20,11 +20,10 @@ namespace FromGoldenCombs.Blocks
         /// <param name="blockSel">The Selected Block.</param>
         public override bool OnBlockInteractStart(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel)
         {
-            BEFrameRack beFrameRack = (BEFrameRack)world.BlockAccessor.GetBlockEntity(blockSel.Position) as BEFrameRack;
-
-            if (beFrameRack is BEFrameRack)
+            if (world.BlockAccessor.GetBlockEntity(blockSel.Position) is BEFrameRack beFrameRack)
             {
                 beFrameRack.updateMeshes();
+                beFrameRack.MarkDirty(true);
                 return beFrameRack.OnInteract(byPlayer, blockSel);
             }
             return false;

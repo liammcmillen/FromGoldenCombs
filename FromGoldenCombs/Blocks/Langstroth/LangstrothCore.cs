@@ -25,12 +25,16 @@ namespace FromGoldenCombs.Blocks.Langstroth
         public override EnumItemStorageFlags GetStorageFlags(ItemStack itemstack)
         {
 
-            if (FGCServerConfig.Current.backpackSlotOnly == true)
+            if (FGCServerConfig.Current.backpackSlotOnly)
             {
-                return (EnumItemStorageFlags)1;
+                return (EnumItemStorageFlags)2;
             }
-            if (itemstack.Collectible.Variant["populated"] == "populated")
+            if (!FGCServerConfig.Current.backpackSlotOnly)
             {
+                if (!(itemstack.Collectible.Variant["populated"] == "populated"))
+                {
+                    return (EnumItemStorageFlags)1;
+                }
                 return (EnumItemStorageFlags)2;
             }
             return base.GetStorageFlags(itemstack);

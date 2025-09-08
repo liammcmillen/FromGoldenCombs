@@ -4,7 +4,6 @@
     "path": "/behaviorsByType/*-ripe/0",
     "value": {name: "PushEventOnBlockHarvested", properties: { 
 			"eventName": "berryharvest",
-			"beeChanceMultiplier": 0.25
 		  }
     },
     "file": "game:blocktypes/plant/smallberrybush.json",
@@ -14,8 +13,7 @@
     "op": "addmerge",
 		"path": "/behaviorsByType/*-ripe/0",
     "value": {name: "PushEventOnBlockHarvested", properties: { 
-			"eventName": "berryharvest",
-			"beeChanceMultiplier": 0.25
+			"eventName": "berryharvest"
 		  }
     },
     "file": "game:blocktypes/plant/bigberrybush.json",

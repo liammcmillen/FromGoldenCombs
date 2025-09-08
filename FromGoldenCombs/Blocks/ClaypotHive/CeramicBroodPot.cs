@@ -2,8 +2,8 @@
 using FromGoldenCombs.Util.config;
 using FromGoldenCombs.Util.Config;
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
@@ -17,20 +17,19 @@ namespace FromGoldenCombs.Blocks
     class CeramicBroodPot : BlockContainer
     {
 
-        public override void OnLoaded(ICoreAPI api)
-        {
-            base.OnLoaded(api);
-        }
-
         public override EnumItemStorageFlags GetStorageFlags(ItemStack itemstack)
         {
 
-            if (FGCServerConfig.Current.backpackSlotOnly == true)
+            if (FGCServerConfig.Current.backpackSlotOnly)
             {
                 return (EnumItemStorageFlags)2;
             }
-            if (itemstack.Attributes.GetBool("isactivehive", true))
+            if (!FGCServerConfig.Current.backpackSlotOnly)
             {
+                if (!itemstack.Attributes.GetBool("isactivehive"))
+                {
+                    return (EnumItemStorageFlags)1;
+                }
                 return (EnumItemStorageFlags)2;
             }
             return base.GetStorageFlags(itemstack);
@@ -92,6 +91,7 @@ namespace FromGoldenCombs.Blocks
                 beCeramicBroodPot.isActiveHive = isHiveActive;
                 beCeramicBroodPot.SetHiveSize(stack.Attributes.GetAsInt("hiveHealth"));
                 beCeramicBroodPot.TestHarvestable(0);
+                beCeramicBroodPot.Initialize(api);
             }
         }
 
@@ -108,8 +108,10 @@ namespace FromGoldenCombs.Blocks
             {
                 
                 ItemStack stack = this.OnPickBlock(world, pos);
-                beCeramicBroodPot.SetAttributesOnPickup(stack);
-
+                if(beCeramicBroodPot != null)
+                {
+                    beCeramicBroodPot.SetAttributesOnPickup(stack);
+                }
                 world.SpawnItemEntity(stack, new Vec3d((double)pos.X + 0.5, (double)pos.Y + 0.5, (double)pos.Z + 0.5));
 
                 world.PlaySoundAt(Sounds.GetBreakSound(byPlayer), pos.X, pos.Y, pos.Z, byPlayer);
@@ -206,15 +208,6 @@ namespace FromGoldenCombs.Blocks
                         };
                     });
 
-                //WorldInteraction[] final = new WorldInteraction[] { };
-                //if (wi != null) final.Append(wi);
-                //if (Variant["top"] == "withtop") final.Append(wi2);
-                //if (Variant["top"] == "notop") final.Append(wi2a);
-                //final.Append(wi3);
-                //return final;
-
-
-
                 if (pot.isActiveHive)
                 {
                     if (Variant["top"] == "withtop")
@@ -240,20 +233,14 @@ namespace FromGoldenCombs.Blocks
                         return wi.Append(wi2).Append(wi3);
                     }
                 }
-                //else
-                //{
-                //    if (Variant["top"] == "withtop")
-                //    {
-                //        return wi.Append(wi2a);
-                //    }
-                //    else
-                //    {
-                //        return wi.Append(wi2).Append(wi3);
-                //    }
-                //}
             }
             return wi;
         }
 
+        public override string GetHeldItemName(ItemStack itemStack)
+        {
+
+            return base.GetHeldItemName(itemStack) + " (" + CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Lang.Get(this.Variant["color"] + ")"));            
+        }
     }
 }

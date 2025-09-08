@@ -1,3 +1,21 @@
+1.21-1.9.2-rc.2
+	- Adjusted improper behaviors and outputs of clayforming recipes and their raw outputs.
+	- Found bug that caused CeramicHives to fail to find local flowers after being picked up and set back down when active.
+	- Updated ceramic hives to reset their hive population to 0 when picked up and moved.
+	- Added config option for minimum number of flowers per hive.
+		- Max Hive Pop requires (minFlowersPerHive * number of local hives)+2 (This is essentially vanilla)
+	- Updated serverconfig version to 1.5
+
+1.21-1.9.2-rc.1
+	- Corrected ceramic hives not respected "BackpackSlotsOnly" setting when the setting was false.
+	- Updated Ceramic Hive Shapes!  New and improved, without losing the charm of the original.
+	- Updated Ceramic Hives (and Hivetops!) to have blue, fire, black, brown, cream, gray, orange, red, tan clay colors
+	- Added Ceramic Hives and Hivetops to Trader pools
+	- Added color descriptor to Ceramic Broodpots And Hivetops onHeldItemInfo.
+	- Made the crop boost from beehives configurable in FGCServerConfig
+	- Fixed Ceramic Hives producing honey in winter
+	- Other stuff?
+
 1.21-1.9.1
 	- Added "backpackSlotOnly" configuration option in FGCServerConfig.json
 	 - Default value "true" Ceramic Brood Pots, Frameworks, Lagnstroth Supers, 

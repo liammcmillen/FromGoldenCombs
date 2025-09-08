@@ -23,11 +23,74 @@
       ]
     }
   },
+  attributesByType:{
+		"hivetop-red-raw":{
+			beehivekiln:{
+				"0": { "type": "block", "code": "fromgoldencombs:hivetop-tan-fired" },
+				"1": { "type": "block", "code": "fromgoldencombs:hivetop-orange-fired" },
+				"2": { "type": "block", "code": "fromgoldencombs:hivetop-red-fired" },
+				"3": { "type": "block", "code": "fromgoldencombs:hivetop-brown-fired" }
+			}
+		},
+		"hivetop-blue-raw":{
+			beehivekiln:{
+				"0": { "type": "block", "code": "fromgoldencombs:hivetop-cream-fired"},
+				"1": { "type": "block", "code": "fromgoldencombs:hivetop-gray-fired"},
+				"2": { "type": "block", "code": "fromgoldencombs:hivetop-black-fired"},
+				"3": { "type": "block", "code": "fromgoldencombs:hivetop-black-fired"}
+			}
+		},
+		"hivetop-fire-raw":{
+			beehivekiln:{
+				"0": { "type": "block", "code": "fromgoldencombs:hivetop-fire-fired"},
+				"1": { "type": "block", "code": "fromgoldencombs:hivetop-fire-fired"},
+				"2": { "type": "block", "code": "fromgoldencombs:hivetop-fire-fired"},
+				"3": { "type": "block", "code": "fromgoldencombs:hivetop-fire-fired"}
+			}
+		}
+	},
+  "texturesByType": {		
+    "*-raw": { "clay": { "base": "game:block/clay/{color}clay" }},
+    "*":  { "clay": { base: "game:block/clay/hardened/{color}"}}
+    },
   "variantgroups": [
-    { "code": "type", "states": [ "empty", "harvestable", "raw" ] }
+    { "code": "color", "states": [ "blue", "fire", "black", "brown", "cream", "gray", "orange", "red", "tan" ]},
+    { "code": "type", "states": [ "fired", "harvestable", "raw" ] }
   ],
+	"skipVariants": [
+		"*-tan-raw",
+		"*-orange-raw",
+		"*-gray-raw",
+		"*-cream-raw",
+		"*-brown-raw",
+    "*-black-raw"
+	],
+  "creativeinventory": { 
+  "general": [
+    "*-blue-fired","*-blue-raw",
+    "*-fire-fired","*-fire-raw",
+    "*-black-fired","*-black-raw",
+    "*-brown-fired","*-brown-raw",
+    "*-cream-fired","*-cream-raw",
+    "*-gray-fired","*-gray-raw",
+    "*-orange-fired","*-orange-raw",
+    "*-red-fired","*-red-raw",
+    "*-tan-fired","*-tan-raw"
+  ],
+  "fromgoldencombs": [
+    "*-blue-fired","*-blue-raw",
+    "*-fire-fired","*-fire-raw",
+    "*-black-fired","*-black-raw",
+    "*-brown-fired","*-brown-raw",
+    "*-cream-fired","*-cream-raw",
+    "*-gray-fired","*-gray-raw",
+    "*-orange-fired","*-orange-raw",
+    "*-red-fired","*-red-raw",
+    "*-tan-fired","*-tan-raw"
+  ]
+},
   "shapebytype": {
-    "*-empty": { "base": "block/hive/ceramic/hivetop-empty" },
+    "*-fired": { "base": "block/hive/ceramic/hivetop-empty" },
     "*-harvestable": { "base": "block/hive/ceramic/hivetop-harvestable" },
     "*-raw": { "base": "block/hive/ceramic/hivetop-empty" }
   },
@@ -40,7 +103,7 @@
       "smeltingType": "fire",
       "smeltedStack": {
         "type": "block",
-        "code": "fromgoldencombs:hivetop-empty"
+        "code": "fromgoldencombs:hivetop-{color}-fired"
       },
       "requiresContainer": false
     }
