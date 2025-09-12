@@ -14,7 +14,9 @@
       ]
     }
   },
-  "creativeinventory": { "general": ["langstrothbase-*-east"] },
+  "creativeinventory": { 
+		"fromgoldencombs": ["langstrothbase-*-east"]
+  },
   "variantgroups": [
     { "code": "primary", "states": ["aged"], "loadFromProperties": "block/wood" },
     { "code": "accent", "states": ["aged"], "loadFromProperties": "block/wood" },

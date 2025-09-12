@@ -44,7 +44,9 @@
   "3DayPerfect": "Perfect.",
   "cropcharges": "Pollinations:",
   "croprange": "Pollination Range:",
-                
+  "game:tabname-fromgoldencombs": "From Golden Combs",
+	"game:handbook-category-fromgoldencombs": "From Golden Combs",
+
   "block-claypothive": "Claypot Hive",
   "fromgoldencombs:handbooktitle-claypothive": "Used for:",
   "fromgoldencombs:handbooktext-claypothive": "Claypot Test",
@@ -74,7 +76,7 @@
   "block-hivetop-raw": "Raw Ceramic Honey Pot",
   "block-ceramicbroodpot-*-raw":  "Raw Ceramic Hive",
   "block-hivetop-*": "Ceramic Honey Pot",
-  "blockhelp-hivetop-raw": "Place in pitkiln to fire.",
+  "blockhelp-hivetop-*-raw": "Place in pitkiln to fire.",
   "block-rawclaypothive": "Raw Claypot Brood Pot",
   "block-ceramichive-*-raw": "Raw Claypot Brood Pot",
   "blockhelp-rawclaypothive": "Place in pitkiln to fire.",

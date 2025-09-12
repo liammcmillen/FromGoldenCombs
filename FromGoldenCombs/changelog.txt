@@ -1,4 +1,10 @@
-
+1.21-1.9.2
+	- Updated lang entries and creative inventory sorting to place FGC items in their own category.
+	- Increased output of waxed linen -> frame liners from 1 linen for 2 to 1 linen for four.
+	- Adjusted recipe for bee frames:
+		- Original recipe now produces 2 per resin
+		- Or .1l hot glue can be used to make 1 bee frame
+		- Glue is significantly superior to straight pitch for making frames
 
 1.21-1.9.2-rc.2
 	- Adjusted improper behaviors and outputs of clayforming recipes and their raw outputs.

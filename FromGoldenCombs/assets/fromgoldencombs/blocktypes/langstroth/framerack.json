@@ -15,7 +15,10 @@
             }]
         }
   },
-  "creativeinventory": { "general": ["framerack-*-east"] },
+  "creativeinventory": { 
+		"fromgoldencombs": ["framerack-*-east"] 
+
+  },
   "behaviors": [
     { "name": "HorizontalOrientable", "properties": { "dropBlockFace": "east" }},
     { "name": "Unstable" }
@@ -25,7 +28,6 @@
     { "code": "accent", "states": ["aged"], "loadFromProperties": "block/wood" },
     { "code": "side", "loadFromProperties": "abstract/horizontalorientation" }
   ],
-  
    "textures": {		
       "primary": { "base": "game:block/wood/debarked/{primary}" },
 			"accent": { "base": "game:block/wood/debarked/{accent}" }

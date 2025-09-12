@@ -25,7 +25,7 @@
   },
   {
     "op": "add",
-    "path": "/variantgroups/0/states/4",
+    "path": "/variantgroups/0/states/-",
     "value": "waxed",
     "file": "blocktypes/cloth/linen.json",
     "side": "server"
@@ -44,6 +44,16 @@
 		  "linen-waxed-*": { "base": "fromgoldencombs:block/cloth/linen/waxedlinen"},
 		  "linen-*": { "base": "block/cloth/linen/{pattern}1"}
 
+	  },
+     "file": "blocktypes/cloth/linen.json",
+    "side": "server"
+  },
+  {
+	  "op": "replace",
+	  "path":  "/creativeinventory",
+	  "value": { "general": ["*-diamond-down", "*-normal-down", "*-offset-down", "*-square-down"], 
+               "decorative": ["*-down"], 
+               "fromgoldencombs": ["*-waxed-down"]
 	  },
      "file": "blocktypes/cloth/linen.json",
     "side": "server"

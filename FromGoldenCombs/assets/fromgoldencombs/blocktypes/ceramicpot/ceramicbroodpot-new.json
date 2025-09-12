@@ -74,17 +74,6 @@
 		"*-black-raw"
 	],
 	"creativeinventory": { 
-		"general": [
-			"*-blue-notop","*-blue-raw",
-			"*-fire-notop","*-fire-raw",
-			"*-black-notop","*-black-raw",
-			"*-brown-notop","*-brown-raw",
-			"*-cream-notop","*-cream-raw",
-			"*-gray-notop","*-gray-raw",
-			"*-orange-notop","*-orange-raw",
-			"*-red-notop","*-red-raw",
-			"*-tan-notop","*-tan-raw"
-		],
 		"fromgoldencombs": [
 			"*-blue-notop","*-blue-raw",
 			"*-fire-notop","*-fire-raw",

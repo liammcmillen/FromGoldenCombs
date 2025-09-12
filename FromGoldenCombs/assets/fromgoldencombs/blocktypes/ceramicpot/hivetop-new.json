@@ -23,7 +23,7 @@
       ]
     }
   },
-  attributesByType:{
+  "attributesByType":{
 		"hivetop-red-raw":{
 			beehivekiln:{
 				"0": { "type": "block", "code": "fromgoldencombs:hivetop-tan-fired" },
@@ -49,6 +49,19 @@
 			}
 		}
 	},
+  "creativeinventory": { 
+  "fromgoldencombs": [
+    "*-blue-fired","*-blue-raw",
+    "*-fire-fired","*-fire-raw",
+    "*-red-fired","*-red-raw",
+    "*-black-fired",
+    "*-brown-fired",
+    "*-cream-fired",
+    "*-gray-fired",
+    "*-orange-fired",    
+    "*-tan-fired"
+  ]
+},
   "texturesByType": {		
     "*-raw": { "clay": { "base": "game:block/clay/{color}clay" }},
     "*":  { "clay": { base: "game:block/clay/hardened/{color}"}}
@@ -65,30 +78,6 @@
 		"*-brown-raw",
     "*-black-raw"
 	],
-  "creativeinventory": { 
-  "general": [
-    "*-blue-fired","*-blue-raw",
-    "*-fire-fired","*-fire-raw",
-    "*-black-fired","*-black-raw",
-    "*-brown-fired","*-brown-raw",
-    "*-cream-fired","*-cream-raw",
-    "*-gray-fired","*-gray-raw",
-    "*-orange-fired","*-orange-raw",
-    "*-red-fired","*-red-raw",
-    "*-tan-fired","*-tan-raw"
-  ],
-  "fromgoldencombs": [
-    "*-blue-fired","*-blue-raw",
-    "*-fire-fired","*-fire-raw",
-    "*-black-fired","*-black-raw",
-    "*-brown-fired","*-brown-raw",
-    "*-cream-fired","*-cream-raw",
-    "*-gray-fired","*-gray-raw",
-    "*-orange-fired","*-orange-raw",
-    "*-red-fired","*-red-raw",
-    "*-tan-fired","*-tan-raw"
-  ]
-},
   "shapebytype": {
     "*-fired": { "base": "block/hive/ceramic/hivetop-empty" },
     "*-harvestable": { "base": "block/hive/ceramic/hivetop-harvestable" },

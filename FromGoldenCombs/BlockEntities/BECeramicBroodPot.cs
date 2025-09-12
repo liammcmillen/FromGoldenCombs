@@ -329,15 +329,12 @@ namespace FromGoldenCombs.BlockEntities
             if (conds == null) return;
             float threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + (roomness > 0 ? 5 : 0);
             float optimalTemp = (maxTemp + minTemp) / 2;
-            double distance = Math.Abs(conds.Temperature + (roomness > 0 ? 5 : 0) - optimalTemp); //The roomness is added to account for the presence of a greenhouse
+            double distance = Math.Abs(conds.Temperature + (roomness > 0 ? 5 : 0) - optimalTemp);
             double range = Math.Max(maxTemp - optimalTemp, optimalTemp - minTemp);
             float beeParticleModifier = 1f - (float)(distance / range);
             _activityLevel = GameMath.Clamp(beeParticleModifier, 0f, 1f);
 
             if (!isActiveHive) { cropcharges = 0; return; }
-            //Reset timers during winter - Vanilla Settings
-            //if (temp <= -10)
-            //Reset timers when temp drops below 15c - FGC Settings
 
 
             bool tempOutOfRange = false;
@@ -353,23 +350,13 @@ namespace FromGoldenCombs.BlockEntities
             {
                 handleCropCharges(worldTime);
             }
-            //TODO: Add cancellation process in the event that HivePop drops to zero.
-            //else if (HivePopSize == 0)
-            //{
-            //    cropcharges = 0;
-            //}
 
-            //If not cooling down
             if (worldTime > cooldownUntilTotalHours && hasEmptyHivetop && quantityNearbyFlowers>0)
             {
-                //If harvestableAtHours is not currently set, but the hivesize is greater than Poor
                 if (harvestableAtTotalHours == 0 && _hivePopSize > EnumHivePopSize.Poor)
                 {
                     harvestableAtTotalHours = worldTime + HarvestableTime(harvestBase);
                 }
-
-                //If harvestableAthours is reached, update inv[0] to harvestable honey pot,
-                //then reset harvestableAtHours, and begin cooldown stage
                 else if (worldTime > harvestableAtTotalHours && _hivePopSize > EnumHivePopSize.Poor)
                 {
                     inv[0].Itemstack = new ItemStack(Api.World.GetBlock(inv[0]?.Itemstack?.Collectible.CodeWithVariant("type", "harvestable")), 1);
@@ -434,7 +421,6 @@ namespace FromGoldenCombs.BlockEntities
                     Bees.LifeLength = 1f;
                     Bees.WithTerrainCollision = false;
                 }
-
                 // Go back to hive
                 else
                 {

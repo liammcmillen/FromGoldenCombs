@@ -9,7 +9,9 @@
 			"cap": { "base": "game:block/wood/debarked/{primary}" }
 	},
   "shape": { "base": "item/langstroth/beeframe-{harvestable}" },  
-  "creativeinventory": { "general": ["beeframe-*"] },
+  "creativeinventory": { 
+		"fromgoldencombs": ["beeframe-*"] 
+  },
   "attributes": {
         "handbook": {
         "groupBy": ["beeframe-*aaaaaaaaaaaa"],

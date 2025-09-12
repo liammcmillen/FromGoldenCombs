@@ -4,7 +4,9 @@
 		"textures": {
 		"primary": { "base": "fromgoldencombs:block/cloth/linen/waxedlinen" }
 	},
-	"creativeinventory": { "general": ["*"] },
+	"creativeinventory": { 
+		"fromgoldencombs": ["*"] 
+	},
 	"attributes": {
 		"handbook": {
 		"extraSections": [ { "title": "fromgoldencombs:item-handbooktitle-frameliner", 

@@ -12,7 +12,9 @@
             }]
         }
   },
-  "creativeinventory": { "general": ["langstrothbrood-empty-*-east"] },
+  "creativeinventory": { 
+		"fromgoldencombs": ["langstrothbrood-empty-*-east"] 
+  },
   "behaviors": [{
         "name": "HorizontalOrientable",
         "properties": { "dropBlockFace": "east" }

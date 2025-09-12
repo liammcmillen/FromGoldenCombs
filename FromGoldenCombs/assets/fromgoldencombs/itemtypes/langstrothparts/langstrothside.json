@@ -9,7 +9,7 @@
 	"textures": {
 		"primary": { "base": "game:block/wood/planks/{primary}1" }
 	},
-  "creativeinventory": { "general": ["langstrothside-*"] },
+  "creativeinventory": { "fromgoldencombs": ["langstrothside-*"] },
 	"attributes": {
     "handbook": {
       "groupBy": ["langstrothside-ebony"],

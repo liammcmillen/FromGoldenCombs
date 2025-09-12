@@ -5,7 +5,7 @@
 	 { "code": "primary", "states": ["aged"], "loadFromProperties": "block/wood" },
    { "code": "accent", "states": ["aged"], "loadFromProperties": "block/wood" }
 	],
-  "creativeinventory": { "general": ["langstrothbroodtop-*"] },
+  "creativeinventory": { "fromgoldencombs": ["langstrothbroodtop-*"] },
   "attributes": {
     "handbook": {
 			groupBy: ["langstrothbroodtop-*"],

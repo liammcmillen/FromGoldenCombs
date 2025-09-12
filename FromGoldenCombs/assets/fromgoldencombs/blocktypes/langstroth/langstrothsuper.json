@@ -7,7 +7,9 @@
   "maxstacksize": 1,
   "heldTpIdleAnimation": "holdbothhandslarge",
   "heldTpUseAnimation": "twohandplaceblock",
-  "creativeinventory": { "general": ["langstrothsuper-closed-*-east"] },
+  "creativeinventory": { 
+		"fromgoldencombs": ["langstrothsuper-closed-*-east"] 
+  },
   "attributes": {
         "handbook": {
         "groupBy": ["langstrothsuper-closed-*-east"],

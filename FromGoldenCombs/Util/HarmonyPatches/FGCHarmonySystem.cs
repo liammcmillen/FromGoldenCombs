@@ -67,11 +67,9 @@ namespace FromGoldenCombs.Util.HarmonyPatches
 
         public static bool GetAmbientSoundStrengthPrefix(Block __instance, IWorldAccessor world, BlockPos pos, ref float __result)
         {
-            if(__instance is not BlockSkep hive || __instance is not BlockBeehive wildHive)
-                return true;
-
+ 
             float soundVolume = 0f;
-            if (wildHive != null)
+            if (__instance is BlockBeehive wildHive)
             {
                 switch (FGCClientConfig.Current.wildHiveSoundVolume)
                 {
@@ -104,8 +102,9 @@ namespace FromGoldenCombs.Util.HarmonyPatches
                 }
                 soundVolume = Math.Max(soundVolume * skep.actvitiyLevel, 0.4f);
                 __result = soundVolume;
+                return false;
             }
-            return false;
+            return true;
         }
 
 
