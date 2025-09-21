@@ -2,7 +2,6 @@
 using Vintagestory.API.Server;
 using Vintagestory.API.MathTools;
 using HarmonyLib;
-using System.Text;
 using System;
 using Vintagestory.GameContent;
 using System.Reflection;

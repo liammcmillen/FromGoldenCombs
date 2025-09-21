@@ -1,4 +1,4 @@
-﻿using FromGoldenCombs.Util.config;
+﻿using FromGoldenCombs.Util.Config;
 using Newtonsoft.Json.Linq;
 using System;
 using Vintagestory.API.Common;

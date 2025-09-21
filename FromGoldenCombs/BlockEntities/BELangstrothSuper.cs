@@ -1,5 +1,4 @@
-﻿using FromGoldenCombs.Items;
-using System;
+﻿using System;
 using System.Text;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;

@@ -1,4 +1,4 @@
-﻿using FromGoldenCombs.Util.config;
+﻿using FromGoldenCombs.Util.Config;
 using System.Text;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;

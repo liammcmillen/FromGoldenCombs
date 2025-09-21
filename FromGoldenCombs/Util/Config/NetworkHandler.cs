@@ -1,10 +1,9 @@
 ﻿using ProtoBuf;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
-using Vintagestory.API.Config;
 using Vintagestory.API.Server;
 
-namespace FromGoldenCombs.Util.config
+namespace FromGoldenCombs.Util.Config
 {
     public class NetworkHandler
     {

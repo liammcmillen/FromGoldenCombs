@@ -1,4 +1,4 @@
-﻿using FromGoldenCombs.Util.config;
+﻿using FromGoldenCombs.Util.Config;
 using Vintagestory.API.Common;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;

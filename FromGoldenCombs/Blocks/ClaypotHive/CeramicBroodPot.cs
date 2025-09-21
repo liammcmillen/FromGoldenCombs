@@ -1,5 +1,5 @@
 ﻿using FromGoldenCombs.BlockEntities;
-using FromGoldenCombs.Util.config;
+using FromGoldenCombs.Util.Config;
 using FromGoldenCombs.Util.Config;
 using System;
 using System.Collections.Generic;

@@ -7,13 +7,9 @@ using VFromGoldenCombs.Blocks.Langstroth;
 using Vintagestory.API.Client;
 using Vintagestory.API.Server;
 using FromGoldenCombs.BlockBehaviors;
-using FromGoldenCombs.Util.config;
 using FromGoldenCombs.Util.Config;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
-using Vintagestory.Server;
-using System.ServiceModel.Dispatcher;
-
 namespace FromGoldenCombs
 {
     class FromGoldenCombs : ModSystem

@@ -1,7 +1,6 @@
 ﻿using FromGoldenCombs.BlockBehaviors;
 using FromGoldenCombs.Blocks;
 using FromGoldenCombs.Blocks.Langstroth;
-using FromGoldenCombs.Util.config;
 using FromGoldenCombs.Util.Config;
 using System;
 using System.Collections.Generic;

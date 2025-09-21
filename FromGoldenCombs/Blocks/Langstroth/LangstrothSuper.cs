@@ -1,6 +1,5 @@
 ﻿using FromGoldenCombs.BlockEntities;
 using FromGoldenCombs.Blocks.Langstroth;
-using FromGoldenCombs.Util.config;
 using System.Collections.Generic;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;

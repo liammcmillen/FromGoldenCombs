@@ -1,9 +1,8 @@
 ﻿using ProtoBuf;
-using System.Runtime.CompilerServices;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
 
-namespace FromGoldenCombs.Util.config
+namespace FromGoldenCombs.Util.Config
 {
     [ProtoContract()]
     class FGCServerConfig

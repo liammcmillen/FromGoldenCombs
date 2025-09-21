@@ -1,8 +1,6 @@
 ﻿using FromGoldenCombs.BlockEntities;
 using FromGoldenCombs.Blocks.Langstroth;
-using FromGoldenCombs.Util.Config;
 using Vintagestory.API.Common;
-using Vintagestory.API.MathTools;
 
 namespace FromGoldenCombs.Blocks
 {
