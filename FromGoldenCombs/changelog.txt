@@ -1,3 +1,6 @@
+1-21-1.9.4
+	- Fixed bug accidentally introduced while patching the Langstroth hive.  Oops.
+
 1-21-1.9.3
 	- Last minute patch to fix Langstroth incorrectly returning parts when no valid inventory slots were open.
 

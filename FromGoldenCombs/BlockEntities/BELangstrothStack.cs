@@ -676,26 +676,26 @@ namespace FromGoldenCombs.BlockEntities
             }
 
             //Check the rest of the hive for anything not a super.
-            return nonSupersPresent(topStack, bottomStack);
+            bool moreThanTwoNonSupers = nonSupersPresent(topStack);
+            return moreThanTwoNonSupers;
         }
 
-        private bool nonSupersPresent(BELangstrothStack topStack, BELangstrothStack bottomStack)
+        private bool nonSupersPresent(BELangstrothStack topStack)
         {
 
             BELangstrothStack curBE = topStack;
-            int downCount = 0;
             nonSupersInFullStack = 0;
 
             while (curBE is BELangstrothStack stack)
             {
                 foreach (ItemSlot index in curBE.Inventory)
                 {
-                    if (index.Itemstack?.Collectible is not LangstrothSuper)
+                    if (index.Itemstack?.Collectible != null && index.Itemstack?.Collectible is not LangstrothSuper)
                     {
                         nonSupersInFullStack++;
                     }
                 }
-                if (Api.World.BlockAccessor.GetBlockEntity(topStack.Pos.DownCopy()) is BELangstrothStack nextStack)
+                if (Api.World.BlockAccessor.GetBlockEntity(curBE.Pos.DownCopy(1)) is BELangstrothStack nextStack)
                 {
                     curBE = nextStack;
                 }
@@ -1070,7 +1070,7 @@ namespace FromGoldenCombs.BlockEntities
             {
                 bottomStack.GetBlockInfo(forPlayer, sb);
             }
-            else if (Pos == bottomStack.Pos)
+            else
             {
                 ClimateCondition conds2 = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues);
                 float todayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays)) + 0.66f).Temperature;
