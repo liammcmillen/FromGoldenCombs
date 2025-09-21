@@ -13,17 +13,6 @@
   "textures": {		
       "clay": { "base": "game:block/clay/blueclay" },
 	},
-  "combustibleProps": {
-    "meltingPoint": 650,
-    "meltingDuration": 45,
-    "smeltedRatio": 1,
-    "smeltingType": "fire",
-    "smeltedStack": {
-      "type": "block",
-      "code": "fromgoldencombs:ceramicbroodpot-notop"
-    },
-    "requiresContainer": false
-  },
   "lightAbsorption": 0,
   "sideopaque": { "all": false },
   "sidesolid": { "all": false },

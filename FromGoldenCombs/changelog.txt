@@ -1,3 +1,6 @@
+1-21-1.9.3
+	- Last minute patch to fix Langstroth incorrectly returning parts when no valid inventory slots were open.
+
 1.21-1.9.2
 	- Updated lang entries and creative inventory sorting to place FGC items in their own category.
 	- Increased output of waxed linen -> frame liners from 1 linen for 2 to 1 linen for four.
@@ -5,6 +8,14 @@
 		- Original recipe now produces 2 per resin
 		- Or .1l hot glue can be used to make 1 bee frame
 		- Glue is significantly superior to straight pitch for making frames
+	- Polished Langstroth Hives ability to accurately identify itself as a valid hive
+	- Addressed bug that resulted in an error being thrown when Langstroth was on a chiseled block
+	- Updated cs-cz lang file.
+	- Introduced Debugging Option that shows additional info when in Debug Mode.
+	- Confirmed pollination mode is incompatible with Wildfarming, no current into to resolve
+	- Remove Flora compatibility as those patches never quite worked properly anyway.
+	- Changed SmeltedStack from deprecated ceramicbroodpot-raw to fromgoldencombs:ceramicbroodpot-blue-notop for verCompliance.
+	- All FGC related items moved to their own Creative Tab
 
 1.21-1.9.2-rc.2
 	- Adjusted improper behaviors and outputs of clayforming recipes and their raw outputs.

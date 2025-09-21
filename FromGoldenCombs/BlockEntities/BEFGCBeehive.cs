@@ -348,15 +348,7 @@ namespace FromGoldenCombs.BlockEntities
                     {
                         string path = block.Code.Path;
                         BlockPos pos = new BlockPos(x, y, z, 0);
-                        if (path.StartsWithOrdinal("skep-empty"))
-                        {
-                            scanEmptySkeps.Add(pos);
-                        }
-                        else if (path.StartsWithOrdinal("skep-populated") || path.StartsWithOrdinal("wildbeehive"))
-                        {
-                            scanQuantityNearbyHives++;
-                        } 
-                        else if (block is LangstrothStack hive && Api.World.BlockAccessor.GetBlockEntity<BELangstrothStack>(pos).isHiveActive())
+                        if (block is LangstrothStack hive && Api.World.BlockAccessor.GetBlockEntity<BELangstrothStack>(pos).isHiveActive())
                         {
                             scanQuantityNearbyHives++;
                         }
@@ -364,6 +356,15 @@ namespace FromGoldenCombs.BlockEntities
                         {
                             scanQuantityNearbyHives++;
                         }
+                        if (!(block is BlockSkep) && !(block is BlockBeehive))
+                        {
+                            return;
+                        }
+                        else if (!block.Variant["type"].EqualsFast("empty"))
+                        {
+                            this.scanQuantityNearbyHives++;
+                        }
+                        return;
                     } 
                 }
             });

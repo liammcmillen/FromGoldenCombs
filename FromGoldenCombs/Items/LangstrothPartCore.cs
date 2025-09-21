@@ -20,11 +20,11 @@ namespace FromGoldenCombs.Items
             
             if (itemStack.Collectible.Variant["accent"] != null)
             {
-                return this.VariantStrict["primary"].ToString().UcFirst() + "-" + this.Variant["accent"].ToString().UcFirst() + " " + base.GetHeldItemName(itemStack).ToString();
+                return Lang.Get(this.VariantStrict["primary"].ToString().UcFirst()) + "-" + Lang.Get(this.Variant["accent"].ToString().UcFirst()) + " " + Lang.Get(base.GetHeldItemName(itemStack).ToString());
             }
             else
             {
-                return this.VariantStrict["primary"].ToString().UcFirst() + " " + base.GetHeldItemName(itemStack).ToString();
+                return Lang.Get(this.VariantStrict["primary"].ToString().UcFirst()) + " " + Lang.Get(base.GetHeldItemName(itemStack).ToString());
             }
 
         }

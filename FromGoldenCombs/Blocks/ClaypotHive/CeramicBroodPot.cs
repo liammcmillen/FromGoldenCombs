@@ -125,6 +125,16 @@ namespace FromGoldenCombs.Blocks
             world.BlockAccessor.SetBlock(0, pos);
         }
 
+        public override bool CanPlaceBlock(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel, ref string failureCode)
+        {
+            if (blockSel.Block is BlockFence && !FGCServerConfig.Current.canPlaceLangstrothOnFence)
+            {
+                failureCode = "requireattachable";
+                return false;
+            }
+            return base.CanPlaceBlock(world, byPlayer, blockSel, ref failureCode);
+        }
+
         public override WorldInteraction[] GetPlacedBlockInteractionHelp(IWorldAccessor world, BlockSelection selection, IPlayer forPlayer)
         {
             WorldInteraction[] wi = null;

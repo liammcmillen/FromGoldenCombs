@@ -51,7 +51,7 @@
     "smeltingType": "fire",
     "smeltedStack": {
       "type": "block",
-      "code": "fromgoldencombs:ceramicbroodpot-{color}-notop"
+      "code": "fromgoldencombs:ceramicbroodpot-blue-notop"
     },
     "requiresContainer": false
 		}

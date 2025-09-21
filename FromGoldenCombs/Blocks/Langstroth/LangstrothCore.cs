@@ -58,6 +58,16 @@ namespace FromGoldenCombs.Blocks.Langstroth
             return true;
         }
 
+        public override bool CanPlaceBlock(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel, ref string failureCode)
+        {
+            if (blockSel.Block is BlockFence && !FGCServerConfig.Current.canPlaceLangstrothOnFence)
+            {
+                failureCode = "requireattachable";
+                return false;
+            }
+            return base.CanPlaceBlock(world,byPlayer,blockSel, ref failureCode);
+        }
+
         public bool IsValidLangstroth(Block block)
         {
             if (block is LangstrothCore && !(block is LangstrothBrood))

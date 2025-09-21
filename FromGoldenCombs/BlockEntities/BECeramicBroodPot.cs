@@ -669,9 +669,10 @@ namespace FromGoldenCombs.BlockEntities
                 double worldTime = Api.World.Calendar.TotalHours;
                 int daysTillHarvest = (int)Math.Round((harvestableAtTotalHours - worldTime) / Api.World.Calendar.HoursPerDay);
                 daysTillHarvest = daysTillHarvest <= 0 ? 0 : daysTillHarvest;
-                string hiveState = Lang.Get("fromgoldencombs:nearbyflowers", quantityNearbyFlowers, Lang.Get(_hivePopSize.ToString()));
+                
+                if (quantityNearbyFlowers > 0) dsc.AppendLine(Lang.Get("fromgoldencombs:nearbyflowers", quantityNearbyFlowers, Lang.Get(("population-" + _hivePopSize.ToString()))));
 
-                dsc.AppendLine(hiveState);
+
                 if (temp < minTemp)
                 {
                     dsc.AppendLine(Lang.Get("fromgoldencombs:toocold"));
@@ -697,20 +698,29 @@ namespace FromGoldenCombs.BlockEntities
 
                     dsc.AppendLine(Lang.Get("fromgoldencombs:fullpot"));
                 }
-                else if (quantityNearbyFlowers <= 0 && !isOutTemp)
+                else if (quantityNearbyFlowers > 0 && !isOutTemp)
                 {
                     dsc.AppendLine(Lang.Get("fromgoldencombs:outgathering"));
+                }
+                else if (quantityNearbyFlowers <= 0 && !isOutTemp)
+                {
+                    dsc.AppendLine(Lang.Get("fromgoldencombs:findflowers"));
                 }
                 if (this.roomness > 0f)
                 {
                     dsc.AppendLine(Lang.Get("greenhousetempbonus", Array.Empty<object>()));
-
                 }
                 if (FGCServerConfig.Current.showExtraBeehiveInfo && (forPlayer.Entity.Controls.ShiftKey || FGCClientConfig.Current.alwaysShowExtraBeehiveInfo == true))
                 {
                     dsc.AppendLine(tempReport);
                     dsc.AppendLine(Lang.Get("fromgoldencombs:croprange") + " " + cropChargeRange);
                     dsc.AppendLine(Lang.Get("fromgoldencombs:cropcharges") + " " + cropcharges);
+                }
+                if (Api is ICoreClientAPI capi && capi.Settings.Bool.Get("extendedDebugInfo", false))
+                {
+                    dsc.AppendLine("Current Time: " + (int)Api.World.Calendar.TotalHours);
+                    dsc.AppendLine("coolDownUntilTotalHours: " + (int)cooldownUntilTotalHours);
+                    dsc.AppendLine("ScanInteration " + scanIteration);
                 }
             }            
         }

@@ -1,0 +1,97 @@
+{
+	"code": "plushy",
+	"storageFlags": 1,
+	"maxstacksize": 1,
+	"attributes": {
+    "handbook": {
+      "extraSections": [
+        {
+          "title": "fromgoldencombs:block-handbooktitle-plushy",
+          "text": "fromgoldencombs:block-handbooktext-plushy"
+        }
+      ]
+    }
+  },
+	"heldTpIdleAnimation": "holdbothhands",
+	"variantgroups": [
+		{"code": "type", "states": ["drifter","seraph","thunderlord"]}
+	],
+	shapeByType: {
+			"*-drifter": { base: "fromgoldencombs:block/sittingdrifter.json" },		
+			"*-seraph": { "base": "game:entity/humanoid/seraph.json"},
+			"*-thunderlord": {"base": "fromgoldencombs:block/tinydave.json"}
+	},
+	texturesByType: {
+			"*-drifter": {
+				"skin": { base: "game:entity/lore/drifter/surface1"},
+			}
+	},
+	sounds: {
+		place: "game:block/planks",
+		break: "game:block/planks",
+		hit: "game:block/planks"
+	},
+	"creativeinventory": { "fromgoldencombs": ["*"]},
+	"collisionboxes": [{
+				"x1": 0.25,
+				"y1": 0,
+				"z1": 0.25,
+				"x2": 0.75,
+				"y2": 0.0625,
+				"z2": 0.75
+			},
+			{
+				"x1": 0.3125,
+				"y1": 0.625,
+				"z1": 0.3125,
+				"x2": 0.6875,
+				"y2": 0.6875,
+				"z2": 0.6875
+			},
+			{
+				"x1": 0.3125,
+				"y1": 0.625,
+				"z1": 0.3125,
+				"x2": 0.6875,
+				"y2": 0.6875,
+				"z2": 0.6875
+			},
+			{
+				"x1": 0.25,
+				"y1": 0.5625,
+				"z1": 0.25,
+				"x2": 0.75,
+				"y2": 0.625,
+				"z2": 0.75
+			}
+		],
+	"selectionboxes": [{
+			"x1": 0.187,
+			"y1": 0.063,
+			"z1": 0.189,
+			"x2": 0.812,
+			"y2": 0.559,
+			"z2": 0.8115
+		}],
+	"lightAbsorption": 0,
+	"sideopaque": {
+		"all": false
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"blockmaterial": "Ceramic",
+	"groundTransform": {
+		"scale": 2.01
+	},
+		"tpHandTransform": {
+		translation: { x: -1.3, y: -0.8, z: -0.7 },
+		rotation: { x: -164, y: -22, z: -109 },
+		scale: 0.46
+	},
+		guiTransform: {
+		rotation: { x: -11, y: -23, z: 0 },
+		origin: { x: 0.5, y: 0.4, z: 0.5 },
+		scale: 1.4
+	}
+}

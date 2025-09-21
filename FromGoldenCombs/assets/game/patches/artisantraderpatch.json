@@ -633,7 +633,7 @@
     "op": "addmerge",
     "path": "/selling/list/-",
     "value":   {
-                "code": "fromgoldencombs:hivetop-talik",
+                "code": "fromgoldencombs:hivetop-talik-fired",
                 "type": "block",
                 "stacksize": 1,
                 "stock": {

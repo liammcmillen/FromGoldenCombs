@@ -1,15 +1,8 @@
 ﻿using FromGoldenCombs.Util.config;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Vintagestory.API.Client;
 using Vintagestory.API.Common;
-using Vintagestory.API.Config;
 using Vintagestory.API.Datastructures;
-using Vintagestory.API.MathTools;
 using Vintagestory.API.Util;
 using Vintagestory.GameContent;
 
@@ -26,7 +19,7 @@ namespace FromGoldenCombs.BlockBehaviors
             base.Initialize(properties);
             
             this._eventName = properties["eventname"].ToString();
-            this._beeChanceMultiplier = 1f + FGCServerConfig.Current.cropBoostPercentage;
+            this._beeChanceMultiplier = FGCServerConfig.Current.cropBoostPercentage;
         }
 
         public override void OnLoaded(ICoreAPI api)
@@ -54,7 +47,7 @@ namespace FromGoldenCombs.BlockBehaviors
 
             if (blockBehaviorHarvestable != null && secondsUsed > harvestTime && blockBehaviorHarvestable.harvestedStacks != null && world.Side == EnumAppSide.Server)
             {
-                float dropRate = 1f;
+                float dropRate = 0f;
                 JsonObject attributes = this.block.Attributes;
                 if (attributes != null && attributes.IsTrue("forageStatAffected"))
                 {
@@ -65,8 +58,8 @@ namespace FromGoldenCombs.BlockBehaviors
                     world.Api.Event.PushEvent(this._eventName, tree);
                     
                     if (useBeeBoost) {
-                        dropRate *= byPlayer.Entity.Stats.GetBlended("forageDropRate"); 
-                        dropRate *= _beeChanceMultiplier; 
+                        //dropRate *= byPlayer.Entity.Stats.GetBlended("forageDropRate"); 
+                        dropRate += _beeChanceMultiplier; 
                     }
                 }
                 if (useBeeBoost)
@@ -92,7 +85,7 @@ namespace FromGoldenCombs.BlockBehaviors
         }
 
         private string _eventName;
-        private float _beeChanceMultiplier = 1f;
+        private float _beeChanceMultiplier;
         public bool useBeeBoost = false;
     }
 }
