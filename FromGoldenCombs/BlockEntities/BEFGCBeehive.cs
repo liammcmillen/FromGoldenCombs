@@ -120,7 +120,7 @@ namespace FromGoldenCombs.BlockEntities
 
             double distance = Math.Sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
 
-            if (this.Block.Variant["type"].ToString() == "populated" && hivePopSize != EnumHivePopSize.Poor)
+            if (this.Block.Variant["type"].ToString() == "populated" && hivePopSize != EnumHivePopSize.Poor && Api.Side.IsServer())
             {
                 if (eventName == "cropbreak")
                 {

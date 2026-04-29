@@ -90,6 +90,7 @@ namespace FromGoldenCombs.BlockEntities
                 ICoreClientAPI capi = api as ICoreClientAPI;
                 RegisterGameTickListener(SpawnBeeParticles, 300);
             }
+
             
             harvestBase = (float)((FGCServerConfig.Current.LangstrothDaysToHarvestIn30DayMonths * ((float)Api.World.Calendar.DaysPerMonth / 30f)) * Api.World.Calendar.HoursPerDay);
 
@@ -124,13 +125,14 @@ namespace FromGoldenCombs.BlockEntities
 
         public void OnPollinationNearby(string eventName, BlockPos cropPos, ref EnumHandling handling, IAttribute data)
         {
+            if (Api.Side.IsClient()) return;
             TreeAttribute tdata = data as TreeAttribute;
             int deltaX = cropPos.X - Pos.X;
             int deltaY = cropPos.Y - Pos.Y;
             int deltaZ = cropPos.Z - Pos.Z;
             double distance = Math.Sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
 
-            if (isHiveActive() && _hivePopSize != EnumHivePopSize.Poor)
+            if (isHiveActive() && _hivePopSize != EnumHivePopSize.Poor && Api.Side.IsServer())
             {
                 if (eventName == "cropbreak")
                 {
@@ -150,7 +152,7 @@ namespace FromGoldenCombs.BlockEntities
         private void manageCropBoost(BlockPos cropPos, double distance, ref EnumHandling handling)
         {
             
-            if (cropcharges >= 1 && Api.World.BlockAccessor.GetBlock(cropPos).HasBehavior<PushEventOnCropBreakBehavior>() && distance < cropChargeRange)
+            if (cropcharges >= 1 && Api.World.BlockAccessor.GetBlock(cropPos).HasBehavior<PushEventOnCropBreakBehavior>() && distance < FGCServerConfig.Current.langstrothCropRange)
             {
 
                 if (Api.World.BlockAccessor.GetBlock(cropPos) is BlockCrop crop && Api.World.BlockAccessor.GetBlockEntity(cropPos.DownCopy()) is BlockEntityFarmland farmland)
@@ -180,7 +182,7 @@ namespace FromGoldenCombs.BlockEntities
 
         private void manageBerryBoost(BlockPos bushPos, double distance, ref EnumHandling handling)
         {
-            if (cropcharges >= 1 && Api.World.BlockAccessor.GetBlock(bushPos).HasBehavior<PushEventOnBlockHarvested>() && distance < cropChargeRange)
+            if (cropcharges >= 1 && Api.World.BlockAccessor.GetBlock(bushPos).HasBehavior<PushEventOnBlockHarvested>() && distance < FGCServerConfig.Current.langstrothCropRange)
             {
                 PushEventOnBlockHarvested eventBehavior = Api.World.BlockAccessor.GetBlock(bushPos).GetBehavior<PushEventOnBlockHarvested>();
                 eventBehavior.useBeeBoost = true;
@@ -194,7 +196,7 @@ namespace FromGoldenCombs.BlockEntities
         private void manageFruitBoost(BlockPos fruitFoliagePos, double distance, ref EnumHandling handling)
         {
 
-            if (cropcharges >= 1 && Api.World.BlockAccessor.GetBlockEntity(fruitFoliagePos) is BlockEntityFruitTreePart beFTP && distance < cropChargeRange)
+            if (cropcharges >= 1 && Api.World.BlockAccessor.GetBlockEntity(fruitFoliagePos) is BlockEntityFruitTreePart beFTP && distance < FGCServerConfig.Current.langstrothCropRange)
             {
                 BlockPos pos = this.Pos;
                 AssetLocation loc = AssetLocation.Create(beFTP.Block.Attributes["branchBlock"].AsString(null), beFTP.Block.Code.Domain);
@@ -1048,6 +1050,7 @@ namespace FromGoldenCombs.BlockEntities
             if (_isActiveHive && worldForResolving.Api.Side.IsServer())
             {
                 worldForResolving.Api.ModLoader.GetModSystem<FromGoldenCombs>().OnPollination += OnPollinationNearby;
+                
             }
             scanQuantityNearbyFlowers = tree.GetInt("scanQuantityNearbyFlowers");
             scanQuantityNearbyHives = tree.GetInt("scanQuantityNearbyHives");

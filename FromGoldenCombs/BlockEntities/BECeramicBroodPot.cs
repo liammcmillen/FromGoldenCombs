@@ -511,6 +511,7 @@ namespace FromGoldenCombs.BlockEntities
         #region Pollination Code
         public void OnPollinationNearby(string eventName, BlockPos cropPos, ref EnumHandling handling, IAttribute data)
         {
+            if (Api.Side.IsClient()) return;
             TreeAttribute tdata = data as TreeAttribute;
             int deltaX = cropPos.X - Pos.X;
             int deltaY = cropPos.Y - Pos.Y;
@@ -518,7 +519,7 @@ namespace FromGoldenCombs.BlockEntities
 
             double distance = Math.Sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
 
-            if (isActiveHive && _hivePopSize != EnumHivePopSize.Poor)
+            if (isActiveHive && _hivePopSize != EnumHivePopSize.Poor && Api.Side.IsServer())
             {
                 if (eventName == "cropbreak")
                 {
@@ -552,7 +553,6 @@ namespace FromGoldenCombs.BlockEntities
 
                     handling = EnumHandling.PreventSubsequent;
                 }
-                string strin2g = (Api.World.BlockAccessor.GetBlockEntity(this.Pos))?.ToString();
                 MarkDirty();
             }
         }

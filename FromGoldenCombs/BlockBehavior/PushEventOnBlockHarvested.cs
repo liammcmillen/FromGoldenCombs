@@ -17,7 +17,6 @@ namespace FromGoldenCombs.BlockBehaviors
         public override void Initialize(JsonObject properties)
         {
             base.Initialize(properties);
-            
             this._eventName = properties["eventname"].ToString();
             this._beeChanceMultiplier = FGCServerConfig.Current.cropBoostPercentage;
         }
@@ -39,13 +38,15 @@ namespace FromGoldenCombs.BlockBehaviors
         
         public override void OnBlockInteractStop(float secondsUsed, IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel, ref EnumHandling handled)
         {
+            if (world.Side.IsClient()) return;
             handled = EnumHandling.Handled;
             BlockBehaviorHarvestable blockBehaviorHarvestable = this.block.GetBehavior<BlockBehaviorHarvestable>();
             String properties2 = blockBehaviorHarvestable.propertiesAtString;
             JObject jsonProperties2 = JObject.Parse(properties2);
             float harvestTime = jsonProperties2["harvestTime"].ToObject<float>();
 
-            if (blockBehaviorHarvestable != null && secondsUsed > harvestTime && blockBehaviorHarvestable.harvestedStacks != null && world.Side == EnumAppSide.Server)
+            if (blockBehaviorHarvestable != null && secondsUsed > harvestTime 
+                && blockBehaviorHarvestable.harvestedStacks != null && world.Side == EnumAppSide.Server)
             {
                 float dropRate = 0f;
                 JsonObject attributes = this.block.Attributes;
@@ -58,7 +59,6 @@ namespace FromGoldenCombs.BlockBehaviors
                     world.Api.Event.PushEvent(this._eventName, tree);
                     
                     if (useBeeBoost) {
-                        //dropRate *= byPlayer.Entity.Stats.GetBlended("forageDropRate"); 
                         dropRate += _beeChanceMultiplier; 
                     }
                 }

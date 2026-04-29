@@ -28,6 +28,7 @@ namespace FromGoldenCombs.BlockBehaviors
 
         public override void OnBlockBroken(IWorldAccessor world, BlockPos pos, IPlayer byPlayer, ref EnumHandling handling)
         {
+            if (world.Side.IsClient()) return;
             if (byPlayer != null)
             {
                 TreeAttribute tree = new TreeAttribute();

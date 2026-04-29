@@ -14,7 +14,7 @@
   },
   "attributes": {
         "handbook": {
-        "groupBy": ["beeframe-*aaaaaaaaaaaa"],
+        "groupBy": ["beeframe-*"],
         "extraSectionsByType": {
           "*-empty": [ { "title": "fromgoldencombs:item-handbooktitle-emptybeeframe", "text": "fromgoldencombs:item-handbooktext-emptybeeframe" } ],
           "*-lined": [ { "title": "fromgoldencombs:item-handbooktitle-linedbeeframe", "text": "fromgoldencombs:item-handbooktext-linedbeeframe" } ],
