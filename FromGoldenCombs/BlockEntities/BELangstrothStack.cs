@@ -46,7 +46,7 @@ namespace FromGoldenCombs.BlockEntities
         int maxCropCharges = FGCServerConfig.Current.langstrothMaxCropCharges;
         int cropChargeRange = FGCServerConfig.Current.langstrothCropRange;
         int nonSupersInFullStack = 0;
-
+        //Test
 
         public EnumHivePopSize HivePopSize { 
             get{
