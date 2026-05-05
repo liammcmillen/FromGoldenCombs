@@ -8,9 +8,9 @@
     },
     "SP_Launch": {
       "commandName": "Executable",
-      "executablePath": "C:\\Users\\vinte\\AppData\\Roaming\\Vintagestory\\1.21\\vintagestory.exe",
+      "executablePath": "C:\\Users\\vinte\\AppData\\Roaming\\Vintagestory\\1.22\\vintagestory.exe",
       "commandLineArgs": "--dataPath=\"C:\\Users\\vinte\\AppData\\Roaming\\VintagestoryData_Modding\"\r\n--addModPath=\"C:\\Users\\vinte\\source\\repos\\FromGoldenCombs\\FromGoldenCombs\\bin\\Debug\"  \r\n--addOrigin=\"C:\\Users\\vinte\\source\\repos\\FromGoldenCombs\\FromGoldenCombs\\assets\"",
-      "workingDirectory": "C:\\Users\\vinte\\AppData\\Roaming\\Vintagestory\\1.21"
+      "workingDirectory": "C:\\Users\\vinte\\AppData\\Roaming\\Vintagestory\\1.22"
     }
   }
 }

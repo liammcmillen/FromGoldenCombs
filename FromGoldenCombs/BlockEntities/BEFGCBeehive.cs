@@ -109,6 +109,8 @@ namespace FromGoldenCombs.BlockEntities
                 Api.ModLoader.GetModSystem<FromGoldenCombs>().OnPollination += OnPollinationNearby;
                 api.ModLoader.GetModSystem<POIRegistry>(true).AddPOI(this);
             }
+
+            harvestBase = (FGCServerConfig.Current.SkepDaysToHarvestIn30DayMonths * (Api.World.Calendar.DaysPerMonth / 30f)) * api.World.Calendar.HoursPerDay;
         }
 
         public void OnPollinationNearby(string eventName, BlockPos cropPos, ref EnumHandling handling, IAttribute data)

@@ -168,7 +168,7 @@ namespace FromGoldenCombs.BlockEntities
                 ItemStack stack = inv[index].TakeOut(1);
                 if (byPlayer.InventoryManager.TryGiveItemstack(stack))
                 {
-                    AssetLocation sound = stack.Block?.Sounds?.Place;
+                    AssetLocation sound = stack.Block?.Sounds?.Place.Location;
                     Api.World.PlaySoundAt(sound ?? new AssetLocation("sounds/player/build"), byPlayer.Entity, byPlayer, true, 16);
                 }
 
@@ -209,17 +209,18 @@ namespace FromGoldenCombs.BlockEntities
             return translation;
         }
 
-        protected override MeshData getOrCreateMesh(ItemStack stack, int index)
+        protected override MeshData getOrCreateMesh(ItemSlot slot, int index)
         {
-            MeshData mesh = this.getMesh(stack);
+            MeshData mesh = this.getMesh(slot);
+            ItemStack stack = slot.Itemstack;
             if (mesh != null)
             {
                 return mesh;
             }
-            IContainedMeshSource meshSource = stack.Collectible as IContainedMeshSource;
+            IContainedMeshSource meshSource = slot.Itemstack.Collectible as IContainedMeshSource;
             if (meshSource != null)
             {
-                mesh = meshSource.GenMesh(stack, this.capi.BlockTextureAtlas, this.Pos);
+                mesh = meshSource.GenMesh(slot, this.capi.BlockTextureAtlas, this.Pos);
                 mesh.Rotate(new Vec3f(0.5f, 0.5f, 0.5f), 0f, base.Block.Shape.rotateY * 0.017453292f, 0f);
             }
             else
@@ -256,7 +257,7 @@ namespace FromGoldenCombs.BlockEntities
                 mesh.Scale(new Vec3f(0.5f, 0.5f, 0.5f), 0.33f, 0.33f, 0.33f);
                 mesh.Translate(getTranslation(block,index));
             }
-            string key = this.getMeshCacheKey(stack);
+            string key = this.getMeshCacheKey(slot);
             this.MeshCache[key] = mesh;
             return mesh;
         }
