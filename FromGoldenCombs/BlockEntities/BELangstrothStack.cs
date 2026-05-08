@@ -47,7 +47,17 @@ namespace FromGoldenCombs.BlockEntities
         int maxCropCharges = FGCServerConfig.Current.langstrothMaxCropCharges;
         int cropChargeRange = FGCServerConfig.Current.langstrothCropRange;
         int nonSupersInFullStack = 0;
-        //Test
+        BELangstrothStack bottomStack;
+        float todayNoonTemp;
+        float yesterdayNoonTemp;
+        float twoDayAgoNoonTemp;
+        float threeDayTemp;
+        ClimateCondition conds;
+        int daysTillHarvest;
+        double worldTime;
+        float minTemp = FGCServerConfig.Current.LangstrothHiveMinTemp;
+        float maxTemp = FGCServerConfig.Current.LangstrothHiveMaxTemp == 0 ? 37f : FGCServerConfig.Current.LangstrothHiveMaxTemp;
+        float optimalTemp;
 
         public EnumHivePopSize HivePopSize { 
             get{
@@ -91,11 +101,22 @@ namespace FromGoldenCombs.BlockEntities
                 ICoreClientAPI capi = api as ICoreClientAPI;
                 RegisterGameTickListener(SpawnBeeParticles, 300);
             }
-
-            
-            harvestBase = (float)((FGCServerConfig.Current.LangstrothDaysToHarvestIn30DayMonths * ((float)Api.World.Calendar.DaysPerMonth / 30f)) * Api.World.Calendar.HoursPerDay);
-
+            UpdateClimateValues(api);
             InitializeShapesForAnimation(api);
+        }
+
+        private void UpdateClimateValues(ICoreAPI api)
+        {
+            worldTime = api.World.Calendar.TotalHours;
+            bottomStack = GetBottomStack();
+            bottomStack.harvestBase = (float)((FGCServerConfig.Current.LangstrothDaysToHarvestIn30DayMonths * ((float)Api.World.Calendar.DaysPerMonth / 30f)) * Api.World.Calendar.HoursPerDay);
+            bottomStack.todayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays)) + 0.66f).Temperature;
+            bottomStack.yesterdayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 1)) + 0.66f).Temperature;
+            bottomStack.twoDayAgoNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 2)) + 0.66f).Temperature;
+            bottomStack.threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + (roomness > 0 ? 5 : 0);
+            conds = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues);
+            daysTillHarvest = (int)Math.Round((bottomStack.harvestableAtTotalHours - worldTime) / 24);
+            optimalTemp = (maxTemp + minTemp) / 2;
         }
 
         private void InitializeShapesForAnimation(ICoreAPI api)
@@ -152,9 +173,6 @@ namespace FromGoldenCombs.BlockEntities
 
         private void manageCropBoost(BlockPos cropPos, double distance, ref EnumHandling handling)
         {
-
-
-
 
             if (cropcharges < 1 || Api?.World == null || distance >= cropChargeRange) return;
 
@@ -260,7 +278,7 @@ namespace FromGoldenCombs.BlockEntities
             ItemSlot slot = byPlayer.InventoryManager.ActiveHotbarSlot;
             CollectibleObject colObj = slot.Itemstack?.Collectible;
             bool isLangstroth = colObj is LangstrothCore;
-            BELangstrothStack bottomStack = GetBottomStack();
+            UpdateClimateValues(Api);
             if (Api.Side == EnumAppSide.Server)
             {
                 Api.ModLoader.GetModSystem<FromGoldenCombs>().OnPollination -= OnPollinationNearby;
@@ -271,7 +289,6 @@ namespace FromGoldenCombs.BlockEntities
                                        //if there are multiple stacks on top of each other.
                                        //Or from the topmost occupied slot of this stack.
                 {
-
                     if (Api.World.BlockAccessor.GetBlock(bottomStack.Pos, 0) is LangstrothStack)
                     {
                         //Get Current Hive Activity
@@ -374,7 +391,6 @@ namespace FromGoldenCombs.BlockEntities
         {
 
             BELangstrothStack topStack = GetTopStack();
-            BELangstrothStack bottomStack = GetBottomStack();
             BELangstrothStack curBE = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(topStack.Pos);
             bottomStack.totalFrames = 0;
             bottomStack.linedFrames = 0;
@@ -552,7 +568,6 @@ namespace FromGoldenCombs.BlockEntities
 
         private void UpdateBroodBox(ItemSlot slot)
         {
-            BELangstrothStack bottomstack = GetBottomStack();
             if (IsLangstrothAt(Pos.UpCopy()))
             {
                 (Api.World.BlockAccessor.GetBlockEntity(Pos.UpCopy()) as BELangstrothStack).UpdateBroodBox(slot);
@@ -568,8 +583,8 @@ namespace FromGoldenCombs.BlockEntities
             {
                 slot.Itemstack = null;
                 inv[index].Itemstack = new ItemStack(Api.World.BlockAccessor.GetBlock(Brood.CodeWithVariant("populated", "populated")));
-                bottomstack._isActiveHive = bottomstack.IsValidHive();
-                bottomstack.ResetHive();
+                bottomStack._isActiveHive = bottomStack.IsValidHive();
+                bottomStack.ResetHive();
             };
 
         }
@@ -643,24 +658,14 @@ namespace FromGoldenCombs.BlockEntities
             return aboveBlockName is LangstrothCore;
         }
 
-        //Identify if the block at the given BlockPos is a LangstrothStack
-        private bool IsLangstrothStackAt(BlockPos pos)
-        {
-            if (IsLangstrothAt(pos) && Api.World.BlockAccessor.GetBlock(pos, 0) is LangstrothStack)
-                return true;
-
-            return false;
-        }
-
         public void UpdateOnNeighborBreak()
         {
-            GetBottomStack()._isActiveHive = IsValidHive();
+            bottomStack._isActiveHive = IsValidHive();
         }
 
         private bool IsValidHive()
         {
             BELangstrothStack topStack = GetTopStack();
-            BELangstrothStack bottomStack = GetBottomStack();
 
            //Check bottomStack's bottom index for a LangstrothBase
             if (!(bottomStack.inv[0].Itemstack?.Block is LangstrothBase)) {
@@ -797,7 +802,7 @@ namespace FromGoldenCombs.BlockEntities
 
         private void SpawnBeeParticles(float dt)
         {
-            if (_isActiveHive && Pos == GetBottomStack().Pos)
+            if (_isActiveHive && Pos == bottomStack.Pos)
             {
                 float dayLightStrength = Api.World.Calendar.GetDayLightStrength(Pos.X, Pos.Z);
                 if (Api.World.Rand.NextDouble() > 2 * dayLightStrength - 0.5) return;
@@ -837,7 +842,6 @@ namespace FromGoldenCombs.BlockEntities
 
         public void ResetHive()
         {
-            BELangstrothStack bottomStack = GetBottomStack();
             bottomStack.harvestableAtTotalHours = 0;
             bottomStack.quantityNearbyFlowers = 0;
             bottomStack._hivePopSize = 0;
@@ -845,23 +849,16 @@ namespace FromGoldenCombs.BlockEntities
 
         private void TestHarvestable(float dt)
         {
-            
-            float minTemp = FGCServerConfig.Current.LangstrothHiveMinTemp;
-            float maxTemp = FGCServerConfig.Current.LangstrothHiveMaxTemp == 0 ? 37f : FGCServerConfig.Current.LangstrothHiveMaxTemp;
-            BELangstrothStack bottomStack = GetBottomStack();
+            UpdateClimateValues(Api);
+            bottomStack = GetBottomStack();
             bottomStack.CountFrames();
             if (_isActiveHive && (Pos == bottomStack.Pos))
             {
 
                 double worldTime = Api.World.Calendar.TotalHours;
-                ClimateCondition conds = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues);
-                float todayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays)) + 0.66f).Temperature;
-                float yesterdayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 1)) + 0.66f).Temperature;
-                float twoDayAgoNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 2)) + 0.66f).Temperature;
+                
                 if (conds == null) return;
 
-                float threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + (roomness > 0 ? 5 : 0);
-                float optimalTemp = (maxTemp + minTemp) / 2;
                 double distance = Math.Abs((conds.Temperature + (roomness > 0 ? 5 : 0)) - optimalTemp); //The roomness is added to account for the presence of a greenhouse
                 double range = Math.Max(maxTemp - optimalTemp, optimalTemp - minTemp);
                 float beeParticleModifier = 1f - (float)(distance / range);
@@ -977,7 +974,7 @@ namespace FromGoldenCombs.BlockEntities
                     }
                     else if (block.Code.FirstCodePart() == "langstrothstack" && curBE is BELangstrothStack langstroth)
                     {
-                        if (langstroth.GetBottomStack().Pos == curPos
+                        if (bottomStack.Pos == curPos
                         && langstroth.isHiveActive())
                             scanQuantityNearbyHives++;
                     }
@@ -1033,7 +1030,14 @@ namespace FromGoldenCombs.BlockEntities
             tree.SetDouble("cropChargeAtTotalHours", cropChargeAtTotalHours);
             tree.SetInt("cropCharges", cropcharges);
             tree.SetInt("maxCropCharges", maxCropCharges);
-            
+            tree.SetFloat("todayNoonTemp", todayNoonTemp);
+            tree.SetFloat("twoDayAgoNoonTemp", twoDayAgoNoonTemp);
+            tree.SetFloat("threeDayTemp", threeDayTemp);
+            tree.SetInt("daysTillHarvest", daysTillHarvest);
+            tree.SetDouble("worldTime", worldTime);
+            tree.SetFloat("minTemp", minTemp);
+            tree.SetFloat("maxTemp", maxTemp);
+            tree.SetFloat("optimalTemp", optimalTemp);
         }
 
         public override void FromTreeAttributes(ITreeAttribute tree, IWorldAccessor worldForResolving)
@@ -1061,13 +1065,19 @@ namespace FromGoldenCombs.BlockEntities
             cropChargeAtTotalHours = tree.GetDouble("cropChargeAtTotalHours");
             cropcharges = tree.GetInt("cropCharges");
             maxCropCharges = tree.GetInt("maxCropCharges");
-            
+            todayNoonTemp = tree.GetFloat("todayNoonTemp");
+            twoDayAgoNoonTemp = tree.GetFloat("todayNoonTemp");
+            threeDayTemp = tree.GetFloat("threeDayTemp");
+            daysTillHarvest = tree.GetInt("daysTillHarvest");
+            worldTime = tree.GetDouble("worldTime");
+            minTemp = tree.GetFloat("minTemp");
+            maxTemp = tree.GetFloat("maxTemp");
+            optimalTemp = tree.GetFloat("optimalTemp");
+
             updateMeshes();
         }
         public override void GetBlockInfo(IPlayer forPlayer, StringBuilder sb)
         {
-            ClimateCondition conds = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues);
-            BELangstrothStack bottomStack = GetBottomStack();
             float minTemp = FGCServerConfig.Current.LangstrothHiveMinTemp;
             float maxTemp = FGCServerConfig.Current.LangstrothHiveMaxTemp == 0 ? 37f : FGCServerConfig.Current.LangstrothHiveMaxTemp;
 
@@ -1077,16 +1087,8 @@ namespace FromGoldenCombs.BlockEntities
             }
             else
             {
-                ClimateCondition conds2 = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues);
-                float todayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays)) + 0.66f).Temperature;
-                float yesterdayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 1)) + 0.66f).Temperature;
-                float twoDayAgoNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 2)) + 0.66f).Temperature;
-                float threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + (roomness > 0 ? 5 : 0);
-
                 string tempReport = Lang.Get("fromgoldencombs:3DayTemp") + " " + (threeDayTemp > maxTemp ? Lang.Get("fromgoldencombs:3DayTooHot") : threeDayTemp < minTemp ? Lang.Get("fromgoldencombs:3DayTooCold") : Lang.Get("fromgoldencombs:3DayPerfect"));
 
-                double worldTime = Api.World.Calendar.TotalHours;
-                int daysTillHarvest = (int)Math.Round((bottomStack.harvestableAtTotalHours - worldTime) / 24);
                 daysTillHarvest = daysTillHarvest <= 0 ? 0 : daysTillHarvest;
                 
 
