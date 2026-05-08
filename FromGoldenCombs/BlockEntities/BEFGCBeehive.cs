@@ -144,18 +144,12 @@ namespace FromGoldenCombs.BlockEntities
             if (!Api.Side.IsServer()) return;
             if (cropcharges < 1 || Api?.World == null || distance >= cropChargeRange) return;
 
-
-
-
             Block cropBlock = Api.World.BlockAccessor.GetBlock(cropPos);
             if (cropBlock == null) return;
             if (!cropBlock.HasBehavior<PushEventOnCropBreakBehavior>()) return;
 
-
-
             PushEventOnCropBreakBehavior behavior = cropBlock.GetBehavior<PushEventOnCropBreakBehavior>();
             if (behavior?.validCropStages == null) return;
-
 
             if (cropBlock is not BlockCrop crop) return;
             if (Api.World.BlockAccessor.GetBlockEntity(cropPos.DownCopy()) is not BlockEntityFarmland) return;
@@ -457,7 +451,6 @@ namespace FromGoldenCombs.BlockEntities
 
             // factor = Clamped(livinghives / Math.Sqrt(flowers - 3 * livinghives - 3), 1, 1000)
             // After spreading: 4 extra days cooldown
-
             float swarmability = GameMath.Clamp(quantityNearbyFlowers - FGCServerConfig.Current.minFlowersPerHive - FGCServerConfig.Current.minFlowersPerHive * quantityNearbyHives, 0, 20) / 5f;
             // We want to translate the swarmability value 0..4
             // into swarm days 12..0
