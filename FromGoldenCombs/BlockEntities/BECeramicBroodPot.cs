@@ -41,6 +41,8 @@ namespace FromGoldenCombs.BlockEntities
         float harvestBase;
         EnumHivePopSize _hivePopSize;
 
+        BECeramicBroodPot broodPot;
+
 
         //TestHarvestableTest 
 
@@ -59,6 +61,7 @@ namespace FromGoldenCombs.BlockEntities
         float threeDayTemp;
         string tempReport;
         bool isOutTemp;
+        int daysTillHarvest;
 
 
         //TODO: Implement Config Option To Set AllowUndergroundApiculture.
@@ -129,6 +132,20 @@ namespace FromGoldenCombs.BlockEntities
             }
             
             harvestBase = (FGCServerConfig.Current.ClayPotDaysToHarvestIn30DayMonths * (Api.World.Calendar.DaysPerMonth/ 30f)) * api.World.Calendar.HoursPerDay;
+            UpdateClimateValues(Api);
+        }
+
+        private void UpdateClimateValues(ICoreAPI api)
+        {
+            worldTime = api.World.Calendar.TotalHours;
+            broodPot.harvestBase = (float)((FGCServerConfig.Current.LangstrothDaysToHarvestIn30DayMonths * ((float)Api.World.Calendar.DaysPerMonth / 30f)) * Api.World.Calendar.HoursPerDay);
+            broodPot.todayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays)) + 0.66f).Temperature;
+            broodPot.yesterdayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 1)) + 0.66f).Temperature;
+            broodPot.twoDayAgoNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 2)) + 0.66f).Temperature;
+            broodPot.threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + (roomness > 0 ? 5 : 0);
+            conds = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues);
+            daysTillHarvest = (int)Math.Round((broodPot.harvestableAtTotalHours - worldTime) / 24);
+            optimalTemp = (maxTemp + minTemp) / 2;
         }
 
         public override void OnBlockPlaced(ItemStack byItemStack = null)
@@ -154,6 +171,7 @@ namespace FromGoldenCombs.BlockEntities
         {
             Block hive = Api.World.BlockAccessor.GetBlock(Pos, 0);
             ItemSlot slot = byPlayer.InventoryManager.ActiveHotbarSlot;
+            UpdateClimateValues(Api);
             if (slot.Empty)
             {
                 if (TryTake(byPlayer))
@@ -329,7 +347,8 @@ namespace FromGoldenCombs.BlockEntities
 
         public void TestHarvestable(float dt)
         {
-                       if (this.Block.Code == "fromgoldencombs:ceramicbroodpot-withtop" || this.Block.Code == "fromgoldencombs:ceramicbroodpot-notop")
+            UpdateClimateValues(Api);
+            if (this.Block.Code == "fromgoldencombs:ceramicbroodpot-withtop" || this.Block.Code == "fromgoldencombs:ceramicbroodpot-notop")
             {
                 if (Api.Side.IsServer())
                 {
@@ -685,6 +704,22 @@ namespace FromGoldenCombs.BlockEntities
             tree.SetDouble("cropChargeAtTotalHours", cropChargeAtTotalHours);
             tree.SetInt("maxCropCharges", maxCropCharges);
             tree.SetInt("cropcharges", cropcharges);
+
+            tree.SetDouble("cooldownUntilTotalHours", cooldownUntilTotalHours);
+            tree.SetDouble("harvestableAtTotalHours", harvestableAtTotalHours);
+            tree.SetInt("hiveHealth", (int)_hivePopSize);
+            tree.SetFloat("roomness", roomness);
+            tree.SetDouble("cropChargeAtTotalHours", cropChargeAtTotalHours);
+            tree.SetInt("cropCharges", cropcharges);
+            tree.SetInt("maxCropCharges", maxCropCharges);
+            tree.SetFloat("todayNoonTemp", todayNoonTemp);
+            tree.SetFloat("twoDayAgoNoonTemp", twoDayAgoNoonTemp);
+            tree.SetFloat("threeDayTemp", threeDayTemp);
+            tree.SetInt("daysTillHarvest", daysTillHarvest);
+            tree.SetDouble("worldTime", worldTime);
+            tree.SetFloat("minTemp", minTemp);
+            tree.SetFloat("maxTemp", maxTemp);
+            tree.SetFloat("optimalTemp", optimalTemp);
         }
 
         public override void FromTreeAttributes(ITreeAttribute tree, IWorldAccessor worldForResolving)
@@ -711,6 +746,24 @@ namespace FromGoldenCombs.BlockEntities
             maxCropCharges = tree.GetInt("maxCropCharges");
             cropcharges = tree.GetInt("cropcharges");
 
+            scanQuantityNearbyFlowers = tree.GetInt("scanQuantityNearbyFlowers");
+            scanQuantityNearbyHives = tree.GetInt("scanQuantityNearbyHives");
+            cooldownUntilTotalHours = tree.GetDouble("cooldownUntilTotalHours");
+            harvestableAtTotalHours = tree.GetDouble("harvestableAtTotalHours");
+            _hivePopSize = (EnumHivePopSize)tree.GetInt("hiveHealth");
+            roomness = tree.GetFloat("roomness");
+            cropChargeAtTotalHours = tree.GetDouble("cropChargeAtTotalHours");
+            cropcharges = tree.GetInt("cropCharges");
+            maxCropCharges = tree.GetInt("maxCropCharges");
+            todayNoonTemp = tree.GetFloat("todayNoonTemp");
+            twoDayAgoNoonTemp = tree.GetFloat("twoDayAgoNoonTemp");
+            threeDayTemp = tree.GetFloat("threeDayTemp");
+            daysTillHarvest = tree.GetInt("daysTillHarvest");
+            worldTime = tree.GetDouble("worldTime");
+            minTemp = tree.GetFloat("minTemp");
+            maxTemp = tree.GetFloat("maxTemp");
+            optimalTemp = tree.GetFloat("optimalTemp");
+
             updateMeshes();
 
         }
@@ -727,7 +780,6 @@ namespace FromGoldenCombs.BlockEntities
                 if (isActiveHive)
                 {
                     double worldTime = Api.World.Calendar.TotalHours;
-                    int daysTillHarvest = (int)Math.Round((harvestableAtTotalHours - worldTime) / Api.World.Calendar.HoursPerDay);
                     daysTillHarvest = daysTillHarvest <= 0 ? 0 : daysTillHarvest;
 
                     if (quantityNearbyFlowers > 0) dsc.AppendLine(Lang.Get("fromgoldencombs:nearbyflowers", quantityNearbyFlowers, Lang.Get(("population-" + _hivePopSize.ToString()))));
