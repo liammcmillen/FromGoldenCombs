@@ -1,3 +1,7 @@
+1.22-2.0.1-rc.3
+- Updated to add (rudimentary) Wildcraft compatibility.  Will now work with (most?) wildcraft berries. Fruitvines are not supported, fruit trees may be.
+- Minor adjustments to Langstroth Hive information presentation, can now see the number of lined frames, and the number of harvested frames contained in a stack.
+
 1.22-2.0.1-rc.2
 - Implemented update for new berry bushes, pollination now works properly.
 
