@@ -1064,7 +1064,7 @@ namespace FromGoldenCombs.BlockEntities
             cropcharges = tree.GetInt("cropCharges");
             maxCropCharges = tree.GetInt("maxCropCharges");
             todayNoonTemp = tree.GetFloat("todayNoonTemp");
-            twoDayAgoNoonTemp = tree.GetFloat("todayNoonTemp");
+            twoDayAgoNoonTemp = tree.GetFloat("twoDayAgoNoonTemp");
             threeDayTemp = tree.GetFloat("threeDayTemp");
             daysTillHarvest = tree.GetInt("daysTillHarvest");
             worldTime = tree.GetDouble("worldTime");
