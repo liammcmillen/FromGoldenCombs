@@ -726,7 +726,6 @@ namespace FromGoldenCombs.BlockEntities
             {
                 if (isActiveHive)
                 {
-
                     double worldTime = Api.World.Calendar.TotalHours;
                     int daysTillHarvest = (int)Math.Round((harvestableAtTotalHours - worldTime) / Api.World.Calendar.HoursPerDay);
                     daysTillHarvest = daysTillHarvest <= 0 ? 0 : daysTillHarvest;
