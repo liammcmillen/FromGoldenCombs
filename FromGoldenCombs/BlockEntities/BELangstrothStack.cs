@@ -114,7 +114,8 @@ namespace FromGoldenCombs.BlockEntities
             bottomStack.twoDayAgoNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 2)) + 0.66f).Temperature;
             bottomStack.threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + (roomness > 0 ? 5 : 0);
             conds = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues);
-            daysTillHarvest = (int)Math.Round((bottomStack.harvestableAtTotalHours - worldTime) / 24);
+            double actualDaysTillHarvest = (bottomStack.harvestableAtTotalHours - worldTime) / 24d;
+            daysTillHarvest = actualDaysTillHarvest < 1d ? 0 : (int)(actualDaysTillHarvest);
             optimalTemp = (maxTemp + minTemp) / 2;
             curTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues).Temperature + (this.roomness > 0 ? -5 : 0);
         }
@@ -1084,10 +1085,7 @@ namespace FromGoldenCombs.BlockEntities
             }
             else
             {
-                string tempReport = Lang.Get("fromgoldencombs:3DayTemp") + " " + (threeDayTemp > maxTemp ? Lang.Get("fromgoldencombs:3DayTooHot") : threeDayTemp < minTemp ? Lang.Get("fromgoldencombs:3DayTooCold") : Lang.Get("fromgoldencombs:3DayPerfect"));
-
-                daysTillHarvest = daysTillHarvest <= 0 ? 0 : daysTillHarvest;
-                
+                string tempReport = Lang.Get("fromgoldencombs:3DayTemp") + " " + (threeDayTemp > maxTemp ? Lang.Get("fromgoldencombs:3DayTooHot") : threeDayTemp < minTemp ? Lang.Get("fromgoldencombs:3DayTooCold") : Lang.Get("fromgoldencombs:3DayPerfect"));               
                 string hiveState = Lang.Get("fromgoldencombs:nearbyflowers", bottomStack.quantityNearbyFlowers, Lang.Get("population-"+bottomStack._hivePopSize.ToString()));
                 
                 if (bottomStack._isActiveHive)
