@@ -8,7 +8,7 @@
   "creativeinventory": { "fromgoldencombs": ["langstrothbroodtop-*"] },
   "attributes": {
     "handbook": {
-			groupBy: ["langstrothbroodtop-*"],
+			"groupBy": ["langstrothbroodtop-*"],
 			"extraSections": [
         {
           "title": "fromgoldencombs:item-handbooktitle-langstrothbroodtop",

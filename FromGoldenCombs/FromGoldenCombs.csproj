@@ -56,14 +56,13 @@
     <None Remove="assets\game\patches\berrybushpatch.json" />
     <None Remove="assets\game\patches\croppatch.json" />
     <None Remove="assets\newworldcrops\patches\croppatch.json" />
-    <None Remove="assets\wildcraftfruit\patches\vanilla-berry-patches.json" />
-    <None Remove="assets\wildcraftfruit\patches\wildcraftberrypatches.json" />
     <None Remove="modinfo.json" />
     <Content Include="modinfo.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="assets\wildcraftfruit\patches\" />
     <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
   <ItemGroup>
@@ -392,7 +391,7 @@
     <Content Update="assets\newworldcrops\patches\croppatch.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="assets\wildcraftfruit\patches\vanilla-berry-patches.json">
+    <Content Update="assets\wildcraftfruit\patches\wildcraftfruit-pollination-compat.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

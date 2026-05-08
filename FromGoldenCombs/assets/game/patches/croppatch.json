@@ -6,13 +6,13 @@
     "file": "blocktypes/plant/crop/amaranth.json",
     "side": "server"
   },
-  {
-    "op": "addmerge",
-    "path": "/behaviors/-",
-    "value": {"name": "PushEventOnCropBroken", "properties": { "eventName": "cropbreak", "validCropStages": [18]}},
-    "file": "blocktypes/plant/crop/bellpepper.json",
-    "side": "server"
-  },
+  //{
+  //  "op": "addmerge",
+  //  "path": "/behaviors/-",
+  //  "value": {"name": "PushEventOnCropBroken", "properties": { "eventName": "cropbreak", "validCropStages": [18]}},
+  //  "file": "blocktypes/plant/crop/bellpepper.json",
+  //  "side": "server"
+  //},
   {
     "op": "addmerge",
     "path": "/behaviors/-",

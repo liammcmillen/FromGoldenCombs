@@ -39,18 +39,33 @@ namespace FromGoldenCombs.BlockBehaviors
         public override void OnBlockInteractStop(float secondsUsed, IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel, ref EnumHandling handled)
         {
             if (world.Side.IsClient()) return;
+            Block bushBlock = world.BlockAccessor.GetBlock(blockSel.Position);
+            float harvestTime = 0.5f;
+            BlockEntity be = world.BlockAccessor.GetBlockEntity(blockSel.Position);
+            BEBehaviorFruitingBush bebfb= be.GetBehavior<BEBehaviorFruitingBush>();
+            BlockBehaviorFruitingBush bbfb = bushBlock.GetBehavior<BlockBehaviorFruitingBush>();
             handled = EnumHandling.Handled;
-            BlockBehaviorHarvestable blockBehaviorHarvestable = this.block.GetBehavior<BlockBehaviorHarvestable>();
-            String properties2 = blockBehaviorHarvestable.propertiesAtString;
-            JObject jsonProperties2 = JObject.Parse(properties2);
-            float harvestTime = jsonProperties2["harvestTime"].ToObject<float>();
 
-            if (blockBehaviorHarvestable != null && secondsUsed > harvestTime 
-                && blockBehaviorHarvestable.harvestedStacks != null && world.Side == EnumAppSide.Server)
+            if (bebfb != null)
+            {
+                float harvestMul = 1f;
+                if (bebfb.BState.Traits.Contains("weakclusteredberries"))
+                {
+                    harvestMul = 1.35f;
+                }
+                if (bebfb.BState.Traits.Contains("strongclusteredberries"))
+                {
+                    harvestMul = 0.65f;
+                }
+                float HarvestDuration = bebfb.GetHarvestDuration(byPlayer.InventoryManager.ActiveHotbarSlot, byPlayer.Entity);
+                harvestTime = bbfb.harvestTime;
+            }
+            if (/*bbfb != null && blockSel != null && */secondsUsed > harvestTime 
+                /*&& bbfb.harvestedStacks != null*/ && world.Side == EnumAppSide.Server)
             {
                 float dropRate = 0f;
                 JsonObject attributes = this.block.Attributes;
-                if (attributes != null && attributes.IsTrue("forageStatAffected"))
+                if (attributes != null && (attributes.IsTrue("forageStatAffected") || bebfb.BState.WildBushState == null))
                 {
                     TreeAttribute tree = new TreeAttribute();
                     tree.SetInt("x", blockSel.Position.X);
@@ -64,23 +79,44 @@ namespace FromGoldenCombs.BlockBehaviors
                 }
                 if (useBeeBoost)
                 {
-                    blockBehaviorHarvestable.harvestedStacks.Foreach(delegate (BlockDropItemStack harvestedStack)
+                    if (bbfb != null)
                     {
-                        ItemStack stack = harvestedStack.GetNextItemStack(dropRate);
-                        if (stack == null)
+                        bbfb.harvestedStacks.Foreach(delegate (BlockDropItemStack harvestedStack)
                         {
-                            return;
-                        }
-                        ItemStack origStack = stack.Clone();
-                        int quantity = stack.StackSize;
-                        if (!byPlayer.InventoryManager.TryGiveItemstack(stack, false))
+                            ItemStack stack = harvestedStack.GetNextItemStack(dropRate);
+                            if (stack == null)
+                            {
+                                return;
+                            }
+                            ItemStack origStack = stack.Clone();
+                            if (!byPlayer.InventoryManager.TryGiveItemstack(stack, false))
+                            {
+                                world.SpawnItemEntity(stack, blockSel.Position, null);
+                            }
+                        });
+                        //world.PlaySoundAt(bbfb.HarvestingSound, blockSel.Position, 0.0, byPlayer, true, 32f, 1f);
+                    }
+                    else
+                    {
+                        block.GetDrops(byPlayer.Entity.World, blockSel.Position, byPlayer).Foreach<ItemStack>(delegate (ItemStack harvestedStack)
                         {
-                            world.SpawnItemEntity(stack, blockSel.Position, null);
-                        }
-                    });
+                            ItemStack stack = harvestedStack;
+                            if (stack == null)
+                            {
+                                return;
+                            }
+                            ItemStack newStack = stack.Clone();
+                            newStack.StackSize = Math.Max(1, (int)(newStack.StackSize * dropRate));
+                            if (!byPlayer.InventoryManager.TryGiveItemstack(newStack, false))
+                            {
+                                world.SpawnItemEntity(newStack, blockSel.Position, null);
+                            }
+                            //world.PlaySoundAt(block.Sounds.GetHitSound(byPlayer), byPlayer);
+                        });
+                    }
                 }
                 useBeeBoost = false;
-                world.PlaySoundAt(blockBehaviorHarvestable.harvestingSound, blockSel.Position, 0.0, byPlayer, true, 32f, 1f);
+                
             }
         }
 

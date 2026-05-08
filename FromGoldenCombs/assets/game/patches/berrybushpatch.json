@@ -1,22 +1,12 @@
 [
   {
     "op": "addmerge",
-    "path": "/behaviorsByType/*-ripe/0",
+    "path": "/behaviors/-",
     "value": {name: "PushEventOnBlockHarvested", properties: { 
 			"eventName": "berryharvest",
 		  }
     },
-    "file": "game:blocktypes/plant/smallberrybush.json",
-    "side": "server"
-  },
-	{
-    "op": "addmerge",
-		"path": "/behaviorsByType/*-ripe/0",
-    "value": {name: "PushEventOnBlockHarvested", properties: { 
-			"eventName": "berryharvest"
-		  }
-    },
-    "file": "game:blocktypes/plant/bigberrybush.json",
+    "file": "game:blocktypes/plant/fruitingbush.json",
     "side": "server"
   }
 ]

@@ -28,15 +28,17 @@ namespace FromGoldenCombs.BlockBehaviors
 
         public override void OnBlockBroken(IWorldAccessor world, BlockPos pos, IPlayer byPlayer, ref EnumHandling handling)
         {
-            if (world.Side.IsClient()) return;
-            if (byPlayer != null)
+            EnumHandling handlingToApply = _bHandling;
+            _bHandling = EnumHandling.PassThrough;
+
+            if (byPlayer != null && !string.IsNullOrEmpty(_eventName))
             {
                 TreeAttribute tree = new TreeAttribute();
                 tree.SetInt("x", pos.X);
                 tree.SetInt("y", pos.Y);
                 tree.SetInt("z", pos.Z);
                 world.Api.Event.PushEvent(this._eventName, tree);
-                handling = _bHandling;
+                handling = handlingToApply;
             }
 
             if (handling == EnumHandling.PreventSubsequent)

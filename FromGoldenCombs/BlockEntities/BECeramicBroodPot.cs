@@ -39,6 +39,7 @@ namespace FromGoldenCombs.BlockEntities
         long beeParticleListener;
         float harvestBase;
         EnumHivePopSize _hivePopSize;
+
         //TODO: Implement Config Option To Set AllowUndergroundApiculture.
         bool AllowUndergroundApiculture = false;
 
@@ -518,7 +519,6 @@ namespace FromGoldenCombs.BlockEntities
             int deltaZ = cropPos.Z - Pos.Z;
 
             double distance = Math.Sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
-
             if (isActiveHive && _hivePopSize != EnumHivePopSize.Poor && Api.Side.IsServer())
             {
                 if (eventName == "cropbreak")
@@ -537,63 +537,109 @@ namespace FromGoldenCombs.BlockEntities
         }
 
         private void manageCropBoost(BlockPos cropPos, double distance, ref EnumHandling handling)
-        {
-
-            if (cropcharges >= 1 && Api.World.BlockAccessor.GetBlock(cropPos).HasBehavior<PushEventOnCropBreakBehavior>() && distance < FGCServerConfig.Current.ceramicCropRange)
-            {
-
-                if (Api.World.BlockAccessor.GetBlock(cropPos) is BlockCrop crop && Api.World.BlockAccessor.GetBlockEntity(cropPos.DownCopy()) is BlockEntityFarmland farmland)
                 {
 
-                    if (Api.World.BlockAccessor.GetBlock(cropPos).GetBehavior<PushEventOnCropBreakBehavior>().validCropStages.Contains<int>(crop.CurrentCropStage))
-                    {
-                        Api.World.BlockAccessor.GetBlock(cropPos).GetBehavior<PushEventOnCropBreakBehavior>().setHandling(EnumHandling.PreventSubsequent);
-                        cropcharges--;
-                    }
+            if (cropcharges < 1 || Api?.World == null || distance >= FGCServerConfig.Current.ceramicCropRange) return;
 
-                    handling = EnumHandling.PreventSubsequent;
-                }
-                MarkDirty();
-            }
+
+            Block cropBlock = Api.World.BlockAccessor.GetBlock(cropPos);
+            if (cropBlock == null) return;
+            if (!cropBlock.HasBehavior<PushEventOnCropBreakBehavior>()) return;
+
+            PushEventOnCropBreakBehavior behavior = cropBlock.GetBehavior<PushEventOnCropBreakBehavior>();
+            if (behavior?.validCropStages == null) return;
+
+
+
+
+            if (cropBlock is not BlockCrop crop) return;
+            if (Api.World.BlockAccessor.GetBlockEntity(cropPos.DownCopy()) is not BlockEntityFarmland) return;
+
+            // Claim the pollination event so other nearby hives don't all do the same work.
+            handling = EnumHandling.PreventSubsequent;
+
+            if (!behavior.validCropStages.Contains<int>(crop.CurrentCropStage)) return;
+
+            behavior.setHandling(EnumHandling.PreventSubsequent);
+            cropcharges--;
+            MarkDirty();
         }
 
 
         private void manageBerryBoost(BlockPos bushPos, double distance, ref EnumHandling handling)
         {
-            if (cropcharges >= 1 && Api.World.BlockAccessor.GetBlock(bushPos).HasBehavior<PushEventOnBlockHarvested>() && distance < cropChargeRange)
-            {
-                PushEventOnBlockHarvested eventBehavior = Api.World.BlockAccessor.GetBlock(bushPos).GetBehavior<PushEventOnBlockHarvested>();
-                eventBehavior.useBeeBoost = true;
-                cropcharges--;
+            if (Api?.Side != EnumAppSide.Server || Api?.World == null) return;
+            if (cropcharges < 1 || distance >= cropChargeRange) return;
 
-                handling = EnumHandling.PreventSubsequent;
-                MarkDirty();
-            }
+            Block bushBlock = Api.World.BlockAccessor.GetBlock(bushPos);
+            if (bushBlock == null) return;
+
+            BEBehaviorFruitingBush bebfb = Api.World.BlockAccessor.GetBlockEntity(bushPos)?.GetBehavior<BEBehaviorFruitingBush>();
+            if(!(bushBlock.FirstCodePart() == "fruitingbush") || !bushBlock.HasBehavior<PushEventOnBlockHarvested>() || bebfb.BState.Growthstate == EnumFruitingBushGrowthState.Ripe) return;
+
+            PushEventOnBlockHarvested eventBehavior = bushBlock.GetBehavior<PushEventOnBlockHarvested>();
+            if (eventBehavior == null) return;
+
+            // Claim the pollination event so other nearby hives don't all do the same work.
+            handling = EnumHandling.PreventSubsequent;
+
+            eventBehavior.useBeeBoost = true;
+            cropcharges--;
+            MarkDirty();
 
         }
 
         private void manageFruitBoost(BlockPos fruitFoliagePos, double distance, ref EnumHandling handling)
         {
 
-            if (cropcharges >= 1 && Api.World.BlockAccessor.GetBlockEntity(fruitFoliagePos) is BlockEntityFruitTreePart beFTP && distance < FGCServerConfig.Current.ceramicCropRange)
-            {
-                AssetLocation loc = AssetLocation.Create(beFTP.Block.Attributes["branchBlock"].AsString(null), beFTP.Block.Code.Domain);
-                foreach (BlockDropItemStack drop in (beFTP.Api.World.GetBlock(loc) as BlockFruitTreeBranch).TypeProps[beFTP.TreeType].FruitStacks)
-                {
-                    ItemStack stack = drop.GetNextItemStack(1f+FGCServerConfig.Current.cropBoostPercentage);
-                    if (stack != null)
-                    {
+            if (Api?.Side != EnumAppSide.Server || Api?.World == null) return;
+            if (cropcharges < 1 || distance >= FGCServerConfig.Current.ceramicCropRange) return;
 
-                        beFTP.Api.World.SpawnItemEntity(stack, beFTP.Pos.Add(0.0f, 0.5f, 0.0f), null);
-                    }
-                    if (drop.LastDrop)
-                    {
-                        break;
-                    }
-                }
-                cropcharges--;
-                MarkDirty();
+            if (Api.World.BlockAccessor.GetBlockEntity(fruitFoliagePos) is not BlockEntityFruitTreePart beFTP) return;
+
+            string branchBlockCode = beFTP.Block?.Attributes?["branchBlock"]?.AsString(null);
+            if (string.IsNullOrEmpty(branchBlockCode) || beFTP.Block?.Code == null) return;
+
+            AssetLocation loc;
+            try
+            {
+                loc = AssetLocation.Create(branchBlockCode, beFTP.Block.Code.Domain);
             }
+            catch
+            {
+                return;
+            }
+
+            if (loc == null) return;
+
+            BlockFruitTreeBranch branchBlock = Api.World.GetBlock(loc) as BlockFruitTreeBranch;
+            if (branchBlock?.TypeProps == null) return;
+            if (!branchBlock.TypeProps.TryGetValue(beFTP.TreeType, out var typeProps) || typeProps?.FruitStacks == null) return;
+
+            foreach (BlockDropItemStack drop in typeProps.FruitStacks)
+            {
+                if (drop == null) continue;
+
+                ItemStack stack = drop.GetNextItemStack(1f + FGCServerConfig.Current.cropBoostPercentage);
+                if (stack != null)
+                {
+                    Api.World.SpawnItemEntity(stack, beFTP.Pos.Add(0.0f, 0.5f, 0.0f), null);
+                }
+
+
+                if (drop.LastDrop)
+                {
+                    break;
+
+
+
+                }
+
+
+            }
+
+            cropcharges--;
+            MarkDirty();
         }
         #endregion
 

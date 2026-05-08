@@ -1,0 +1,1518 @@
+[
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-blackcurrant-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-redcurrant-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-whitecurrant-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-dwarfpine-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-hazel-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-bladdernut-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-sumac-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-pistachio-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-marita-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-huckleberry-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-swamphuckle-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-spindle-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-ballart-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-pilo-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-mingimingi-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-juniper-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-beautyberry-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-kumquat-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-calamansi-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-blackelder-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-oroblanco-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/bottomberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-pilo-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/bottomberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-juniper-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/bottomberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-hazel-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/bottomberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-blackelder-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/bottomberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/bottompricklybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-blossomquince-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/bottompricklybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/groundberryplant",
+    "op": "add",
+    "path": "/behaviorsByType/*-cranberry-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/groundberryplant",
+    "op": "add",
+    "path": "/behaviorsByType/*-strawberry-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/groundberryplant",
+    "op": "add",
+    "path": "/behaviorsByType/*-lingonberry-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/groundberryplant",
+    "op": "add",
+    "path": "/behaviorsByType/*-coralbead-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/groundberryplant",
+    "op": "add",
+    "path": "/behaviorsByType/*-crowberry-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/groundberryplant",
+    "op": "add",
+    "path": "/behaviorsByType/*-crowseye-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/groundberryplant",
+    "op": "add",
+    "path": "/behaviorsByType/*-cloudberry-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/groundberryplant",
+    "op": "add",
+    "path": "/behaviorsByType/*-knyazberry-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/groundberryplant",
+    "op": "add",
+    "path": "/behaviorsByType/*-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/pricklyberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-deserthackberry-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/pricklyberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-dogrose-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/pricklyberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-beachrose-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/pricklyberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-sallowthorn-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/pricklyberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-blossomquince-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/pricklyberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-raspberry-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/pricklyberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-brambleberry-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/pricklyberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/pricklyshortbush",
+    "op": "add",
+    "path": "/behaviorsByType/*-caper-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/pricklyshortbush",
+    "op": "add",
+    "path": "/behaviorsByType/*-pricklyheath-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/pricklyshortbush",
+    "op": "add",
+    "path": "/behaviorsByType/*-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/shortberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-blueberry-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/shortberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-bilberry-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/shortberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-ugni-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/shortberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-munthari-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/shortberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-blacknightshade-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-oldmansaltbush-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-bitternightshade-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-husktomato-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-newhusktomato-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-falsetomato-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-orangebellpepper-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-redbellpepper-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-yellowbellpepper-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-greenbellpepper-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-jalapeno-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-habanero-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-cayenne-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-tabasco-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-tomato-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-romatomato-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-oxheart-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-wildtomato-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-tomatillo-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-eggplant-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/topberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-huckleberry-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/topberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-swamphuckle-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/topberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-mingimingi-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/topberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-kumquat-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/topberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-ballart-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/topberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-sumac-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/topberrybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/toppricklybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-dogrose-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/toppricklybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-beachrose-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/toppricklybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-raspberry-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/toppricklybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-brambleberry-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/berry/toppricklybush",
+    "op": "add",
+    "path": "/behaviorsByType/*-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/x-cactus/cactus",
+    "op": "add",
+    "path": "/behaviorsByType/*-topsaguaro-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/x-cactus/cactus",
+    "op": "add",
+    "path": "/behaviorsByType/*-branchysaguaro-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/x-cactus/cactus",
+    "op": "add",
+    "path": "/behaviorsByType/*-youngsaguaro-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+  {
+    "file": "wildcraftfruit:blocktypes/plant/x-cactus/cactus",
+    "op": "add",
+    "path": "/behaviorsByType/*-barrelcactus-ripe/0",
+    "value": {
+      "name": "PushEventOnBlockHarvested",
+      "properties": {
+        "eventName": "berryharvest"
+      }
+    },
+    "dependsOn": [
+      {
+        "modid": "wildcraftfruit"
+      }
+    ]
+  },
+{
+  "file": "wildcraftfruit:blocktypes/plant/fruitvine/fruitvine",
+  "op": "add",
+  "path": "/behaviorsByType/*-purpleappleberry-ripe-*/0",
+  "value": {
+    "name": "PushEventOnBlockHarvested",
+    "properties": {
+      "eventName": "berryharvest"
+    }
+  },
+  "dependsOn": [{ "modid": "wildcraftfruit" }]
+},
+{
+  "file": "wildcraftfruit:blocktypes/plant/fruitvine/fruitvine",
+  "op": "add",
+  "path": "/behaviorsByType/*-bryony-ripe-*/0",
+  "value": {
+    "name": "PushEventOnBlockHarvested",
+    "properties": {
+      "eventName": "berryharvest"
+    }
+  },
+  "dependsOn": [{ "modid": "wildcraftfruit" }]
+},
+{
+  "file": "wildcraftfruit:blocktypes/plant/fruitvine/fruitvine",
+  "op": "add",
+  "path": "/behaviorsByType/*-ivy-ripe-*/0",
+  "value": {
+    "name": "PushEventOnBlockHarvested",
+    "properties": {
+      "eventName": "berryharvest"
+    }
+  },
+  "dependsOn": [{ "modid": "wildcraftfruit" }]
+},
+{
+  "file": "wildcraftfruit:blocktypes/plant/fruitvine/fruitvine",
+  "op": "add",
+  "path": "/behaviorsByType/*-cucumber-ripe-*/0",
+  "value": {
+    "name": "PushEventOnBlockHarvested",
+    "properties": {
+      "eventName": "berryharvest"
+    }
+  },
+  "dependsOn": [{ "modid": "wildcraftfruit" }]
+},
+{
+  "file": "wildcraftfruit:blocktypes/plant/fruitvine/fruitvine",
+  "op": "add",
+  "path": "/behaviorsByType/*-ripe-*/0",
+  "value": {
+    "name": "PushEventOnBlockHarvested",
+    "properties": {
+      "eventName": "berryharvest"
+    }
+  },
+  "dependsOn": [{ "modid": "wildcraftfruit" }]
+}
+]

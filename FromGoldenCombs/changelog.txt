@@ -1,3 +1,11 @@
+1.22-2.0.1-rc.2
+- Implemented update for new berry bushes, pollination now works properly.
+
+1.22-2.0.1-rc.1
+- Implemented fix for LiveMap Pollination NRE crashes
+- Fixed skeps becoming instantly harvestable once flowers are found
+- Implemented fix for frames not sorting properly (aaaaaa!)
+
 1-21-1.9.4
 	- Fixed bug accidentally introduced while patching the Langstroth hive.  Oops.
 
