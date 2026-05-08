@@ -32,7 +32,6 @@ namespace FromGoldenCombs.BlockEntities
         double harvestableAtTotalHours;
         float harvestBase;
         new bool Harvestable;
-        float threeDayTemp;
 
         // Current scan values
         int scanQuantityNearbyFlowers;
@@ -41,7 +40,6 @@ namespace FromGoldenCombs.BlockEntities
         double cropChargeGrowthHours = 24;
         double chargesPerDay = FGCServerConfig.Current.skepBaseChargesPerDay; //Number of hours until the hive accumulates a new grow charge.
         double cropChargeAtTotalHours;
-        double cooldownUntilCropCharge;
         int cropcharges;
         int maxCropCharges = FGCServerConfig.Current.skepMaxCropCharges;
         int cropChargeRange = FGCServerConfig.Current.skepCropRange;

@@ -33,7 +33,6 @@ namespace FromGoldenCombs.BlockEntities
         int harvestableFrames = 0;
         int linedFrames = 0;
         int totalFrames = 0;
-        bool topIsPopBrood = false;
         public readonly InventoryGeneric inv;
         public override InventoryBase Inventory => inv;
         float harvestBase;
@@ -42,7 +41,6 @@ namespace FromGoldenCombs.BlockEntities
         double chargesPerDay = FGCServerConfig.Current.langstrothBaseChargesPerDay;
         double cropChargeGrowthHours = 24; //Number of hours until the hive accumulates a new grow charge.
         double cropChargeAtTotalHours;
-        double cooldownUntilCropCharge;
         int cropcharges;
         int maxCropCharges = FGCServerConfig.Current.langstrothMaxCropCharges;
         int cropChargeRange = FGCServerConfig.Current.langstrothCropRange;
