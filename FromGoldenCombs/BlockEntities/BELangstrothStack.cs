@@ -150,12 +150,12 @@ namespace FromGoldenCombs.BlockEntities
         {
             if (Api.Side.IsClient()) return;
             TreeAttribute tdata = data as TreeAttribute;
-            int deltaX = cropPos.X - Pos.X;
-            int deltaY = cropPos.Y - Pos.Y;
-            int deltaZ = cropPos.Z - Pos.Z;
+            int deltaX = cropPos.X - bottomStack.Pos.X;
+            int deltaY = cropPos.Y - bottomStack.Pos.Y;
+            int deltaZ = cropPos.Z - bottomStack.Pos.Z;
             double distance = Math.Sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
 
-            if (isHiveActive() && _hivePopSize != EnumHivePopSize.Poor && Api.Side.IsServer())
+            if (isHiveActive() && bottomStack._hivePopSize != EnumHivePopSize.Poor && bottomStack.Api.Side.IsServer())
             {
                 if (eventName == "cropbreak")
                 {
@@ -175,14 +175,12 @@ namespace FromGoldenCombs.BlockEntities
         private void manageCropBoost(BlockPos cropPos, double distance, ref EnumHandling handling)
         {
 
-            if (cropcharges < 1 || Api?.World == null || distance >= cropChargeRange) return;
+            if (bottomStack.cropcharges < 1 || Api?.World == null || distance >= bottomStack.cropChargeRange) return;
 
 
             Block cropBlock = Api.World.BlockAccessor.GetBlock(cropPos);
             if (cropBlock == null) return;
             if (!cropBlock.HasBehavior<PushEventOnCropBreakBehavior>()) return;
-
-
 
             PushEventOnCropBreakBehavior behavior = cropBlock.GetBehavior<PushEventOnCropBreakBehavior>();
             if (behavior?.validCropStages == null) return;
@@ -195,6 +193,7 @@ namespace FromGoldenCombs.BlockEntities
 
             if (!behavior.validCropStages.Contains<int>(crop.CurrentCropStage)) return;
 
+            behavior.beeChanceMultiplier = FGCServerConfig.Current.langstrothCropBoostPercentage;
             behavior.setHandling(EnumHandling.PreventSubsequent);
             cropcharges--;
             MarkDirty();
@@ -217,6 +216,7 @@ namespace FromGoldenCombs.BlockEntities
             // Claim the pollination event so other nearby hives don't all do the same work.
             handling = EnumHandling.PreventSubsequent;
 
+            eventBehavior.beeChanceMultiplier = FGCServerConfig.Current.langstrothCropBoostPercentage;
             eventBehavior.useBeeBoost = true;
             cropcharges--;
             MarkDirty();
@@ -254,7 +254,7 @@ namespace FromGoldenCombs.BlockEntities
             {
                 if (drop == null) continue;
 
-                ItemStack stack = drop.GetNextItemStack(0.25f);
+                ItemStack stack = drop.GetNextItemStack(FGCServerConfig.Current.langstrothCropBoostPercentage);
                 if (stack != null)
                 {
                     Api.World.SpawnItemEntity(stack, beFTP.Pos.Add(0.0f, 0.5f, 0.0f), null);
@@ -264,9 +264,6 @@ namespace FromGoldenCombs.BlockEntities
                 if (drop.LastDrop)
                 {
                     break;
-
-
-
                 }
 
             }
@@ -274,7 +271,12 @@ namespace FromGoldenCombs.BlockEntities
             cropcharges--;
         }
 
-        internal bool OnInteract(IPlayer byPlayer)
+        public override void OnBlockBroken(IPlayer byPlayer = null)
+        {
+            Api.ModLoader.GetModSystem<FromGoldenCombs>().OnPollination -= OnPollinationNearby;
+            base.OnBlockBroken(byPlayer);
+        }
+        public bool OnInteract(IPlayer byPlayer)
         {
             ItemSlot slot = byPlayer.InventoryManager.ActiveHotbarSlot;
             CollectibleObject colObj = slot.Itemstack?.Collectible;
@@ -383,7 +385,15 @@ namespace FromGoldenCombs.BlockEntities
                         }
                     }
                 }
-                curBE = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(curBE.Pos.DownCopy());
+                if (Api.World.BlockAccessor.GetBlockEntity(curBE.Pos.DownCopy()) is BELangstrothStack beStack) 
+                {
+                    curBE = beStack;
+                }
+                else
+                {
+                    break;
+                }
+
             }
             updateMeshes();
         }
@@ -435,7 +445,7 @@ namespace FromGoldenCombs.BlockEntities
                     break;
                 }
             }
-            MarkDirty();
+            MarkDirty(true);
             return bottomStack.totalFrames;
         }
 
@@ -1128,6 +1138,8 @@ namespace FromGoldenCombs.BlockEntities
                         sb.AppendLine(tempReport);
                         sb.AppendLine(Lang.Get("fromgoldencombs:croprange") + " " + cropChargeRange);
                         sb.AppendLine(Lang.Get("fromgoldencombs:cropcharges") + " " + cropcharges);
+                        sb.AppendLine(Lang.Get("fromgoldencombs:cropboostpercentage") + " " + Math.Round(FGCServerConfig.Current.langstrothCropBoostPercentage * 100) + "%");
+                        
                     }
                     if (Api is ICoreClientAPI capi && capi.Settings.Bool.Get("extendedDebugInfo", false))
                     {

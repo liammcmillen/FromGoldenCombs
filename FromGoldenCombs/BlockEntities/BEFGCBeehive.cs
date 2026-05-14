@@ -135,6 +135,7 @@ namespace FromGoldenCombs.BlockEntities
                     manageFruitBoost(cropPos, distance, ref handling);
                 }
             }
+               
         }
 
         private void manageCropBoost(BlockPos cropPos, double distance, ref EnumHandling handling)
@@ -157,6 +158,7 @@ namespace FromGoldenCombs.BlockEntities
 
             if (!behavior.validCropStages.Contains<int>(crop.CurrentCropStage)) return;
 
+            behavior.beeChanceMultiplier = FGCServerConfig.Current.skepCropBoostPercentage;
             behavior.setHandling(EnumHandling.PreventSubsequent);
             cropcharges--;
             MarkDirty();
@@ -180,6 +182,7 @@ namespace FromGoldenCombs.BlockEntities
             // Claim the pollination event so other nearby hives don't all do the same work.
             handling = EnumHandling.PreventSubsequent;
 
+            eventBehavior.beeChanceMultiplier += FGCServerConfig.Current.skepCropBoostPercentage;
             eventBehavior.useBeeBoost = true;
             cropcharges--;
             MarkDirty();
@@ -216,7 +219,7 @@ namespace FromGoldenCombs.BlockEntities
             {
                 if (drop == null) continue;
 
-                ItemStack stack = drop.GetNextItemStack(0.25f);
+                ItemStack stack = drop.GetNextItemStack(FGCServerConfig.Current.skepCropBoostPercentage);
                 if (stack != null)
                 {
                     Api.World.SpawnItemEntity(stack, beFTP.Pos.Add(0.0f, 0.5f, 0.0f), null);
@@ -527,14 +530,14 @@ namespace FromGoldenCombs.BlockEntities
             return false;
         }
 
-        public override void GetBlockInfo(IPlayer forPlayer, StringBuilder dsc)
+        public override void GetBlockInfo(IPlayer forPlayer, StringBuilder sb)
         {
             
             
             //Debug Information
             if (Api.World.EntityDebugMode && forPlayer.WorldData.CurrentGameMode == EnumGameMode.Creative)
             {
-                dsc.AppendLine(
+                sb.AppendLine(
                         Lang.Get("Nearby flowers: {0}, Nearby Hives: {1}, Empty Hives: {2}, Pop after hours: {3}. harvest in {4}, repop cooldown: {5}",
                         quantityNearbyFlowers,
                         quantityNearbyHives,
@@ -605,17 +608,18 @@ namespace FromGoldenCombs.BlockEntities
                     hiveState += "\n" + Lang.Get("Will swarm in less than a day");
                 }
             }
-            dsc.AppendLine(hiveState);
+            sb.AppendLine(hiveState);
             if (this.roomness > 0f)
             {
-                dsc.AppendLine("\n" + Lang.Get("greenhousetempbonus", Array.Empty<object>()));
+                sb.AppendLine("\n" + Lang.Get("greenhousetempbonus", Array.Empty<object>()));
                 
             }
             if (FGCServerConfig.Current.showExtraBeehiveInfo && (forPlayer.Entity.Controls.ShiftKey || FGCClientConfig.Current.alwaysShowExtraBeehiveInfo == true))
             {
-                dsc.AppendLine(tempReport);
-                dsc.AppendLine(Lang.Get("fromgoldencombs:croprange") + " " + cropChargeRange);
-                dsc.AppendLine(Lang.Get("fromgoldencombs:cropcharges") + " " + cropcharges);
+                sb.AppendLine(tempReport);
+                sb.AppendLine(Lang.Get("fromgoldencombs:croprange") + " " + cropChargeRange);
+                sb.AppendLine(Lang.Get("fromgoldencombs:cropcharges") + " " + cropcharges);
+                sb.AppendLine(Lang.Get("fromgoldencombs:cropboostpercentage") + " " + Math.Round(FGCServerConfig.Current.skepCropBoostPercentage * 100) + "%");
             }
         }
 

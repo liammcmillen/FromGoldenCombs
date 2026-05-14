@@ -1,4 +1,5 @@
 ﻿using FromGoldenCombs.Util.Config;
+using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
@@ -46,8 +47,10 @@ namespace FromGoldenCombs.BlockBehaviors
                 if (world.Side == EnumAppSide.Server && (byPlayer == null || byPlayer.WorldData.CurrentGameMode != EnumGameMode.Creative))
                 {
                     ItemStack[] drops = block.GetDrops(world, pos, byPlayer, _beeChanceMultiplier);
+                    
                     if (drops != null)
                     {
+                        
                         for (int i = 0; i < drops.Length; i++)
                         {
                             if (block.SplitDropStacks)
@@ -71,6 +74,8 @@ namespace FromGoldenCombs.BlockBehaviors
                 block.SpawnBlockBrokenParticles(pos);
                 world.BlockAccessor.SetBlock(0, pos);
             }
+            
+            _beeChanceMultiplier = 0;
 
         }
 
@@ -81,6 +86,7 @@ namespace FromGoldenCombs.BlockBehaviors
         }
         private string _eventName;
         private EnumHandling _bHandling = EnumHandling.PassThrough;
+        public float beeChanceMultiplier { get => _beeChanceMultiplier; set => _beeChanceMultiplier = value; }
         private float _beeChanceMultiplier;
         private int[] _validCropStages;
     }

@@ -138,13 +138,13 @@ namespace FromGoldenCombs.BlockEntities
         private void UpdateClimateValues(ICoreAPI api)
         {
             worldTime = api.World.Calendar.TotalHours;
-            broodPot.harvestBase = (float)((FGCServerConfig.Current.LangstrothDaysToHarvestIn30DayMonths * ((float)Api.World.Calendar.DaysPerMonth / 30f)) * Api.World.Calendar.HoursPerDay);
-            broodPot.todayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays)) + 0.66f).Temperature;
-            broodPot.yesterdayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 1)) + 0.66f).Temperature;
-            broodPot.twoDayAgoNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 2)) + 0.66f).Temperature;
-            broodPot.threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + (roomness > 0 ? 5 : 0);
+            harvestBase = (float)((FGCServerConfig.Current.LangstrothDaysToHarvestIn30DayMonths * ((float)Api.World.Calendar.DaysPerMonth / 30f)) * Api.World.Calendar.HoursPerDay);
+            todayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays)) + 0.66f).Temperature;
+            yesterdayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 1)) + 0.66f).Temperature;
+            twoDayAgoNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 2)) + 0.66f).Temperature;
+            threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + (roomness > 0 ? 5 : 0);
             conds = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues);
-            daysTillHarvest = (int)Math.Round((broodPot.harvestableAtTotalHours - worldTime) / 24);
+            daysTillHarvest = (int)Math.Round((harvestableAtTotalHours - worldTime) / 24);
             optimalTemp = (maxTemp + minTemp) / 2;
         }
 
@@ -577,7 +577,7 @@ namespace FromGoldenCombs.BlockEntities
         }
 
         private void manageCropBoost(BlockPos cropPos, double distance, ref EnumHandling handling)
-                {
+        {
 
             if (cropcharges < 1 || Api?.World == null || distance >= FGCServerConfig.Current.ceramicCropRange) return;
 
@@ -589,9 +589,6 @@ namespace FromGoldenCombs.BlockEntities
             PushEventOnCropBreakBehavior behavior = cropBlock.GetBehavior<PushEventOnCropBreakBehavior>();
             if (behavior?.validCropStages == null) return;
 
-
-
-
             if (cropBlock is not BlockCrop crop) return;
             if (Api.World.BlockAccessor.GetBlockEntity(cropPos.DownCopy()) is not BlockEntityFarmland) return;
 
@@ -600,6 +597,7 @@ namespace FromGoldenCombs.BlockEntities
 
             if (!behavior.validCropStages.Contains<int>(crop.CurrentCropStage)) return;
 
+            behavior.beeChanceMultiplier = FGCServerConfig.Current.ceramicCropBoostPercentage;
             behavior.setHandling(EnumHandling.PreventSubsequent);
             cropcharges--;
             MarkDirty();
@@ -623,6 +621,7 @@ namespace FromGoldenCombs.BlockEntities
             // Claim the pollination event so other nearby hives don't all do the same work.
             handling = EnumHandling.PreventSubsequent;
 
+            eventBehavior.beeChanceMultiplier = FGCServerConfig.Current.ceramicCropBoostPercentage;
             eventBehavior.useBeeBoost = true;
             cropcharges--;
             MarkDirty();
@@ -660,7 +659,7 @@ namespace FromGoldenCombs.BlockEntities
             {
                 if (drop == null) continue;
 
-                ItemStack stack = drop.GetNextItemStack(1f + FGCServerConfig.Current.cropBoostPercentage);
+                ItemStack stack = drop.GetNextItemStack(FGCServerConfig.Current.ceramicCropBoostPercentage);
                 if (stack != null)
                 {
                     Api.World.SpawnItemEntity(stack, beFTP.Pos.Add(0.0f, 0.5f, 0.0f), null);
@@ -768,7 +767,7 @@ namespace FromGoldenCombs.BlockEntities
 
         }
 
-        public override void GetBlockInfo(IPlayer forPlayer, StringBuilder dsc)
+        public override void GetBlockInfo(IPlayer forPlayer, StringBuilder sb)
         {
             
             float minTemp = FGCServerConfig.Current.CeramicHiveMinTemp;
@@ -782,57 +781,58 @@ namespace FromGoldenCombs.BlockEntities
                     double worldTime = Api.World.Calendar.TotalHours;
                     daysTillHarvest = daysTillHarvest <= 0 ? 0 : daysTillHarvest;
 
-                    if (quantityNearbyFlowers > 0) dsc.AppendLine(Lang.Get("fromgoldencombs:nearbyflowers", quantityNearbyFlowers, Lang.Get(("population-" + _hivePopSize.ToString()))));
+                    if (quantityNearbyFlowers > 0) sb.AppendLine(Lang.Get("fromgoldencombs:nearbyflowers", quantityNearbyFlowers, Lang.Get(("population-" + _hivePopSize.ToString()))));
 
 
                     if (temp < minTemp)
                     {
-                        dsc.AppendLine(Lang.Get("fromgoldencombs:toocold"));
+                        sb.AppendLine(Lang.Get("fromgoldencombs:toocold"));
                     }
                     if (temp > maxTemp)
                     {
-                        dsc.AppendLine(Lang.Get("fromgoldencombs:toohot"));
+                        sb.AppendLine(Lang.Get("fromgoldencombs:toohot"));
                     }
                     if ((harvestableAtTotalHours - worldTime / 24 > 0) && this.Block.Variant["top"] == "withtop" && !isOutTemp)
                     {
                         if (FGCServerConfig.Current.showcombpoptime)
                         {
-                            dsc.AppendLine(Lang.Get("fromgoldencombs:timetillpop", daysTillHarvest < 1 ? Lang.Get("fromgoldencombs:lessthanday") : (daysTillHarvest + " " + Lang.Get("fromgoldencombs:days"))));
+                            sb.AppendLine(Lang.Get("fromgoldencombs:timetillpop", daysTillHarvest < 1 ? Lang.Get("fromgoldencombs:lessthanday") : (daysTillHarvest + " " + Lang.Get("fromgoldencombs:days"))));
                         }
                     }
                     else if (isActiveHive && (this.Block.Variant["top"] == "notop"))
                     {
-                        dsc.AppendLine(Lang.Get("fromgoldencombs:nopot"));
+                        sb.AppendLine(Lang.Get("fromgoldencombs:nopot"));
 
                     }
                     else if (inv[0]?.Itemstack?.Collectible.Variant["type"] == "harvestable")
                     {
 
-                        dsc.AppendLine(Lang.Get("fromgoldencombs:fullpot"));
+                        sb.AppendLine(Lang.Get("fromgoldencombs:fullpot"));
                     }
                     else if (quantityNearbyFlowers > 0 && !isOutTemp)
                     {
-                        dsc.AppendLine(Lang.Get("fromgoldencombs:outgathering"));
+                        sb.AppendLine(Lang.Get("fromgoldencombs:outgathering"));
                     }
                     else if (quantityNearbyFlowers <= 0 && !isOutTemp)
                     {
-                        dsc.AppendLine(Lang.Get("fromgoldencombs:findflowers"));
+                        sb.AppendLine(Lang.Get("fromgoldencombs:findflowers"));
                     }
                     if (this.roomness > 0f)
                     {
-                        dsc.AppendLine(Lang.Get("greenhousetempbonus", Array.Empty<object>()));
+                        sb.AppendLine(Lang.Get("greenhousetempbonus", Array.Empty<object>()));
                     }
                     if (FGCServerConfig.Current.showExtraBeehiveInfo && (forPlayer.Entity.Controls.ShiftKey || FGCClientConfig.Current.alwaysShowExtraBeehiveInfo == true))
                     {
-                        dsc.AppendLine(tempReport);
-                        dsc.AppendLine(Lang.Get("fromgoldencombs:croprange") + " " + cropChargeRange);
-                        dsc.AppendLine(Lang.Get("fromgoldencombs:cropcharges") + " " + cropcharges);
+                        sb.AppendLine(tempReport);
+                        sb.AppendLine(Lang.Get("fromgoldencombs:croprange") + " " + cropChargeRange);
+                        sb.AppendLine(Lang.Get("fromgoldencombs:cropcharges") + " " + cropcharges);
+                        sb.AppendLine(Lang.Get("fromgoldencombs:cropboostpercentage") + " " + Math.Round(FGCServerConfig.Current.ceramicCropBoostPercentage*100) + "%");
                     }
                     if (Api is ICoreClientAPI capi && capi.Settings.Bool.Get("extendedDebugInfo", false))
                     {
-                        dsc.AppendLine("Current Time: " + (int)Api.World.Calendar.TotalHours);
-                        dsc.AppendLine("coolDownUntilTotalHours: " + (int)cooldownUntilTotalHours);
-                        dsc.AppendLine("ScanInteration " + scanIteration);
+                        sb.AppendLine("Current Time: " + (int)Api.World.Calendar.TotalHours);
+                        sb.AppendLine("coolDownUntilTotalHours: " + (int)cooldownUntilTotalHours);
+                        sb.AppendLine("ScanInteration " + scanIteration);
                     }
                 }
             }

@@ -1,3 +1,8 @@
+1.22-2.0.1-rc.4
+- Each type of hive now has it's own crop boost %, which will be provided in the Block Info.  This is a configurable value in FGCServerConfig, and defaults to 10% for Skeps, 20% for Ceramic Hives, and 30% for Langstroth Hives.
+
+
+
 1.22-2.0.1-rc.3
 - Updated to add (rudimentary) Wildcraft compatibility.  Will now work with (most?) wildcraft berries. Fruitvines are not supported, fruit trees may be.
 - Minor adjustments to Langstroth Hive information presentation, can now see the number of lined frames, and the number of harvested frames contained in a stack.

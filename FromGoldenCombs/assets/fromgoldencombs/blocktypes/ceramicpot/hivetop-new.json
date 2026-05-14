@@ -61,8 +61,9 @@
     "*-brown-fired",
     "*-cream-fired",
     "*-gray-fired",
-    "*-orange-fired",    
-    "*-tan-fired"
+    "*-orange-fired",
+    "*-tan-fired",
+    "*-harvestorange-fired"
   ]
 },
   "texturesByType": {		
@@ -70,7 +71,10 @@
     "*":  { "clay": { base: "game:block/clay/hardened/{color}"}}
     },
   "variantgroups": [
-    { "code": "color", "states": [ "blue", "fire", "black", "brown", "cream", "gray", "orange", "red", "tan" ]},
+    {
+      "code": "color",
+      "states": [ "blue", "fire", "black", "brown", "cream", "earthyorange", "gray", "orange", "red", "tan" ]
+    },
     { "code": "type", "states": [ "fired", "harvestable", "raw" ] }
   ],
 	"skipVariants": [

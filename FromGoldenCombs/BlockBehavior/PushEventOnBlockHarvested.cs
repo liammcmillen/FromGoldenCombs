@@ -60,12 +60,11 @@ namespace FromGoldenCombs.BlockBehaviors
                 float HarvestDuration = bebfb.GetHarvestDuration(byPlayer.InventoryManager.ActiveHotbarSlot, byPlayer.Entity);
                 harvestTime = bbfb.harvestTime;
             }
-            if (/*bbfb != null && blockSel != null && */secondsUsed > harvestTime 
-                /*&& bbfb.harvestedStacks != null*/ && world.Side == EnumAppSide.Server)
+            if (secondsUsed > harvestTime)
             {
                 float dropRate = 0f;
                 JsonObject attributes = this.block.Attributes;
-                if (attributes != null && (attributes.IsTrue("forageStatAffected") || bebfb.BState.WildBushState == null))
+                if (attributes != null && (attributes.IsTrue("forageStatAffected") || bebfb?.BState?.WildBushState == null))
                 {
                     TreeAttribute tree = new TreeAttribute();
                     tree.SetInt("x", blockSel.Position.X);
@@ -111,17 +110,21 @@ namespace FromGoldenCombs.BlockBehaviors
                             {
                                 world.SpawnItemEntity(newStack, blockSel.Position, null);
                             }
-                            //world.PlaySoundAt(block.Sounds.GetHitSound(byPlayer), byPlayer);
                         });
                     }
                 }
                 useBeeBoost = false;
+                _beeChanceMultiplier = 0;
                 
             }
         }
 
+        
+
         private string _eventName;
         private float _beeChanceMultiplier;
+        public float beeChanceMultiplier { get => _beeChanceMultiplier; set => _beeChanceMultiplier = value; }
+
         public bool useBeeBoost = false;
     }
 }
