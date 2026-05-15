@@ -22,7 +22,9 @@ namespace FromGoldenCombs.BlockBehaviors
         public override void Initialize(JsonObject properties)
         {
             base.Initialize(properties);
-            this._eventName = ((properties["eventName"] != null) ? properties["eventName"].AsString(null) : null);
+            
+            this._eventName = (properties["eventName"]?.AsString(null));
+            //The above replaced the following: ((properties["eventName"] != null) ? properties["eventName"].AsString(null) : null);
             this._validCropStages = properties["validCropStages"].AsArray<int>();
             this._beeChanceMultiplier = 1 + FGCServerConfig.Current.cropBoostPercentage;
         }
@@ -35,7 +37,7 @@ namespace FromGoldenCombs.BlockBehaviors
 
             if (byPlayer != null && !string.IsNullOrEmpty(_eventName))
             {
-                TreeAttribute tree = new TreeAttribute();
+                TreeAttribute tree = new ();
                 tree.SetInt("x", pos.X);
                 tree.SetInt("y", pos.Y);
                 tree.SetInt("z", pos.Z);
@@ -71,7 +73,6 @@ namespace FromGoldenCombs.BlockBehaviors
                             }
                         }
                     }
-                    BlockSounds sounds = block.Sounds;
                     world.PlaySoundAt(block.Sounds.GetBreakSound(byPlayer).Location, (double)pos.X, (double)pos.Y, (double)pos.Z, byPlayer, true, 32f, 1f); 
                 }
                 block.SpawnBlockBrokenParticles(pos);
