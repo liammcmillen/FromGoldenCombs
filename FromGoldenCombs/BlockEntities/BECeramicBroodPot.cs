@@ -537,7 +537,6 @@ namespace FromGoldenCombs.BlockEntities
         public void OnPollinationNearby(string eventName, BlockPos cropPos, ref EnumHandling handling, IAttribute data)
         {
             if (Api.Side.IsClient()) return;
-            TreeAttribute tdata;
             int deltaX = cropPos.X - Pos.X;
             int deltaY = cropPos.Y - Pos.Y;
             int deltaZ = cropPos.Z - Pos.Z;

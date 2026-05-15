@@ -775,7 +775,6 @@ namespace FromGoldenCombs.BlockEntities
         readonly Vec3d startPos = new();
         readonly Vec3d endPos = new();
         Vec3f minVelo = new();
-        private MeshData meshMovable;
 
         private void SpawnBeeParticles(float dt)
         {
