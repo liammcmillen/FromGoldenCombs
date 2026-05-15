@@ -93,7 +93,6 @@ namespace FromGoldenCombs.BlockBehaviors
                                 world.SpawnItemEntity(stack, blockSel.Position, null);
                             }
                         });
-                        //world.PlaySoundAt(bbfb.HarvestingSound, blockSel.Position, 0.0, byPlayer, true, 32f, 1f);
                     }
                     else
                     {

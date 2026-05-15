@@ -27,8 +27,9 @@ namespace FromGoldenCombs.BlockBehaviors
             this._beeChanceMultiplier = 1 + FGCServerConfig.Current.cropBoostPercentage;
         }
 
-        public override void OnBlockBroken(IWorldAccessor world, BlockPos pos, IPlayer byPlayer, ref EnumHandling handling)
+        public override void OnBlockBroken(IWorldAccessor world, BlockPos pos, IPlayer byPlayer, float dropQuantityMultiplier, ref EnumHandling handling)
         {
+            if (world.Side == EnumAppSide.Client) return;
             EnumHandling handlingToApply = _bHandling;
             _bHandling = EnumHandling.PassThrough;
 
@@ -46,13 +47,15 @@ namespace FromGoldenCombs.BlockBehaviors
             {
                 if (world.Side == EnumAppSide.Server && (byPlayer == null || byPlayer.WorldData.CurrentGameMode != EnumGameMode.Creative))
                 {
-                    ItemStack[] drops = block.GetDrops(world, pos, byPlayer, _beeChanceMultiplier);
+                    ItemStack[] drops = block.GetDrops(world, pos, byPlayer, 1f+_beeChanceMultiplier);
                     
                     if (drops != null)
                     {
                         
                         for (int i = 0; i < drops.Length; i++)
                         {
+                            world.Api.Logger.Debug("Total Drops for Crop: " + drops[i].Collectible.Code + " is " + drops[i].StackSize);
+
                             if (block.SplitDropStacks)
                             {
                                 for (int j = 0; j < drops[i].StackSize; j++)

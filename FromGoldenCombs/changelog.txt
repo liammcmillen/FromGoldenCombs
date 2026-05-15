@@ -1,7 +1,7 @@
 1.22-2.0.1-rc.4
 - Each type of hive now has it's own crop boost %, which will be provided in the Block Info.  This is a configurable value in FGCServerConfig, and defaults to 10% for Skeps, 20% for Ceramic Hives, and 30% for Langstroth Hives.
-
-
+- Fixed silent bug from using a method obsoleted in 1.22 that made pollination not work for crops.
+- Fixed issue with LangstrothStacks throwing an NRE error in specific circumstances. That code no longer fires for non-BELangstrothStacks, so it should be safe now.
 
 1.22-2.0.1-rc.3
 - Updated to add (rudimentary) Wildcraft compatibility.  Will now work with (most?) wildcraft berries. Fruitvines are not supported, fruit trees may be.

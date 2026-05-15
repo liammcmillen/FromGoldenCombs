@@ -148,6 +148,7 @@ namespace FromGoldenCombs.BlockEntities
 
         public void OnPollinationNearby(string eventName, BlockPos cropPos, ref EnumHandling handling, IAttribute data)
         {
+            
             if (Api.Side.IsClient()) return;
             TreeAttribute tdata = data as TreeAttribute;
             int deltaX = cropPos.X - bottomStack.Pos.X;
@@ -177,21 +178,18 @@ namespace FromGoldenCombs.BlockEntities
 
             if (bottomStack.cropcharges < 1 || Api?.World == null || distance >= bottomStack.cropChargeRange) return;
 
+            if (Api.World.BlockAccessor.GetBlock(cropPos) is not BlockCrop crop 
+               || Api.World.BlockAccessor.GetBlockEntity(cropPos.DownCopy()) is not BlockEntityFarmland
+               || !crop.HasBehavior<PushEventOnCropBreakBehavior>()) return;
 
-            Block cropBlock = Api.World.BlockAccessor.GetBlock(cropPos);
-            if (cropBlock == null) return;
-            if (!cropBlock.HasBehavior<PushEventOnCropBreakBehavior>()) return;
+            PushEventOnCropBreakBehavior behavior = crop.GetBehavior<PushEventOnCropBreakBehavior>();
+            
+            if (behavior?.validCropStages == null 
+                || !behavior.validCropStages.Contains<int>(crop.CurrentCropStage)) return;
 
-            PushEventOnCropBreakBehavior behavior = cropBlock.GetBehavior<PushEventOnCropBreakBehavior>();
-            if (behavior?.validCropStages == null) return;
-
-            if (cropBlock is not BlockCrop crop) return;
-            if (Api.World.BlockAccessor.GetBlockEntity(cropPos.DownCopy()) is not BlockEntityFarmland) return;
 
             // Claim the pollination event so other nearby hives don't all do the same work.
             handling = EnumHandling.PreventSubsequent;
-
-            if (!behavior.validCropStages.Contains<int>(crop.CurrentCropStage)) return;
 
             behavior.beeChanceMultiplier = FGCServerConfig.Current.langstrothCropBoostPercentage;
             behavior.setHandling(EnumHandling.PreventSubsequent);
