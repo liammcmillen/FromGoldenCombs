@@ -373,7 +373,8 @@ namespace FromGoldenCombs.BlockEntities
         {
 
             BELangstrothStack topStack = GetTopStack();
-            BELangstrothStack curBE = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(topStack.Pos);
+            if (Api.World.BlockAccessor.GetBlockEntity(topStack.Pos) is not BELangstrothStack curBE) return 0;
+            //BELangstrothStack curBE = (BELangstrothStack)Api.World.BlockAccessor.GetBlockEntity(topStack.Pos);
             bottomStack.totalFrames = 0;
             bottomStack.linedFrames = 0;
             bottomStack.harvestableFrames = 0;

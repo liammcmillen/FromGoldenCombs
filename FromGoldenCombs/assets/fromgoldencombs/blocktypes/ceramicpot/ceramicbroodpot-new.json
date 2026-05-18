@@ -33,6 +33,16 @@
 		],
 		"*": [ { "name": "Unstable" } ]
 	},
+	"variantgroups": [
+		{
+			"code": "color",
+			"states": [ "blue", "earthyorange", "fire", "black", "brown", "cream", "gray", "orange", "red", "tan" ]
+		},
+		{
+			"code": "top",
+			"states": [ "withtop", "notop", "raw" ]
+		}
+	],
 	"storageFlags": 1,
 	"maxstacksize": 1,
 	"attributes": {
@@ -108,16 +118,6 @@
 		}
 	},
 	"heldTpIdleAnimation": "holdbothhands",
-	"variantgroups": [
-		{
-			"code": "color",
-			"states": [ "blue", "earthyorange", "fire", "black", "brown", "cream", "gray", "orange", "red", "tan" ]
-		},
-		{
-			"code": "top",
-			"states": [ "withtop", "notop", "raw" ]
-		}
-	],
 	"texturesByType": {
 		"*-raw": { "clay": { "base": "game:block/clay/{color}clay" } },
 		"*": { "clay": { "base": "game:block/clay/hardened/{color}" } }
@@ -128,7 +128,8 @@
 		"*-gray-raw",
 		"*-cream-raw",
 		"*-brown-raw",
-		"*-black-raw"
+		"*-black-raw",
+		"*-earthyorange-raw"
 	],
 	"creativeinventory": {
 		"fromgoldencombs": [
@@ -150,7 +151,6 @@
 			"*-red-raw",
 			"*-tan-notop",
 			"*-tan-raw",
-			"*-earthyorange-raw",
 			"*-earthyorange-notop"
 		]
 	},

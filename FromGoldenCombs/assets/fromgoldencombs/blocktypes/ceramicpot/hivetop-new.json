@@ -18,12 +18,16 @@
   },
   "attributes": {
     "handbook": {
-      "extraSections": [
-        {
-          "title": "fromgoldencombs:block-handbooktitle-hivetop",
-          "text": "fromgoldencombs:block-handbooktext-hivetop"
-        }
-      ]
+      "extraSectionsByType": {
+        "*-raw": [
+        ],
+        "*": [
+          {
+            "title": "fromgoldencombs:block-handbooktitle-hivetop",
+            "text": "fromgoldencombs:block-handbooktext-hivetop"
+          }
+        ]
+      }
     }
   },
   "attributesByType":{
