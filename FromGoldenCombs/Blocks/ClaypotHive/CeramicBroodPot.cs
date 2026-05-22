@@ -142,8 +142,7 @@ namespace FromGoldenCombs.Blocks.ClaypotHive
             if (world.BlockAccessor.GetBlockEntity(selection.Position) is BECeramicBroodPot pot)
             {
                 List<ItemStack> topList = new();
-                topList.Add(new ItemStack(api.World.BlockAccessor.GetBlock(new AssetLocation("fromgoldencombs", "hivetop-empty"))));
-                topList.Add(new ItemStack(api.World.BlockAccessor.GetBlock(new AssetLocation("fromgoldencombs", "hivetop-harvestable"))));
+                topList.Add(new ItemStack(api.World.BlockAccessor.GetBlock(new AssetLocation("fromgoldencombs", "hivetop-blue-fired"))));
 
                 if (pot != null)
                 {
