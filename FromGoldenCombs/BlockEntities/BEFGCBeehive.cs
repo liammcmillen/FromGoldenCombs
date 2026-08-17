@@ -733,11 +733,16 @@ namespace FromGoldenCombs.BlockEntities
 
         public override void OnBlockUnloaded()
         {
+            Api?.Logger.Notification("BEFGCBeehive OnBlockUnloaded at " + Pos);
             base.OnBlockUnloaded();
             ICoreAPI api = Api;
             if (api?.Side == EnumAppSide.Server)
             {
                 api.ModLoader.GetModSystem<POIRegistry>().RemovePOI(this);
+                if (!isWildHive)
+                {
+                    api.ModLoader.GetModSystem<FromGoldenCombs>().OnPollination -= OnPollinationNearby;
+                }
             }
         }
     }
