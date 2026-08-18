@@ -733,7 +733,6 @@ namespace FromGoldenCombs.BlockEntities
 
         public override void OnBlockUnloaded()
         {
-            Api?.Logger.Notification("BEFGCBeehive OnBlockUnloaded at " + Pos);
             base.OnBlockUnloaded();
             ICoreAPI api = Api;
             if (api?.Side == EnumAppSide.Server)
